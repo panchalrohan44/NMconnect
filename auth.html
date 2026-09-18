@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login · SVKM Connect</title>
+  <meta name="description" content="Sign in or create your SVKM Connect account." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.cdnfonts.com/css/nefelibata-script" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --bg:#fcf1f6;
+      --card:#ffffff;
+      --muted:#a58997;
+      --accent-1:#e997ba;
+      --accent-2:#8cb2dd;
+      --blue-light:#aecdf0;
+      --pink-soft:#e79cb9;
+      --blue-deep:#5276a3;
+      --pink-deep:#c66b92;
+      --ink:#45363e;
+      --radius:18px;
+      --ease: cubic-bezier(.16,.84,.29,1);
+      --font-cursive:"Nefelibata Script","Dancing Script","Brush Script MT",cursive;
+      --font-script:"Dancing Script","Brush Script MT",cursive;
+      --font-body:"Poppins","Segoe UI",sans-serif;
+      --shadow:0 12px 28px rgba(212,140,171,.16);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--font-body);
+      color:var(--ink);
+      background:var(--bg);
+      -webkit-font-smoothing:antialiased;
+      line-height:1.35;
+      min-height:100%;
+      padding:28px 16px;
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      overflow-x:hidden;
+    }
+    body:before,body:after{content:"";position:fixed;z-index:-1;pointer-events:none;border-radius:50%}
+    body:before{width:40vw;height:40vw;right:-16vw;top:10vh;background:var(--pink-soft);opacity:.18}
+    body:after{width:32vw;height:32vw;left:-14vw;bottom:-6vh;background:var(--accent-2);opacity:.14}
+    .auth-shell{width:100%;max-width:440px}
+    .home{
+      display:inline-flex;align-items:center;gap:6px;color:var(--blue-deep);
+      text-decoration:none;font-size:14px;font-weight:600;margin-bottom:14px;
+      padding:8px 12px;border-radius:999px;background:var(--card);border:1px solid var(--pink-soft);
+    }
+    .home:hover{color:var(--pink-deep)}
+    .auth-card{
+      background:var(--card);
+      border:1px solid var(--pink-soft);
+      border-radius:var(--radius);
+      padding:28px 24px;
+      box-shadow:var(--shadow);
+      animation:cardRise .6s var(--ease) both;
+    }
+    @keyframes cardRise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+    .title{
+      font-family:var(--font-cursive);
+      font-size:44px;
+      color:var(--pink-deep);
+      font-weight:400;
+      margin:0 0 2px;
+      line-height:1;
+      text-align:center;
+    }
+    .tagline{font-family:var(--font-script);color:var(--muted);font-size:18px;text-align:center;margin:0 0 8px}
+    .view h2{
+      font-family:var(--font-cursive);
+      color:var(--pink-deep);
+      font-size:32px;
+      font-weight:400;
+      margin:12px 0 14px;
+      text-align:center;
+    }
+    form{display:grid;gap:14px}
+    label{display:grid;gap:6px;font-size:13px;color:var(--muted);font-weight:500}
+    input,select{
+      width:100%;padding:12px 14px;
+      border:1px solid var(--pink-soft);
+      border-radius:10px;
+      background:var(--bg);
+      color:var(--ink);
+      font:inherit;
+    }
+    input:focus,select:focus{outline:2px solid var(--pink-soft);border-color:var(--accent-1);background:#fff}
+    .pw{position:relative}
+    .pw input{padding-right:78px}
+    .reveal{
+      position:absolute;right:8px;top:7px;
+      padding:6px 12px;border:0;border-radius:999px;
+      background:var(--pink-soft);color:#fff;
+      cursor:pointer;font-size:12px;font-weight:600;font-family:var(--font-body);
+    }
+    .reveal:hover{background:var(--pink-deep)}
+    .btn{
+      padding:12px 16px;border-radius:999px;
+      background:var(--card);border:1px solid var(--pink-soft);
+      cursor:pointer;color:var(--pink-deep);font-weight:600;font-family:var(--font-body);
+      box-shadow:var(--shadow);
+      transition:transform .22s var(--ease),background .22s var(--ease),color .22s var(--ease);
+    }
+    .btn:hover{transform:translateY(-2px)}
+    .btn.primary{background:var(--accent-1);color:#fff;border:0;box-shadow:0 8px 22px rgba(233,151,186,.35);font-weight:700}
+    .btn.primary:hover{background:var(--pink-deep)}
+    .btn:disabled{opacity:.6;cursor:wait;transform:none}
+    .btn.google{
+      display:flex;align-items:center;justify-content:center;gap:10px;
+      background:#fff;border:1px solid #e7c8d5;color:var(--ink);box-shadow:var(--shadow);
+    }
+    .btn.google svg{width:18px;height:18px}
+    .btn.google:hover{background:var(--bg);border-color:var(--pink-deep)}
+    .divider{
+      display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12px;margin:14px 0;
+    }
+    .divider:before,.divider:after{content:"";flex:1;height:1px;background:var(--pink-soft)}
+    .switch{
+      width:100%;margin-top:14px;padding:4px;border:0;background:transparent;
+      color:var(--blue-deep);cursor:pointer;font:600 13px var(--font-body);text-decoration:underline;
+    }
+    .switch:hover{color:var(--pink-deep)}
+    .status{min-height:20px;font-size:13px;color:var(--muted);text-align:center}
+    .status.error{color:#c5487a}
+    .status.success{color:var(--blue-deep)}
+    .muted{color:var(--muted);font-size:13px;margin:0 0 14px;text-align:center}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .full{grid-column:1/-1}
+    .note{font-size:11px;color:var(--muted);margin:2px 0 0}
+    @media (max-width:600px){.grid{grid-template-columns:1fr}.title{font-size:38px}}
+  </style>
+</head>
+<body>
+  <div class="auth-shell">
+    <a class="home" href="./Nmconnect.html">← Back to SVKM Connect</a>
+    <div class="auth-card">
+      <h1 class="title">Find love at NM</h1>
+      <p class="tagline">Verified campus community</p>
+
+      <!-- SIGN IN -->
+      <div class="view" id="view-signin">
+        <h2>Sign in</h2>
+        <form id="signin-form">
+          <label>Gmail
+            <input id="signin-email" type="email" placeholder="you@gmail.com" autocomplete="email" required />
+          </label>
+          <label>Password
+            <div class="pw">
+              <input id="signin-password" type="password" placeholder="At least 8 characters" minlength="8" autocomplete="current-password" required />
+              <button class="reveal" type="button" data-for="signin-password" aria-label="Show password">Show</button>
+            </div>
+          </label>
+          <button class="btn primary" id="signin-submit" type="submit">Sign in</button>
+          <div class="status" id="signin-status" role="status" aria-live="polite"></div>
+        </form>
+        <div class="divider">or</div>
+        <button class="btn google" id="signin-google" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23.5 12.27c0-.79-.07-1.54-.2-2.27H12v4.51h6.45a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.68-4.74 3.68-8.33z"/><path fill="#34A853" d="M12 24c3.24 0 5.96-1.08 7.94-2.91l-3.57-2.77c-1.01.68-2.3 1.07-4.37 1.07-3.35 0-6.2-2.26-7.22-5.3H1.09v2.87A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M4.78 14.1a7.2 7.2 0 0 1 0-4.2V7.03H1.09a12 12 0 0 0 0 10.94l3.69-2.87z"/><path fill="#EA4335" d="M12 4.61c1.76 0 3.34.6 4.59 1.78l3.44-3.44A12 12 0 0 0 1.09 7.03l3.69 2.87C5.8 6.87 8.65 4.61 12 4.61z"/></svg>
+          Continue with Google
+        </button>
+        <button class="switch" id="to-signup" type="button">New here? Create account</button>
+      </div>
+
+      <!-- CREATE ACCOUNT -->
+      <div class="view" id="view-signup" hidden>
+        <h2>Create account</h2>
+        <form id="signup-form">
+          <label>Gmail
+            <input id="signup-email" type="email" placeholder="you@gmail.com" autocomplete="email" required />
+          </label>
+          <label>Password
+            <div class="pw">
+              <input id="signup-password" type="password" placeholder="At least 8 characters" minlength="8" autocomplete="new-password" required />
+              <button class="reveal" type="button" data-for="signup-password" aria-label="Show password">Show</button>
+            </div>
+            <span class="note">Use at least 8 characters.</span>
+          </label>
+          <label>Confirm password
+            <div class="pw">
+              <input id="signup-confirm" type="password" placeholder="Retype your password" minlength="8" autocomplete="new-password" required />
+              <button class="reveal" type="button" data-for="signup-confirm" aria-label="Show password">Show</button>
+            </div>
+          </label>
+          <button class="btn primary" id="signup-submit" type="submit">Create account</button>
+          <div class="status" id="signup-status" role="status" aria-live="polite"></div>
+        </form>
+        <div class="divider">or</div>
+        <button class="btn google" id="signup-google" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23.5 12.27c0-.79-.07-1.54-.2-2.27H12v4.51h6.45a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.68-4.74 3.68-8.33z"/><path fill="#34A853" d="M12 24c3.24 0 5.96-1.08 7.94-2.91l-3.57-2.77c-1.01.68-2.3 1.07-4.37 1.07-3.35 0-6.2-2.26-7.22-5.3H1.09v2.87A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M4.78 14.1a7.2 7.2 0 0 1 0-4.2V7.03H1.09a12 12 0 0 0 0 10.94l3.69-2.87z"/><path fill="#EA4335" d="M12 4.61c1.76 0 3.34.6 4.59 1.78l3.44-3.44A12 12 0 0 0 1.09 7.03l3.69 2.87C5.8 6.87 8.65 4.61 12 4.61z"/></svg>
+          Sign up with Google
+        </button>
+        <button class="switch" id="to-signin" type="button">Already have an account? Sign in</button>
+      </div>
+
+      <!-- BUILD YOUR PROFILE (mandatory after account creation) -->
+      <div class="view" id="view-profile" hidden>
+        <h2>Build your profile</h2>
+        <p class="muted">One last step to finish creating your account.</p>
+        <form id="profile-form">
+          <div class="grid">
+            <label>Age
+              <input id="pf-age" type="number" min="18" max="99" required />
+            </label>
+            <label>Course
+              <select id="pf-course" required>
+                <option value="">Choose course</option>
+                <option>BBA</option><option>B.Com</option><option>BMS</option><option>B.Sc</option>
+                <option>BAF</option><option>BBI</option><option>B.A.</option><option>B.Sc. IT</option>
+              </select>
+            </label>
+            <label>Year
+              <select id="pf-year" required>
+                <option value="">Choose year</option>
+                <option>FY</option><option>SY</option><option>TY</option><option>Postgraduate</option>
+              </select>
+            </label>
+            <label>Gender
+              <select id="pf-gender" required>
+                <option value="">Choose gender</option>
+                <option>Man</option><option>Woman</option><option>Non-binary</option><option>Prefer not to say</option>
+              </select>
+            </label>
+            <label>Religion
+              <input id="pf-religion" type="text" placeholder="Optional" />
+            </label>
+            <label>Mother tongue
+              <input id="pf-mother-tongue" type="text" placeholder="e.g. Marathi" required />
+            </label>
+            <label>Favourite hangout
+              <input id="pf-hangout" type="text" placeholder="e.g. Canteen, library" required />
+            </label>
+            <label>Hobbies
+              <input id="pf-hobbies" type="text" placeholder="Music, books, football..." required />
+            </label>
+            <label>Instagram
+              <input id="pf-instagram" type="text" placeholder="@yourhandle" />
+            </label>
+            <label>Snapchat
+              <input id="pf-snapchat" type="text" placeholder="username" />
+            </label>
+            <label class="full">Other social handle
+              <input id="pf-other-social" type="text" placeholder="Discord, X, LinkedIn..." />
+            </label>
+          </div>
+          <button class="btn primary" id="profile-save" type="submit">Save profile</button>
+          <div class="status" id="profile-status" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    /* Add your Supabase project values here. */
+    const SUPABASE_URL = 'https://sjwoyiwrvtrcezmgzosg.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_s4dBdf87iuX7I0I0kNRQRg_5PI2rGN-';
+    const supabase = window.supabase && !SUPABASE_URL.includes('YOUR-')
+      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+      : null;
+
+    const $ = s => document.querySelector(s);
+    const $$ = s => [...document.querySelectorAll(s)];
+    let currentUser = null;
+
+    const REDIRECT = location.origin + location.pathname;
+
+    function setStatus(id, message, type = '') {
+      const el = $(id);
+      el.className = `status ${type}`;
+      el.textContent = message;
+    }
+    function showView(name) {
+      $$('.view').forEach(v => { v.hidden = v.id !== 'view-' + name; });
+    }
+
+    /* Show / hide password toggles */
+    $$('.reveal').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const input = $('#' + btn.dataset.for);
+        const visible = input.type === 'text';
+        input.type = visible ? 'password' : 'text';
+        btn.textContent = visible ? 'Show' : 'Hide';
+      });
+    });
+
+    /* Switch between sign in / sign up */
+    $('#to-signup').addEventListener('click', () => { showView('signup'); setStatus('signup-status', ''); });
+    $('#to-signin').addEventListener('click', () => { showView('signin'); setStatus('signin-status', ''); });
+
+    async function hasProfile(userId) {
+      if (!supabase) return false;
+      const { data } = await supabase.from('profiles').select('id').eq('id', userId).maybeSingle();
+      return !!data;
+    }
+    function goHome() { location.href = './Nmconnect.html'; }
+
+    /* A signed-in user must finish their profile before continuing (mandatory step). */
+    async function handleActive(user) {
+      currentUser = user;
+      const exists = await hasProfile(user.id);
+      if (exists) { goHome(); return; }
+      showView('profile');
+    }
+
+    /* Sign in with email + password */
+    $('#signin-form').addEventListener('submit', async e => {
+      e.preventDefault();
+      if (!supabase) { setStatus('signin-status', 'Supabase is not configured yet.', 'error'); return; }
+      const email = $('#signin-email').value.trim().toLowerCase();
+      const password = $('#signin-password').value;
+      const btn = $('#signin-submit');
+      btn.disabled = true; setStatus('signin-status', 'Signing in...');
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      btn.disabled = false;
+      if (error) { setStatus('signin-status', error.message, 'error'); return; }
+      handleActive(data.user);
+    });
+
+    /* Create account with Gmail + password + confirm password */
+    $('#signup-form').addEventListener('submit', async e => {
+      e.preventDefault();
+      if (!supabase) { setStatus('signup-status', 'Supabase is not configured yet.', 'error'); return; }
+      const email = $('#signup-email').value.trim().toLowerCase();
+      const password = $('#signup-password').value;
+      const confirm = $('#signup-confirm').value;
+      if (password.length < 8) { setStatus('signup-status', 'Password must be at least 8 characters.', 'error'); return; }
+      if (password !== confirm) { setStatus('signup-status', 'Passwords do not match.', 'error'); return; }
+      const btn = $('#signup-submit');
+      btn.disabled = true; setStatus('signup-status', 'Creating account...');
+      /* Supabase records the email and password. The email is also kept as the profile login id. */
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { data: { login_id: email } }
+      });
+      btn.disabled = false;
+      if (error) { setStatus('signup-status', error.message, 'error'); return; }
+      if (!data.session) {
+        setStatus('signup-status', 'Account created. Check your gmail to confirm, then sign in.', 'success');
+        return;
+      }
+      handleActive(data.user);
+    });
+
+    /* Sign up / sign in with Google, skipping the email + password steps */
+    function googleAuth(statusId) {
+      if (!supabase) { setStatus(statusId, 'Supabase is not configured yet.', 'error'); return; }
+      setStatus(statusId, 'Redirecting to Google...');
+      /* Enable Google as a provider in Supabase Dashboard → Authentication → Providers → Google,
+         and add this page's URL to Authentication → URL Configuration → Redirect URLs. */
+      supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: REDIRECT } })
+        .then(({ error }) => { if (error) setStatus(statusId, error.message, 'error'); })
+        .catch(err => setStatus(statusId, err.message, 'error'));
+    }
+    $('#signin-google').addEventListener('click', () => googleAuth('signin-status'));
+    $('#signup-google').addEventListener('click', () => googleAuth('signup-status'));
+
+    /* Save the mandatory profile, then return to the main page */
+    $('#profile-form').addEventListener('submit', async e => {
+      e.preventDefault();
+      if (!currentUser) { setStatus('profile-status', 'Session expired. Please sign in again.', 'error'); return; }
+      const profile = {
+        id: currentUser.id,
+        login_id: currentUser.email || currentUser.id,
+        email: currentUser.email || null,
+        age: Number($('#pf-age').value),
+        hobbies: $('#pf-hobbies').value.trim(),
+        course: $('#pf-course').value,
+        year: $('#pf-year').value,
+        gender: $('#pf-gender').value,
+        favourite_hangout: $('#pf-hangout').value.trim(),
+        religion: $('#pf-religion').value.trim(),
+        mother_tongue: $('#pf-mother-tongue').value.trim(),
+        social_handles: {
+          instagram: $('#pf-instagram').value.trim(),
+          snapchat: $('#pf-snapchat').value.trim(),
+          other: $('#pf-other-social').value.trim()
+        },
+        updated_at: new Date().toISOString()
+      };
+      const btn = $('#profile-save');
+      btn.disabled = true; setStatus('profile-status', 'Saving...');
+      const { error } = await supabase.from('profiles').upsert(profile);
+      btn.disabled = false;
+      if (error) {
+        setStatus('profile-status',
+          /relation .*profiles.* does not exist/i.test(error.message)
+            ? 'Create the profiles table using the supplied supabase-schema.sql file, then save again.'
+            : error.message, 'error');
+        return;
+      }
+      setStatus('profile-status', 'Profile saved. Welcome!', 'success');
+      setTimeout(goHome, 700);
+    });
+
+    /* Restore the session (handles the return from Google) */
+    if (supabase) {
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (session?.user) handleActive(session.user);
+      });
+      supabase.auth.onAuthStateChange((_event, session) => {
+        if (_event === 'SIGNED_IN' && session?.user) handleActive(session.user);
+      });
+    }
+  </script>
+</body>
+</html>
