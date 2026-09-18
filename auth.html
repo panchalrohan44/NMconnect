@@ -139,7 +139,7 @@
 </head>
 <body>
   <div class="auth-shell">
-    <a class="home" href="./Nmconnect.html">← Back to SVKM Connect</a>
+    <a class="home" href="./index.html">← Back to SVKM Connect</a>
     <div class="auth-card">
       <h1 class="title">Find love at NM</h1>
       <p class="tagline">Verified campus community</p>
@@ -299,7 +299,7 @@
       const { data } = await supabase.from('profiles').select('id').eq('id', userId).maybeSingle();
       return !!data;
     }
-    function goHome() { location.href = './Nmconnect.html'; }
+    function goHome() { location.href = './index.html'; }
 
     /* A signed-in user must finish their profile before continuing (mandatory step). */
     async function handleActive(user) {

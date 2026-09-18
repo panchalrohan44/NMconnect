@@ -1,435 +1,965 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="refresh" content="0; url=./Nmconnect.html" />
-  <script>window.location.replace('./Nmconnect.html');</script>
-  <title>NMConnect — Campus Partner Connections</title>
-  <meta name="description" content="NMConnect — Pure campus dating and partner connections for NM students. Verified college profiles, schedule matcher, and instant direct partner chat." />
-  
-  <!-- Modern Typography & Icons -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SVKM Connect — Campus Community</title>
+  <meta name="description" content="SVKM Connect — a verified campus community for students." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.cdnfonts.com/css/nefelibata-script" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* === Variables & Reset === */
+    :root{
+      --bg:#fcf1f6;                 /* matte blush background */
+      --card:#ffffff;               /* card background */
+      --muted:#a58997;              /* secondary text */
+      --accent-1:#e997ba;           /* matte pink */
+      --accent-2:#8cb2dd;           /* matte blue */
+      --accent-3:#c26a90;           /* deep rose */
+      --blue-light:#aecdf0;
+      --pink-soft:#e79cb9;
+      --blue-deep:#5276a3;
+      --pink-deep:#c66b92;
+      --ink:#45363e;                /* body text */
+      --max-width:1200px;
+      --radius:18px;
+      --ease: cubic-bezier(.16,.84,.29,1);
+      --font-cursive:"Nefelibata Script","Dancing Script","Brush Script MT",cursive;
+      --font-script:"Dancing Script","Brush Script MT",cursive;
+      --font-body:"Poppins","Segoe UI",sans-serif;
+      --shadow:0 12px 28px rgba(212,140,171,.16);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    body{
+      margin:0;
+      font-family:var(--font-body);
+      color:var(--ink);
+      background:var(--bg);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.35;
+      padding:24px;
+      display:flex;
+      justify-content:center;
+      overflow-x:hidden;
+    }
+    body:before,body:after{content:"";position:fixed;z-index:-1;pointer-events:none;border-radius:50%}
+    body:before{width:40vw;height:40vw;right:-16vw;top:10vh;background:var(--pink-soft);opacity:.18;animation:ambientDrift 14s ease-in-out infinite}
+    body:after{width:32vw;height:32vw;left:-14vw;bottom:-6vh;background:var(--accent-2);opacity:.14;animation:ambientDrift 18s ease-in-out infinite reverse}
+    @keyframes ambientDrift{50%{transform:translate3d(0,-24px,0) scale(1.08)}100%{transform:translate3d(18px,8px,0) scale(.96)}}
+    .container{width:100%;max-width:var(--max-width);}
+
+    /* === Header === */
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:28px;
+      position:sticky;
+      top:0;
+      z-index:50;
+      padding:10px 0;
+      background:rgba(252,241,246,.92);
+      backdrop-filter:blur(12px);
+    }
+    .brand{
+      display:flex;
+      gap:14px;
+      align-items:center;
+    }
+    .logo {
+      width:48px;height:48px;border-radius:50%;
+      background:#fff;
+      display:grid;place-items:center;
+      box-shadow:var(--shadow);
+      font-weight:700;
+      font-size:18px;
+      padding:5px;
+      border:2px solid var(--pink-soft);
+    }
+    .logo img{width:100%;height:100%;object-fit:contain;border-radius:50%}
+    .brand h1{font-family:var(--font-cursive);font-size:36px;margin:0;color:var(--pink-deep);line-height:.95}
+    .brand-link{color:inherit;text-decoration:none}
+    .brand-tag{font-family:var(--font-script);font-size:17px;color:var(--muted)}
+    h1,h2,h3,h4,.pill,.eyebrow{font-family:var(--font-cursive)}
+    h2{font-size:36px;color:var(--pink-deep);margin:0;font-weight:400}
+    h3,h4{font-family:var(--font-script);font-size:21px;color:var(--pink-deep);margin:0;font-weight:600}
+    nav{display:flex;gap:8px;align-items:center}
+    /* mega menu base */
+    .nav-item{position:relative;}
+    .nav-button{
+      background:transparent;border:0;color:var(--muted);padding:10px 14px;border-radius:999px;font-size:14px;
+      cursor:pointer;font-weight:600;
+    }
+    .nav-button:focus{outline:2px solid var(--pink-soft)}
+    .mega{
+      position:absolute;left:0;top:calc(100% + 12px);
+      background:var(--card);
+      padding:18px;border-radius:14px;min-width:520px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;
+      box-shadow:var(--shadow);
+      transform-origin:top center;transform:translateY(12px) scale(.98);opacity:0;pointer-events:none;transition:all .22s var(--ease);
+      border:1px solid var(--pink-soft);
+      z-index:40;
+    }
+    .nav-item:hover .mega, .nav-item:focus-within .mega, .nav-item[aria-expanded="true"] .mega{
+      transform:translateY(0) scale(1);opacity:1;pointer-events:auto;
+    }
+    .mega h3{margin:0 0 8px 0;font-size:20px;color:var(--blue-deep);font-family:var(--font-script)}
+    .mega ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+    .mega a{color:var(--muted);text-decoration:none;padding:8px;border-radius:8px;font-size:14px;display:block}
+    .mega a:hover{background:var(--bg);color:var(--pink-deep);transform:translateX(3px)}
+
+    /* Login/Help */
+    .actions{display:flex;gap:10px;align-items:center}
+    .actions .btn{padding:8px 13px;font-size:13px}
+    .btn{
+      padding:10px 14px;border-radius:999px;background:var(--card);
+      border:1px solid var(--pink-soft);cursor:pointer;color:var(--pink-deep);font-weight:600;
+      box-shadow:var(--shadow);
+    }
+    .btn.primary{
+      background:var(--accent-1);
+      color:#fff;font-weight:700;border:0;box-shadow:0 8px 22px rgba(233,151,186,.35);
+    }
+    .btn.primary:hover{background:var(--pink-deep);color:#fff;border-color:var(--pink-deep)}
+    .btn:hover,.nav-button:hover{color:var(--pink-deep);border-color:var(--pink-deep);transform:translateY(-2px)}
+    .btn:hover{background:var(--bg)}
+    .btn,.nav-button{transition:transform .22s var(--ease),color .22s var(--ease),border-color .22s var(--ease),background .22s var(--ease)}
+    .hero-left,.hero-right,.features,.carousel,.bonus,footer{animation:pageRise .7s var(--ease) both}
+    .hero-right{animation-delay:.1s}.features{animation-delay:.18s}.carousel{animation-delay:.3s}.bonus{animation-delay:.36s}footer{animation-delay:.42s}
+    @keyframes pageRise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+    .reveal-item{opacity:0;transform:translateY(12px);transition:opacity .65s var(--ease),transform .65s var(--ease)}
+    .matches-section{display:none;margin:0 0 28px;padding:22px;border:1px solid var(--pink-soft);border-radius:var(--radius);background:var(--card);box-shadow:var(--shadow);animation:pageRise .7s var(--ease) both}.matches-section.visible{display:block}.matches-head{display:flex;justify-content:space-between;align-items:end;gap:14px;margin-bottom:16px}.matches-head p{margin:4px 0 0;color:var(--muted)}.match-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.match-card{padding:16px;border-radius:14px;background:var(--card);border:1px solid var(--pink-soft);transition:transform .25s var(--ease),border-color .25s var(--ease)}.match-card:hover{transform:translateY(-5px);border-color:var(--pink-deep)}.match-avatar{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:var(--accent-1);color:#fff;font-family:var(--font-script);font-weight:700;font-size:18px}.match-card:nth-child(even) .match-avatar{background:var(--accent-2)}.match-card-top{display:flex;gap:10px;align-items:center}.match-card h3{font-size:19px;margin:0}.match-card p{color:var(--muted);font-size:12px;margin:3px 0 0}.match-tags{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}.match-tag{padding:5px 9px;border-radius:999px;background:var(--bg);color:var(--blue-deep);font-size:11px}.match-connect{width:100%;padding:9px;border:1px solid var(--pink-soft);border-radius:999px;background:var(--card);color:var(--pink-deep);cursor:pointer;font-weight:600}.match-connect.connected{background:var(--pink-soft);color:#fff;border-color:var(--pink-soft)}.love-stage{position:fixed;inset:0;z-index:70;display:grid;place-items:center;background:var(--bg);opacity:0;pointer-events:none;transition:opacity .35s ease}.love-stage.open{opacity:1;pointer-events:auto}.love-stage-content{text-align:center}.love-stage h2{font-size:clamp(34px,6vw,58px);margin:0}.love-stage p{color:var(--muted)}.love-burst{font-size:60px;color:var(--accent-1);animation:loveBeat 1s ease-in-out infinite}.love-particle{position:absolute;color:var(--accent-1);font-size:24px;animation:loveFloat 2.8s ease-out forwards}.love-particle:nth-child(1){left:18%;top:72%}.love-particle:nth-child(2){left:78%;top:64%;animation-delay:.2s}.love-particle:nth-child(3){left:32%;top:22%;animation-delay:.4s}.love-particle:nth-child(4){left:66%;top:28%;animation-delay:.6s}@keyframes loveBeat{50%{transform:scale(1.18)}}@keyframes loveFloat{to{transform:translateY(-170px) scale(1.35);opacity:0}}
+    .session-chip{font-size:12px;color:var(--blue-deep);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+    /* === Hero === */
+    .hero{
+      display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;align-items:stretch;margin-bottom:20px;min-width:0;height:320px;
+    }
+    .hero-left{
+      background:var(--card);
+      border-radius:var(--radius);padding:18px;min-width:0;min-height:0;height:320px;position:relative;overflow:visible;z-index:5;border:1px solid var(--pink-soft);
+      box-shadow:var(--shadow);
+      display:flex;flex-direction:column;justify-content:center;
+    }
+    .eyebrow{color:var(--blue-deep);font-size:22px;margin-bottom:4px;font-weight:500}
+    .headline{font-size:clamp(34px,4vw,48px);line-height:1.05;margin:0 0 8px 0;color:var(--pink-deep);font-weight:400}
+    .sub{color:var(--muted);margin-bottom:12px}
+
+    /* quick widget */
+    .quick{
+      background:var(--bg);
+      width:100%;height:68px;min-width:0;padding:8px;border-radius:14px;display:flex;gap:6px;align-items:center;flex-wrap:nowrap;overflow:visible;
+      position:relative;z-index:10;box-shadow:inset 0 1px 0 #fff, 0 8px 24px rgba(212,140,171,.12);
+    }
+    .select{
+      position:relative;
+      background:var(--card);padding:8px 12px;border-radius:14px;min-width:140px;color:var(--ink);
+      display:flex;align-items:center;gap:8px;border:1px solid var(--pink-soft);box-shadow:var(--shadow);
+    }
+    .select select{width:100%;background:var(--card);border:1px solid transparent;border-radius:10px;color:var(--ink);padding:8px 30px 8px 10px;appearance:auto;font-weight:600;cursor:pointer;font-family:var(--font-body)}
+    .select select option{background:var(--card);color:var(--ink)}
+    .filter-dropdown{display:block;padding:4px;min-width:0;flex:1 1 0;width:0}
+    .filter-button{width:100%;background:var(--card);border:1px solid transparent;border-radius:10px;color:var(--ink);padding:7px 8px;text-align:left;font:600 13px var(--font-body);cursor:pointer}
+    .filter-button:focus{outline:2px solid var(--pink-soft)}
+    .filter-menu{display:grid;top:calc(100% + 8px);left:0;width:220px;min-width:0;padding:10px;overflow:visible;grid-template-columns:1fr;gap:4px;z-index:60}
+    .filter-dropdown[data-filter="college"] .filter-menu{width:min(520px,calc(100vw - 32px));grid-template-columns:repeat(2,minmax(0,1fr))}
+    .filter-dropdown.open .filter-menu{transform:translateY(0) scale(1);opacity:1;pointer-events:auto}
+    .filter-menu button{width:100%;background:transparent;border:0;color:var(--muted);text-align:left;padding:8px;border-radius:8px;font:14px var(--font-body);line-height:1.25;white-space:normal;cursor:pointer}
+    .filter-menu button:hover{background:var(--bg);color:var(--pink-deep);transform:translateX(3px)}
+    .filter-dropdown select{display:none}
+    .filter-dropdown .filter-button{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .lets{
+      margin-left:auto;flex:0 0 auto;
+      display:inline-grid;place-items:center;padding:12px 22px;border-radius:999px;font-weight:700;
+      color:#fff;background:var(--muted);cursor:not-allowed;border:0;opacity:.7;
+      transform:translateY(0);transition:transform .22s var(--ease), box-shadow .22s var(--ease);
+      box-shadow:none;
+      position:relative;overflow:hidden;
+      font-family:var(--font-body);
+    }
+    .lets.ready{background:var(--accent-1);cursor:pointer;opacity:1;box-shadow:0 10px 22px rgba(233,151,186,.35);animation:readyGlow 2.2s ease-in-out infinite}
+    .lets:hover{background:var(--pink-deep)}
+    .lets:active{transform:translateY(2px)}
+    @keyframes readyGlow{0%,100%{box-shadow:0 8px 18px rgba(233,151,186,.28),0 0 0 0 rgba(140,178,221,0)}50%{box-shadow:0 12px 26px rgba(233,151,186,.48),0 0 0 6px rgba(140,178,221,.13)}}
+    .pulse {
+      position:absolute;inset:-40%;transform:rotate(25deg);
+      background:var(--pink-soft);
+      opacity:.4;
+      animation:float 5s linear infinite;
+      pointer-events:none;
+    }
+    @keyframes float{
+      0%{transform:translateX(-30%) translateY(0) scale(1)}
+      50%{transform:translateX(30%) translateY(-6%) scale(1.03)}
+      100%{transform:translateX(-30%) translateY(0) scale(1)}
+    }
+    .hearts{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.55}
+    .heart{position:absolute;color:var(--accent-1);font-size:20px;animation:heartRise 7s linear infinite;filter:drop-shadow(0 5px 12px rgba(198,107,146,.35))}
+    .heart:nth-child(1){left:8%;animation-delay:0s}.heart:nth-child(2){left:24%;animation-delay:2s;font-size:14px}.heart:nth-child(3){left:74%;animation-delay:1s}.heart:nth-child(4){left:90%;animation-delay:3.5s;font-size:16px}
+    @keyframes heartRise{0%{transform:translateY(110%) rotate(-10deg) scale(.7);opacity:0}18%{opacity:.8}100%{transform:translateY(-360px) rotate(18deg) scale(1.2);opacity:0}}
+
+    .stats{display:flex;gap:12px;margin-top:16px;align-items:center}
+    .stat{background:var(--bg);padding:10px 14px;border-radius:12px;color:var(--muted);display:flex;flex-direction:column;gap:4px;border:1px solid var(--pink-soft)}
+    .stat strong{font-size:19px;color:var(--pink-deep)}
+
+    /* hero-right (illustration / live feed) */
+    .hero-right{
+      background:var(--accent-2);
+      padding:12px;border-radius:var(--radius);border:1px solid var(--blue-light);
+      box-shadow:var(--shadow);
+      display:flex;flex-direction:column;gap:12px;
+      min-width:0;min-height:0;height:320px;justify-content:center;align-items:center;position:relative;z-index:1;
+      color:#fff;
+    }
+    .live-card{width:100%;height:100%;display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:center}
+    .live-avatars{display:flex;gap:8px;align-items:center}
+    .avatar{width:42px;height:42px;border-radius:50%;background:#fff;color:var(--blue-deep);display:grid;place-items:center;font-weight:700;border:2px solid rgba(255,255,255,.6)}
+    .avatar:nth-child(2n){background:var(--pink-soft);color:#fff}
+    .processing{
+      display:flex;gap:10px;align-items:center;color:#fff;font-size:14px;
+    }
+    .dot{width:8px;height:8px;border-radius:50%;background:#fff;opacity:.2;animation:blink 1.2s infinite;}
+    .dot:nth-child(2){animation-delay:.12s}
+    .dot:nth-child(3){animation-delay:.24s}
+    @keyframes blink{0%{opacity:.15}50%{opacity:1}100%{opacity:.15}}
+
+    /* === Features Grid === */
+    .features{
+      margin-bottom:24px;
+      display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+    }
+    .card{
+      background:var(--card);
+      border-radius:14px;padding:18px;border:1px solid var(--pink-soft);
+      box-shadow:var(--shadow);
+      transition:transform .32s var(--ease), box-shadow .32s var(--ease);
+      transform:translateZ(0);
+      will-change:transform;
+    }
+    .card:hover{transform:translateY(-10px) scale(1.02);box-shadow:0 20px 45px rgba(212,140,171,.22)}
+    .card h4{margin:0 0 8px 0}
+    .card p{color:var(--muted);font-size:14px;margin:6px 0 0}
+    .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:var(--bg);font-weight:600;color:var(--blue-deep);font-family:var(--font-body);font-size:12px;margin-bottom:10px;border:1px solid var(--blue-light)}
+
+    /* === Testimonials Carousel === */
+    .carousel{
+      margin-bottom:24px;padding:12px;border-radius:var(--radius);background:var(--card);border:1px solid var(--blue-light);box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .track{display:flex;gap:12px;scroll-snap-type:x mandatory;overflow-x:auto;padding-bottom:8px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
+    .story{min-width:320px;background:var(--bg);padding:16px;border-radius:14px;scroll-snap-align:center;border:1px solid var(--pink-soft)}
+    .story strong{font-family:var(--font-script);font-size:18px;color:var(--pink-deep)}
+    .story p{color:var(--muted);margin:8px 0;font-size:14px}
+
+    /* === Community features === */
+    .bonus{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px}
+    /* connection requests */
+    .crush{padding:16px;border-radius:var(--radius);background:var(--card);border:1px solid var(--pink-soft);box-shadow:var(--shadow)}
+    .classmate{display:flex;gap:10px;align-items:center;padding:8px;border-radius:12px;background:var(--bg);cursor:pointer;border:1px solid transparent}
+    .classmate:hover{background:#fff;border-color:var(--pink-soft)}
+    .action{margin-top:12px;display:flex;gap:8px}
+
+    /* === Footer === */
+    footer{margin-top:18px;padding:18px;border-radius:var(--radius);background:var(--card);border:1px solid var(--blue-light);box-shadow:var(--shadow)}
+    .footer-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;align-items:center}
+    .sitemap{display:flex;gap:12px;flex-wrap:wrap}
+    .sitemap a{color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:8px}
+    .sitemap a:hover{color:var(--pink-deep);background:var(--bg)}
+    .app-badges{display:flex;gap:8px;align-items:center}
+
+    /* responsive */
+    @media (max-width:1000px){
+      .hero{grid-template-columns:1fr;gap:18px;height:auto}
+      .features{grid-template-columns:1fr;overflow:auto}
+      .bonus{grid-template-columns:1fr}
+      .mega{min-width:360px;grid-template-columns:repeat(1,1fr)}
+      .match-grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media (max-width:600px){.match-grid{grid-template-columns:1fr}.matches-head{display:block}.quick{padding:10px}.filter-dropdown{flex:0 0 150px}.lets{flex:0 0 auto}}
+    @media (prefers-reduced-motion:reduce){
+      .pulse, .dot, .lets, .card,body:before,body:after,.hero-left,.hero-right,.features,.carousel,.bonus,footer{animation:none;transition:none}
+    }
+  </style>
 </head>
 <body>
-  <div id="app" class="app-container">
-    
-    <!-- Top Navigation Header -->
-    <header class="navbar">
-      <div class="nav-brand">
-        <div class="brand-logo">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-          </svg>
+  <div class="container" id="app">
+    <header>
+      <a class="brand brand-link" href="./index.html" aria-label="SVKM Connect home">
+        <div class="logo"><img src="https://www.nmcollege.in/images/SVKM%20Logo.png" alt="SVKM logo" /></div>
+        <div>
+          <h1>SVKM Connect</h1>
+          <div class="brand-tag">Campus connections</div>
         </div>
-        <div class="brand-text">
-          <span class="brand-name">NMConnect</span>
-          <span class="brand-tag">Campus Partner Matcher</span>
+      </a>
+      <nav aria-label="Main navigation">
+        <div class="nav-item" aria-expanded="false">
+          <button class="nav-button" aria-haspopup="true" aria-controls="mega-courses">Browse</button>
+          <div class="mega" id="mega-courses" role="menu" aria-hidden="true">
+            <div>
+              <h3>By Course</h3>
+              <ul>
+                <li><a href="#">B.Com</a></li>
+                <li><a href="#">BBA</a></li>
+                <li><a href="#">BMS</a></li>
+                <li><a href="#">B.Sc</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3>By Year</h3>
+              <ul>
+                <li><a href="#">Freshman (FY)</a></li>
+                <li><a href="#">Sophomore (SY)</a></li>
+                <li><a href="#">Senior (TY)</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3>By Hangout</h3>
+              <ul>
+                <li><a href="#">Canteen</a></li>
+                <li><a href="#">Library</a></li>
+                <li><a href="#">Juhu Beach</a></li>
+                <li><a href="#">Study Halls</a></li>
+                <li><a href="#">Sports Complex</a></li>
+                <li><a href="#">Student Plaza</a></li>
+              </ul>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <nav class="nav-menu">
-        <button class="nav-link active" data-tab="discover">Discover Partners</button>
-        <button class="nav-link" data-tab="timetable">Schedule Matcher</button>
-        <button class="nav-link" data-tab="events">Campus Hangouts</button>
+        <div class="nav-item" aria-expanded="false">
+          <button class="nav-button" aria-haspopup="true" aria-controls="mega-events">Events</button>
+          <div class="mega" id="mega-events" role="menu" aria-hidden="true">
+            <div>
+              <h3>Campus Calendar</h3>
+              <ul>
+                <li><a href="#events" data-filter="Cultural fests">Cultural fests</a></li>
+                <li><a href="#events" data-filter="Workshops">Workshops</a></li>
+                <li><a href="#events" data-filter="Sports meets">Sports meets</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-item" aria-expanded="false">
+          <button class="nav-button" aria-haspopup="true" aria-controls="mega-college">College</button>
+          <div class="mega" id="mega-college" role="menu" aria-hidden="true">
+            <div>
+              <h3>Campus life</h3>
+              <ul>
+                <li><a href="#features">Student initiatives</a></li>
+                <li><a href="#stories">Success stories</a></li>
+                <li><a href="#connections">Campus connections</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3>Explore</h3>
+              <ul>
+                <li><a href="#matches">Find matches</a></li>
+                <li><a href="#events">Upcoming events</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </nav>
 
-      <div class="nav-actions">
-        <button class="btn btn-secondary connections-btn" id="open-connections-btn">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-            <circle cx="9" cy="7" r="4"></circle>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-          </svg>
-          <span>My Connections</span>
-          <span class="badge-count" id="connections-count">0</span>
-        </button>
-
-        <div id="auth-status-container">
-          <button class="btn btn-primary" id="open-auth-btn">Sign In</button>
-        </div>
+      <div class="actions">
+        <button class="btn">Help</button>
+        <span class="session-chip" id="session-chip" hidden></span>
+        <button class="btn primary" id="auth-button">Login</button>
       </div>
     </header>
 
-    <!-- Main Content Area -->
-    <main class="main-content">
-      
-      <!-- HERO SECTION -->
-      <section class="hero-banner">
-        <div class="hero-content">
-          <div class="romantic-badge">
-            <span class="heart-pulse">♥</span> Genuine NM Campus Connections
-          </div>
-          <h1 class="hero-title">Find Your Ideal Partner at NM College</h1>
-          <p class="hero-subtitle">
-            Skip the noise. Connect with verified classmates based on timetable overlaps, shared societies, and favorite campus hangouts.
-          </p>
+    <!-- HERO -->
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-left">
+          <div class="eyebrow">#1 Campus Matchmaking</div>
+          <h2 id="hero-title" class="headline">Find love on campus</h2>
+          <p class="sub">Verified students. Your campus, your match.</p>
 
-          <!-- Quick Filter Bar -->
-          <div class="filter-bar">
-            <div class="filter-group">
-              <label for="filter-gender">Looking For</label>
-              <select id="filter-gender">
-                <option value="all">Everyone</option>
-                <option value="female">Women</option>
-                <option value="male">Men</option>
+          <div class="quick" id="quick-search" role="region" aria-label="Quick search">
+            <div class="select filter-dropdown" data-filter="college">
+              <button class="filter-button" type="button" aria-haspopup="true" aria-expanded="false">College</button>
+              <div class="mega filter-menu" role="menu">
+                <button type="button" data-value="all">All colleges</button>
+                <button type="button" data-value="mithibai">Mithibai College of Arts, Chauhan Institute of Science and Amrutben Jivanlal College of Commerce and Economics</button>
+                <button type="button" data-value="nm-commerce">Narsee Monjee College of Commerce and Economics</button>
+                <button type="button" data-value="nmims">NMIMS (Deemed-to-be-University)</button>
+                <button type="button" data-value="upg">Usha Pravin Gandhi College of Arts, Science and Commerce (UPG)</button>
+                <button type="button" data-value="sbmp">Shri Bhagubhai Mafatlal Polytechnic (SBMP)</button>
+                <button type="button" data-value="djsce">Dwarkadas J. Sanghvi College of Engineering (DJSCE)</button>
+                <button type="button" data-value="jcl">Jitendra Chauhan College of Law (JCL)</button>
+              </div>
+              <label for="college" class="sr-only">College</label>
+              <select id="college" aria-label="College">
+                <option value="all">All colleges</option>
+                <option value="mithibai">Mithibai College of Arts, Chauhan Institute of Science</option>
+                <option value="mithibai">Mithibai College of Arts, Chauhan Institute of Science and Amrutben Jivanlal College of Commerce and Economics</option>
+                <option value="nm-commerce">Narsee Monjee College of Commerce and Economics</option>
+                <option value="nmims">NMIMS (Deemed-to-be-University)</option>
+                <option value="upg">Usha Pravin Gandhi College of Arts, Science and Commerce (UPG)</option>
+                <option value="sbmp">Shri Bhagubhai Mafatlal Polytechnic (SBMP)</option>
+                <option value="djsce">Dwarkadas J. Sanghvi College of Engineering (DJSCE)</option>
+                <option value="jcl">Jitendra Chauhan College of Law (JCL)</option>
               </select>
             </div>
 
-            <div class="filter-group">
-              <label for="filter-course">Course</label>
-              <select id="filter-course">
-                <option value="all">All Courses</option>
-                <option value="BBA">BBA</option>
-                <option value="B.Com">B.Com</option>
-                <option value="BMS">BMS</option>
-                <option value="B.Sc">B.Sc</option>
-                <option value="B.Tech">B.Tech</option>
+            <div class="select filter-dropdown" data-filter="gender">
+              <button class="filter-button" type="button" aria-haspopup="true" aria-expanded="false">Gender</button>
+              <div class="mega filter-menu" role="menu">
+                <button type="button" data-value="everyone">Everyone</button>
+                <button type="button" data-value="man">Man</button>
+                <button type="button" data-value="woman">Woman</button>
+                <button type="button" data-value="nonbinary">Non-binary</button>
+                <button type="button" data-value="any">Prefer not to say</button>
+              </div>
+              <label for="gender" class="sr-only">Gender</label>
+              <select id="gender" aria-label="Looking for">
+                <option value="everyone">Everyone</option>
+                <option value="man">Man</option>
+                <option value="woman">Woman</option>
+                <option value="nonbinary">Non-binary</option>
+                <option value="any">Prefer not to say</option>
               </select>
             </div>
 
-            <div class="filter-group">
-              <label for="filter-year">Year</label>
-              <select id="filter-year">
-                <option value="all">All Years</option>
-                <option value="FY">Freshman (FY)</option>
-                <option value="SY">Sophomore (SY)</option>
-                <option value="TY">Senior (TY)</option>
+            <div class="select filter-dropdown" data-filter="course">
+              <button class="filter-button" type="button" aria-haspopup="true" aria-expanded="false">Course</button>
+              <div class="mega filter-menu" role="menu">
+                <button type="button" data-value="bcom">B.Com</button>
+                <button type="button" data-value="bba">BBA</button>
+                <button type="button" data-value="bms">BMS</button>
+                <button type="button" data-value="bsc">B.Sc</button>
+                <button type="button" data-value="baf">BAF</button>
+                <button type="button" data-value="bbi">BBI</button>
+                <button type="button" data-value="ba">B.A.</button>
+                <button type="button" data-value="bsc-it">B.Sc. IT</button>
+              </div>
+              <label for="course" class="sr-only">Course</label>
+              <select id="course" aria-label="Course">
+                <option value="bcom">B.Com</option>
+                <option value="bba">BBA</option>
+                <option value="bms">BMS</option>
+                <option value="bsc">B.Sc</option>
+                <option value="baf">BAF</option>
+                <option value="bbi">BBI</option>
+                <option value="ba">B.A.</option>
+                <option value="bsc-it">B.Sc. IT</option>
               </select>
             </div>
 
-            <div class="filter-group">
-              <label for="filter-hangout">Preferred Spot</label>
-              <select id="filter-hangout">
-                <option value="all">Any Location</option>
-                <option value="Canteen">Central Canteen</option>
-                <option value="Library">Library 3rd Floor</option>
-                <option value="Juhu Beach">Juhu Beach Walk</option>
-                <option value="Study Hall">Quiet Study Hall</option>
+            <div class="select filter-dropdown" data-filter="year">
+              <button class="filter-button" type="button" aria-haspopup="true" aria-expanded="false">Year</button>
+              <div class="mega filter-menu" role="menu">
+                <button type="button" data-value="fy">FY</button>
+                <button type="button" data-value="sy">SY</button>
+                <button type="button" data-value="ty">TY</button>
+                <button type="button" data-value="pg">Postgraduate</button>
+              </div>
+              <label for="year" class="sr-only">Year</label>
+              <select id="year" aria-label="Year">
+                <option value="fy">FY</option>
+                <option value="sy">SY</option>
+                <option value="ty">TY</option>
+                <option value="pg">Postgraduate</option>
               </select>
             </div>
 
-            <button class="btn btn-primary filter-search-btn" id="apply-filters-btn">
-              Search Partners
+            <button class="lets" id="lets-btn" aria-label="Let's Begin">
+              Begin
+              <div class="pulse" aria-hidden="true"></div>
             </button>
           </div>
+
+          <div class="stats" aria-hidden="true">
+            <div class="stat"><span style="font-size:12px;color:var(--muted)">Verified Profiles</span><strong id="counter-profiles">0</strong></div>
+            <div class="stat"><span style="font-size:12px;color:var(--muted)">Success Stories</span><strong id="counter-stories">0</strong></div>
+          </div>
+        </div>
+
+        <aside class="hero-right" aria-labelledby="live-title">
+          <div class="live-card">
+            <div style="display:flex;gap:12px;align-items:center;">
+              <div style="font-weight:800;font-family:var(--font-script);font-size:22px">Live Matches</div>
+            </div>
+
+            <div class="live-avatars" aria-hidden="true">
+              <div class="avatar">A1</div>
+              <div class="avatar">B2</div>
+              <div class="avatar">C3</div>
+              <div class="avatar">D4</div>
+            </div>
+            <div class="hearts" aria-hidden="true"><span class="heart">♥</span><span class="heart">♥</span><span class="heart">♥</span><span class="heart">♥</span></div>
+
+            <div class="processing" aria-live="polite">
+              <div style="font-weight:700">AI Matching</div>
+              <div style="display:flex;gap:6px">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="matches-section" id="matches-section" aria-live="polite" aria-labelledby="matches-title">
+        <div class="matches-head"><div><h2 id="matches-title">Your matches</h2><p id="matches-summary">Students who share your interests.</p></div><button class="btn" id="clear-matches" type="button">Clear</button></div>
+        <div class="match-grid" id="match-grid"></div>
+      </section>
+
+      <!-- FEATURES -->
+      <section class="features" aria-label="Core features">
+        <article class="card" tabindex="0" aria-labelledby="f1">
+          <div class="pill">30-Day Promise</div>
+          <h4 id="f1">30-Day Match Guarantee</h4>
+          <p>A connection within 30 days.</p>
+        </article>
+
+        <article class="card" tabindex="0" aria-labelledby="f2">
+          <div class="pill">Blue Check</div>
+          <h4 id="f2">College-ID Verified</h4>
+          <p>Verified profiles get more matches.</p>
+        </article>
+
+        <article class="card" tabindex="0" aria-labelledby="f3">
+          <div class="pill">AI Matching</div>
+          <h4 id="f3">Smarter Matches</h4>
+          <p>Matches tuned to your interests.</p>
+        </article>
+      </section>
+
+      <!-- TESTIMONIALS -->
+      <section class="carousel" aria-label="Success stories">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <h2 style="font-size:28px;font-weight:400">Love stories</h2>
+        </div>
+
+        <div class="track" id="stories">
+          <div class="story">
+            <strong>Priya & Aman</strong>
+            <p>Met over assignments in the library — just clicked.</p>
+          </div>
+          <div class="story">
+            <strong>Pooja & Sameer</strong>
+            <p>Now co-lead student initiatives together.</p>
+          </div>
+          <div class="story">
+            <strong>Riya & Karan</strong>
+            <p>Anonymous pings led to their first date.</p>
+          </div>
+          <div class="story">
+            <strong>Neha & Vikram</strong>
+            <p>Started as study buddies, now married.</p>
+          </div>
         </div>
       </section>
 
-      <!-- DISCOVER PARTNERS TAB -->
-      <section id="tab-discover" class="tab-pane active">
-        <div class="section-header">
-          <div>
-            <h2 class="section-title">Verified Student Profiles</h2>
-            <p class="section-desc">Authentic student profiles matching your campus filter criteria</p>
-          </div>
-          <div class="search-box">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-            <input type="text" id="search-keyword" placeholder="Search by name, hobby, or interest..." />
-          </div>
-        </div>
+      <!-- CONNECTIONS -->
+      <section class="bonus" aria-label="Connections">
+        <div>
+          <div class="crush" aria-labelledby="crush-title">
+            <h3 id="crush-title">Crush Pings</h3>
+            <p style="color:var(--muted);font-size:13px;margin-top:4px">Mutual pings = a match.</p>
 
-        <div class="profiles-grid" id="profiles-container">
-          <!-- Dynamically populated profile cards -->
-        </div>
-      </section>
-
-      <!-- TIMETABLE MATCHING TAB -->
-      <section id="tab-timetable" class="tab-pane">
-        <div class="timetable-container">
-          <div class="timetable-header">
-            <div>
-              <h2 class="section-title">Schedule Overlap Matcher</h2>
-              <p class="section-desc">Select your free lectures/study slots to discover classmates with identical free windows.</p>
-            </div>
-            <button class="btn btn-secondary" id="reset-schedule-btn">Reset My Schedule</button>
-          </div>
-
-          <div class="timetable-wrapper">
-            <div class="schedule-matrix">
-              <div class="matrix-header">
-                <div class="cell time-col">Time</div>
-                <div class="cell">Mon</div>
-                <div class="cell">Tue</div>
-                <div class="cell">Wed</div>
-                <div class="cell">Thu</div>
-                <div class="cell">Fri</div>
-              </div>
-              <div id="matrix-body">
-                <!-- Dynamically generated timetable grid -->
-              </div>
-            </div>
-
-            <div class="timetable-sidebar">
-              <div class="glass-card schedule-summary">
-                <h3>Schedule Status</h3>
-                <p>Click on slots to toggle your free time. Your selections save automatically.</p>
-                <div class="slot-count-badge">
-                  <span id="free-slots-count">0</span> Free Slots Selected
+            <div style="margin-top:8px;display:flex;flex-direction:column;gap:8px">
+              <div class="classmate" data-user="Aman" role="button" tabindex="0">
+                <div style="width:44px;height:44px;border-radius:50%;background:var(--pink-soft);display:grid;place-items:center;color:#fff;font-weight:700">AM</div>
+                <div>
+                  <div style="font-weight:800">Aman</div>
+                  <div style="font-size:13px;color:var(--muted)">BBA, SY</div>
                 </div>
-                <button class="btn btn-primary btn-block" id="calculate-matches-btn">
-                  Find Compatible Partners
-                </button>
+                <div style="margin-left:auto;color:var(--muted)" data-connect-label>Connect</div>
               </div>
 
-              <div class="glass-card match-results-box" id="schedule-results-box">
-                <h4>Matching Overlaps</h4>
-                <div id="schedule-matches-list" class="schedule-matches-list">
-                  <p class="empty-state">Select slots above and click 'Find Compatible Partners' to list matching classmates.</p>
+              <div class="classmate" data-user="Priya" role="button" tabindex="0">
+                <div style="width:44px;height:44px;border-radius:50%;background:var(--blue-light);display:grid;place-items:center;color:#fff;font-weight:700">PR</div>
+                <div>
+                  <div style="font-weight:800">Priya</div>
+                  <div style="font-size:13px;color:var(--muted)">B.Com, FY</div>
                 </div>
+                <div style="margin-left:auto;color:var(--muted)" data-connect-label>Connect</div>
+              </div>
+
+              <div class="action" aria-hidden="true">
+                <button class="btn" id="view-pings">View My Pings</button>
+                <button class="btn primary" id="seed-pings">Connect</button>
+              </div>
+
+              <div id="ping-feedback" style="color:var(--muted);font-size:13px"></div>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer>
+        <div class="footer-grid">
+          <div>
+            <strong style="font-family:var(--font-cursive);font-size:26px;color:var(--pink-deep);font-weight:400">SVKM Connect</strong>
+            <div style="color:var(--muted);font-size:13px">Verified campus community.</div>
+          </div>
+
+          <nav class="sitemap" aria-label="Sitemap">
+            <a href="#">About Us</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Report Misuse</a>
+            <a href="#">Safety Center</a>
+            <a href="#">Terms</a>
+          </nav>
+
+          <div class="app-badges" aria-hidden="true">
+            <div style="display:flex;gap:8px;align-items:center">
+              <!-- simple SVG badges -->
+              <div style="display:flex;gap:8px;align-items:center">
+                <svg width="110" height="36" viewBox="0 0 110 36" style="border-radius:8px;background:#fff;padding:6px"><rect width="110" height="36" rx="6" fill="#5276a3"/><text x="18" y="22" fill="#fff" font-size="12" font-weight="700">Google Play</text></svg>
+                <svg width="110" height="36" viewBox="0 0 110 36" style="border-radius:8px;background:#fff;padding:6px"><rect width="110" height="36" rx="6" fill="#c66b92"/><text x="18" y="22" fill="#fff" font-size="12" font-weight="700">App Store</text></svg>
               </div>
             </div>
           </div>
         </div>
-      </section>
-
-      <!-- CAMPUS HANGOUTS TAB -->
-      <section id="tab-events" class="tab-pane">
-        <div class="section-header">
-          <div>
-            <h2 class="section-title">Campus Hangout Meetups</h2>
-            <p class="section-desc">Casual study dates, canteen coffee meetups, and society chill spots.</p>
-          </div>
-        </div>
-
-        <div class="events-grid">
-          <div class="event-card glass-card">
-            <div class="event-tag">Coffee & Code</div>
-            <h3>NM Central Canteen Meetup</h3>
-            <p class="event-time">Every Tuesday & Thursday • 1:00 PM - 2:30 PM</p>
-            <p class="event-desc">Grab a quick cold coffee between lectures and meet fellow BBA & BMS students.</p>
-            <div class="event-footer">
-              <span>18 Students Attending</span>
-              <button class="btn btn-secondary rsvp-btn" data-event="Canteen Meetup">Join Meetup</button>
-            </div>
-          </div>
-
-          <div class="event-card glass-card">
-            <div class="event-tag">Quiet Study</div>
-            <h3>Library 3rd Floor Assignment Club</h3>
-            <p class="event-time">Mon, Wed, Fri • 3:00 PM - 5:00 PM</p>
-            <p class="event-desc">Pair up with study partners to crush assignments before weekend fests.</p>
-            <div class="event-footer">
-              <span>12 Students Attending</span>
-              <button class="btn btn-secondary rsvp-btn" data-event="Library Study">Join Meetup</button>
-            </div>
-          </div>
-
-          <div class="event-card glass-card">
-            <div class="event-tag">Sunset Chill</div>
-            <h3>Juhu Beach Walk & Ice Cream</h3>
-            <p class="event-time">Fridays • 5:30 PM</p>
-            <p class="event-desc">Unwind after a busy week of lectures with sunset walks by Juhu beach with classmates.</p>
-            <div class="event-footer">
-              <span>24 Students Attending</span>
-              <button class="btn btn-secondary rsvp-btn" data-event="Juhu Walk">Join Meetup</button>
-            </div>
-          </div>
-        </div>
-      </section>
-
+      </footer>
     </main>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-      <div class="footer-content">
-        <div class="footer-brand">
-          <span class="brand-name">NMConnect</span>
-          <p>Created with care for NM College students. Safe, respectful & verified partner connections.</p>
-        </div>
-        <div class="footer-links">
-          <a href="#" onclick="alert('NMConnect is built exclusively for verified NM students for genuine campus dating & partner connections.'); return false;">Community Guidelines</a>
-          <a href="#" onclick="alert('Your student credentials & messages are strictly private and encrypted locally.'); return false;">Privacy & Safety</a>
-          <a href="#" onclick="alert('Report any inappropriate behavior instantly through profile options.'); return false;">Report Misuse</a>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>© 2026 NMConnect. All rights reserved. 100% Free Campus Dating Platform.</p>
-      </div>
-    </footer>
-
-    <!-- AUTHENTICATION MODAL (Username & Password - Google Password Manager Compatible) -->
-    <div class="modal-overlay" id="auth-modal">
-      <div class="modal-card">
-        <button class="modal-close" id="close-auth-modal">&times;</button>
-        <div class="auth-header">
-          <div class="auth-icon">♥</div>
-          <h2 id="auth-modal-title">Sign In to NMConnect</h2>
-          <p id="auth-modal-desc">Access your campus partner connections</p>
-        </div>
-
-        <div class="auth-tabs">
-          <button class="auth-tab-btn active" id="tab-login-btn">Sign In</button>
-          <button class="auth-tab-btn" id="tab-register-btn">Create Account</button>
-        </div>
-
-        <!-- LOGIN FORM (Google Passwords compatible) -->
-        <form id="login-form" class="auth-form" action="#" method="POST" onsubmit="return false;">
-          <div class="form-group">
-            <label for="login-username">Username or Student Roll ID</label>
-            <input 
-              type="text" 
-              id="login-username" 
-              name="username" 
-              autocomplete="username" 
-              placeholder="e.g. rohan_nm" 
-              required 
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="login-password">Password</label>
-            <input 
-              type="password" 
-              id="login-password" 
-              name="password" 
-              autocomplete="current-password" 
-              placeholder="••••••••" 
-              required 
-            />
-          </div>
-
-          <button type="submit" class="btn btn-primary btn-block" id="submit-login">Sign In</button>
-        </form>
-
-        <!-- REGISTER FORM (Google Passwords compatible) -->
-        <form id="register-form" class="auth-form hidden" action="#" method="POST" onsubmit="return false;">
-          <div class="form-group">
-            <label for="reg-username">Choose Username</label>
-            <input 
-              type="text" 
-              id="reg-username" 
-              name="username" 
-              autocomplete="username" 
-              placeholder="e.g. ananya_bba" 
-              required 
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="reg-password">Choose Password</label>
-            <input 
-              type="password" 
-              id="reg-password" 
-              name="password" 
-              autocomplete="new-password" 
-              placeholder="At least 6 characters" 
-              required 
-            />
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="reg-course">Course</label>
-              <select id="reg-course" required>
-                <option value="BBA">BBA</option>
-                <option value="B.Com">B.Com</option>
-                <option value="BMS">BMS</option>
-                <option value="B.Sc">B.Sc</option>
-                <option value="B.Tech">B.Tech</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="reg-year">Year</label>
-              <select id="reg-year" required>
-                <option value="FY">FY</option>
-                <option value="SY">SY</option>
-                <option value="TY">TY</option>
-              </select>
-            </div>
-          </div>
-
-          <button type="submit" class="btn btn-primary btn-block" id="submit-register">Create Account</button>
-        </form>
-      </div>
-    </div>
-
-    <!-- MY CONNECTIONS DRAWER -->
-    <div class="drawer-overlay" id="connections-drawer">
-      <div class="drawer-panel">
-        <div class="drawer-header">
-          <div>
-            <h2>My Partner Connections</h2>
-            <p>Active matched partners & open chats</p>
-          </div>
-          <button class="drawer-close" id="close-connections-drawer">&times;</button>
-        </div>
-        <div class="drawer-body" id="connections-list">
-          <!-- Dynamically populated connected partner cards -->
-        </div>
-      </div>
-    </div>
-
-    <!-- PARTNER DIRECT CHAT MODAL -->
-    <div class="modal-overlay" id="chat-modal">
-      <div class="modal-card chat-modal-card">
-        <div class="chat-header">
-          <div class="chat-user-info">
-            <div class="avatar-circle" id="chat-avatar">AN</div>
-            <div>
-              <h3 id="chat-user-name">Ananya Sharma</h3>
-              <span class="chat-user-status" id="chat-user-status">BBA, SY • Online</span>
-            </div>
-          </div>
-          <button class="modal-close" id="close-chat-modal">&times;</button>
-        </div>
-
-        <div class="chat-messages" id="chat-messages-container">
-          <!-- Chat messages dynamically rendered -->
-        </div>
-
-        <div class="chat-quick-prompts">
-          <button class="prompt-chip" data-text="Hey! Are you free for coffee at canteen after 2 PM? ☕">Canteen Coffee? ☕</button>
-          <button class="prompt-chip" data-text="Saw we both have free time on Tuesday! Want to study together? 📚">Study Date? 📚</button>
-          <button class="prompt-chip" data-text="Are you going to the fest meetup on Friday? 🎉">Fest Meetup? 🎉</button>
-        </div>
-
-        <form id="chat-input-form" class="chat-input-bar" onsubmit="return false;">
-          <input type="text" id="chat-message-input" placeholder="Type a message to your partner..." required autocomplete="off" />
-          <button type="submit" class="btn btn-primary chat-send-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="22" y1="2" x2="11" y2="13"></line>
-              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-            </svg>
-          </button>
-        </form>
-      </div>
-    </div>
-
-    <!-- MUTUAL MATCH CELEBRATION MODAL -->
-    <div class="modal-overlay" id="match-modal">
-      <div class="modal-card match-celebration-card">
-        <div class="sparkles-bg"></div>
-        <div class="match-heart">♥</div>
-        <h2>It's a Partner Connection!</h2>
-        <p>You and <strong id="matched-partner-name">Partner</strong> have both connected with each other.</p>
-        
-        <div class="matched-avatars-row">
-          <div class="avatar-circle avatar-large" id="matched-my-avatar">ME</div>
-          <div class="match-heart-small">♥</div>
-          <div class="avatar-circle avatar-large" id="matched-their-avatar">PT</div>
-        </div>
-
-        <div class="match-actions">
-          <button class="btn btn-primary btn-block" id="start-matched-chat-btn">Open Chat & Plan Date</button>
-          <button class="btn btn-secondary btn-block" id="continue-browsing-btn">Keep Discovering</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- TOAST NOTIFICATION CONTAINER -->
-    <div id="toast-container" class="toast-container"></div>
-
   </div>
 
-  <script src="app.js"></script>
+  <!-- Authentication now lives on the dedicated auth.html page. -->
+  <div class="love-stage" id="love-stage" aria-hidden="true"><span class="love-particle">♥</span><span class="love-particle">♥</span><span class="love-particle">♥</span><span class="love-particle">♥</span><div class="love-stage-content"><div class="love-burst">♥</div><h2>Finding your match...</h2></div></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    /* Add your Supabase project values here. Supabase Auth stores password hashes; this page never reads passwords. */
+    const SUPABASE_URL = 'https://sjwoyiwrvtrcezmgzosg.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_s4dBdf87iuX7I0I0kNRQRg_5PI2rGN-';
+    const supabaseClient = window.supabase && !SUPABASE_URL.includes('YOUR-')
+      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+      : null;
+
+    // === Utilities ===
+    const $ = s => document.querySelector(s);
+    const $$ = s => [...document.querySelectorAll(s)];
+
+    const collegeCourses = {
+      all: [
+        ['bcom','B.Com'],['bms','BMS'],['baf','B.Com Accounting & Finance'],['bbi','B.Com Banking & Insurance'],
+        ['bba','BBA'],['ba','B.A.'],['bsc','B.Sc.'],['bsc-it','B.Sc. IT'],['bsc-aids','B.Sc. AI & Data Science'],
+        ['bammc','B.A. Multimedia & Mass Communication'],['btech-cse','B.Tech Computer Engineering'],['llb','LL.B.']
+      ],
+      mithibai: [
+        ['ba','B.A.'],['bsc','B.Sc.'],['bcom','B.Com.'],['bms','BMS'],['baf','B.Com. Accounting & Finance'],
+        ['bfm','B.Com. Financial Markets'],['bbi','B.Com. Banking & Insurance'],['bia','B.Com. Investment Analysis'],
+        ['bmf','B.Com. Management & Finance'],['bammc','B.A. Multimedia & Mass Communication'],['bsc-it','B.Sc. IT'],
+        ['bsc-cs','B.Sc. Computer Science'],['bsc-health','B.Sc. Health Sciences'],['bsc-asda','B.Sc. Applied Statistics & Data Analytics'],
+        ['bsc-psych','B.Sc. Psychology']
+      ],
+      'nm-commerce': [
+        ['bcom','B.Com.'],['baf','B.Com. Accounting & Finance'],['bbi','B.Com. Banking & Insurance'],
+        ['bfm','B.Com. Financial Markets'],['bms','BMS'],['bsc-it','B.Sc. IT'],['bsc-aids-nm','B.Sc. AI & Data Science (Honours)'],
+        ['bcom-cs','B.Com. Computer Systems'],['bcom-ms','B.Com. Management Studies']
+      ],
+      nmims: [['bba-fin','BBA (Finance)'],['bba','BBA'],['bsc-fin','B.Sc. Finance'],['bcom-hons','B.Com. (Hons.)']],
+      upg: [
+        ['bms','BMS'],['bammc','B.A. Multimedia & Mass Communication'],['bsc-it','B.Sc. IT'],
+        ['bsc-aids','B.Sc. AI & Data Science'],['bcom-ms','B.Com. (Management Studies)'],['ba-ftnmp','B.A. Film, Television & New Media Production'],
+        ['mcom','M.Com.'],['msc-it','M.Sc. IT'],['msc-aids','M.Sc. AI & Data Science'],['ma','M.A.']
+      ],
+      sbmp: [
+        ['dip-computer','Diploma in Computer Engineering'],['dip-it','Diploma in Information Technology'],['dip-civil','Diploma in Civil Engineering'],
+        ['dip-mechanical','Diploma in Mechanical Engineering'],['dip-electrical','Diploma in Electrical Engineering'],['dip-plastics','Diploma in Plastics Engineering'],
+        ['dip-chemical','Diploma in Chemical Engineering'],['dip-extc','Diploma in Electronics & Telecommunication'],['btech-computer','B.Tech Computer Engineering'],
+        ['btech-it','B.Tech Information Technology'],['btech-cse','B.Tech Computer Science & Engineering'],['btech-ai','B.Tech CSE (AI & Machine Learning)']
+      ],
+      djsce: [
+        ['btech-extc','B.Tech Electronics & Telecommunication'],['btech-it','B.Tech Information Technology'],['btech-computer','B.Tech Computer Engineering'],
+        ['btech-mechanical','B.Tech Mechanical Engineering'],['btech-ds','B.Tech CSE (Data Science)'],['btech-aiml','B.Tech AI & Machine Learning'],
+        ['btech-aids','B.Tech AI & Data Science'],['btech-iot','B.Tech CSE (IoT & Cyber Security)'],['mtech','M.Tech'],['phd','Ph.D.']
+      ],
+      jcl: [['ba-llb','B.A. LL.B.'],['bba-llb','B.B.A. LL.B.'],['llb','LL.B.'],['llm','LL.M.']]
+    };
+    const courseYears = {
+      bsc:['FY','SY','TY'], 'bsc-aids':['FY','SY','TY'], 'bsc-aids-nm':['FY','SY','TY','Honours Year (NEP)'],
+      ba:['FY','SY','TY'], bcom:['FY','SY','TY','Honours Year (NEP)'], 'bcom-hons':['FY','SY','TY','Honours Year'],
+      bms:['FY','SY','TY'], bba:['FY','SY','TY'], 'bba-fin':['FY','SY','TY'], baf:['FY','SY','TY'], bbi:['FY','SY','TY'],
+      bfm:['FY','SY','TY'], bia:['FY','SY','TY'], bmf:['FY','SY','TY'], 'bcom-cs':['FY','SY','TY'], 'bcom-ms':['FY','SY','TY'],
+      'bsc-it':['FY','SY','TY'], 'bsc-cs':['FY','SY','TY'], 'bsc-health':['FY','SY','TY'], 'bsc-asda':['FY','SY','TY'], 'bsc-psych':['FY','SY','TY'],
+      bammc:['FY','SY','TY'], 'ba-ftnmp':['FY','SY','TY'], 'bsc-fin':['Year 1','Year 2','Year 3'],
+      'btech-computer':['First Year','Second Year','Third Year','Final Year'], 'btech-it':['First Year','Second Year','Third Year','Final Year'],
+      'btech-cse':['First Year','Second Year','Third Year','Final Year'], 'btech-ai':['First Year','Second Year','Third Year','Final Year'],
+      'btech-extc':['First Year','Second Year','Third Year','Final Year'], 'btech-mechanical':['First Year','Second Year','Third Year','Final Year'],
+      'btech-ds':['First Year','Second Year','Third Year','Final Year'], 'btech-aiml':['First Year','Second Year','Third Year','Final Year'],
+      'btech-aids':['First Year','Second Year','Third Year','Final Year'], 'btech-iot':['First Year','Second Year','Third Year','Final Year'],
+      'dip-computer':['First Year','Second Year','Third Year'], 'dip-it':['First Year','Second Year','Third Year'], 'dip-civil':['First Year','Second Year','Third Year'],
+      'dip-mechanical':['First Year','Second Year','Third Year'], 'dip-electrical':['First Year','Second Year','Third Year'], 'dip-plastics':['First Year','Second Year','Third Year'],
+      'dip-chemical':['First Year','Second Year','Third Year'], 'dip-extc':['First Year','Second Year','Third Year'],
+      'llb':['First Year','Second Year','Third Year'], 'ba-llb':['First Year','Second Year','Third Year','Fourth Year','Final Year'],
+      'bba-llb':['First Year','Second Year','Third Year','Fourth Year','Final Year'], llm:['Year 1','Year 2'], mtech:['First Year','Final Year'],
+      phd:['Research Year 1','Research Year 2','Research Year 3'], mcom:['Year 1','Year 2'], 'msc-it':['Year 1','Year 2'], 'msc-aids':['Year 1','Year 2'], ma:['Year 1','Year 2']
+    };
+    const collegeLabels = Object.fromEntries($$('#college option').map(option=>[option.value, option.textContent]));
+    function setFilterOptions(filter, options){
+      const dropdown = document.querySelector(`[data-filter="${filter}"]`);
+      const menu = dropdown.querySelector('.filter-menu');
+      const select = dropdown.querySelector('select');
+      menu.innerHTML = options.map(([value,label])=>`<button type="button" data-value="${value}">${label}</button>`).join('');
+      select.innerHTML = options.map(([value,label])=>`<option value="${value}">${label}</option>`).join('');
+    }
+    function updateCourseOptions(college){
+      const options = collegeCourses[college] || collegeCourses.all;
+      setFilterOptions('course', options);
+      $('#course').value = '';
+      $('[data-filter="course"] .filter-button').textContent = 'Course';
+      setFilterOptions('year', []);
+      $('[data-filter="year"] .filter-button').textContent = 'Year';
+    }
+    function updateYearOptions(course){
+      setFilterOptions('year', (courseYears[course] || []).map(year=>[year.toLowerCase().replace(/[^a-z0-9]+/g,'-'),year]));
+      $('[data-filter="year"] .filter-button').textContent = 'Year';
+    }
+    function closeFilterMenus(){
+      $$('.filter-dropdown').forEach(item=>{
+        item.classList.remove('open');
+        item.querySelector('.filter-button')?.setAttribute('aria-expanded','false');
+      });
+    }
+    function updateBeginState(){
+      const ready = $$('.filter-dropdown').every(dropdown=>dropdown.dataset.selected === 'true');
+      const button = $('#lets-btn');
+      button.classList.toggle('ready', ready);
+      button.setAttribute('aria-disabled', String(!ready));
+    }
+    $('[data-filter="college"]').dataset.selected = 'false';
+    $('[data-filter="gender"]').dataset.selected = 'false';
+    $('[data-filter="course"]').dataset.selected = 'false';
+    $('[data-filter="year"]').dataset.selected = 'false';
+    updateCourseOptions('all');
+
+    // Supabase Auth UI
+    const authButton = $('#auth-button');
+    let activeUser = null;
+    function renderSession(session){
+      const user = session?.user;
+      activeUser = user || null;
+      $('#session-chip').hidden = !user;
+      $('#session-chip').textContent = user ? `ID: ${user.email || user.id.slice(0,8)}...` : '';
+      authButton.textContent = user ? 'Sign out' : 'Login';
+      if(user){ loadConnections(); }
+    }
+    authButton.addEventListener('click', async ()=>{
+      if(!supabaseClient){ alert('Add your Supabase URL and anon key in the script before signing in.'); return; }
+      const {data:{session}} = await supabaseClient.auth.getSession();
+      if(session){ await supabaseClient.auth.signOut(); renderSession(null); }
+      else location.href = 'auth.html';
+    });
+    if(supabaseClient){
+      supabaseClient.auth.getSession().then(({data:{session}})=>renderSession(session));
+      supabaseClient.auth.onAuthStateChange((_event, session)=>renderSession(session));
+    }
+
+    // Animated counters (profiles & stories)
+    function animateCounter(el, to, ms=1600){
+      let start = 0, startTime = null;
+      function step(t){
+        if(!startTime) startTime = t;
+        const progress = Math.min((t - startTime) / ms, 1);
+        const eased = progress * (2 - progress);
+        el.textContent = Math.floor(start + (to - start) * eased).toLocaleString();
+        if(progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      loadPlatformStats();
+    });
+    async function loadPlatformStats(){
+      if(!supabaseClient){ animateCounter($('#counter-profiles'), 0, 400); animateCounter($('#counter-stories'), 0, 400); return; }
+      const result=await supabaseClient.from('profiles').select('id',{count:'exact',head:true});
+      animateCounter($('#counter-profiles'), result.count || 0, 900);
+      animateCounter($('#counter-stories'), 0, 400);
+    }
+
+    // Mega menu a11y: toggle aria-expanded on click
+    $$('.nav-item').forEach(item=>{
+      const btn = item.querySelector('.nav-button');
+      btn.addEventListener('click', e=>{
+        const expanded = item.getAttribute('aria-expanded') === 'true';
+        $$('.nav-item').forEach(i=>{i.setAttribute('aria-expanded','false'); i.querySelector('.mega')?.setAttribute('aria-hidden','true');});
+        item.setAttribute('aria-expanded', String(!expanded));
+        item.querySelector('.mega')?.setAttribute('aria-hidden', String(expanded));
+      });
+    });
+    $$('.mega a').forEach(link=>link.addEventListener('click', e=>{
+      e.preventDefault();
+      const filter = link.dataset.filter || link.textContent.trim();
+      $('#ping-feedback').textContent = `Showing campus options for ${filter}.`;
+      link.closest('.nav-item').setAttribute('aria-expanded','false');
+    }));
+    $$('.filter-dropdown').forEach(dropdown=>{
+      const toggle = dropdown.querySelector('.filter-button');
+      const select = dropdown.querySelector('select');
+      toggle.addEventListener('click', ()=>{
+        const open = dropdown.classList.contains('open');
+        $$('.filter-dropdown').forEach(item=>{
+          item.classList.remove('open');
+          item.querySelector('.filter-button')?.setAttribute('aria-expanded','false');
+        });
+        dropdown.classList.toggle('open', !open);
+        toggle.setAttribute('aria-expanded', String(!open));
+      });
+      dropdown.querySelector('.filter-menu').addEventListener('click', e=>{
+        const option = e.target.closest('[data-value]');
+        if(!option) return;
+        select.value = option.dataset.value;
+        toggle.textContent = option.textContent.trim();
+        dropdown.dataset.selected = 'true';
+        dropdown.classList.remove('open');
+        toggle.setAttribute('aria-expanded','false');
+        if(dropdown.dataset.filter === 'college'){
+          updateCourseOptions(select.value);
+          $('[data-filter="course"]').dataset.selected = 'false';
+          $('[data-filter="year"]').dataset.selected = 'false';
+        }
+        if(dropdown.dataset.filter === 'course'){
+          updateYearOptions(select.value);
+          $('[data-filter="year"]').dataset.selected = 'false';
+        }
+        closeFilterMenus();
+        updateBeginState();
+      });
+    });
+    // close on outside click
+    document.addEventListener('click', e=>{
+      if(!e.target.closest('.nav-item')) $$('.nav-item').forEach(i=>{i.setAttribute('aria-expanded','false'); i.querySelector('.mega')?.setAttribute('aria-hidden','true');});
+      if(!e.target.closest('.filter-dropdown')) closeFilterMenus();
+    });
+
+    const normalizeProfile = profile => ({...profile, display_name:profile.display_name || profile.full_name || profile.login_id || 'SVKM student', hobbies:profile.hobbies || '', favourite_hangout:profile.favourite_hangout || 'Campus'});
+    function renderMatches(profiles, criteria){
+      const grid = $('#match-grid');
+      grid.innerHTML = profiles.length ? profiles.map((raw,index)=>{ const profile=normalizeProfile(raw); const initials=profile.display_name.split(/\s+/).map(part=>part[0]).join('').slice(0,2).toUpperCase(); return `<article class="match-card"><div class="match-card-top"><div class="match-avatar">${initials}</div><div><h3>${profile.display_name}</h3><p>${profile.course || 'Student'} · ${profile.year || 'Student'} · ${profile.age ? profile.age+' yrs' : 'Campus'}</p></div></div><div class="match-tags"><span class="match-tag">${profile.favourite_hangout}</span><span class="match-tag">${profile.gender || 'Open-minded'}</span></div><p>${profile.hobbies || 'Looking for good campus energy.'}</p><button class="match-connect" data-match-id="${profile.id}" data-match-name="${profile.display_name}" type="button">Connect</button></article>`; }).join('') : '<p>No profiles match these criteria yet.</p>';
+      $('#matches-summary').textContent = `${profiles.length} student${profiles.length === 1 ? '' : 's'} found for ${criteria.college === 'all' ? 'all colleges' : (collegeLabels[criteria.college] || criteria.college)} · ${criteria.course ? criteria.course.toUpperCase() : 'all courses'} · ${criteria.year ? criteria.year.toUpperCase() : 'all years'}.`;
+      $('#matches-section').classList.add('visible');
+      $('#matches-section').scrollIntoView({behavior:'smooth',block:'start'});
+      $$('.match-connect').forEach(button=>button.addEventListener('click',()=>createConnection(button.dataset.matchId,button.dataset.matchName,button)));
+    }
+    async function createConnection(recipientId, name, button){
+      if(!activeUser){ $('#ping-feedback').textContent='Sign in to connect with students.'; return; }
+      if(!recipientId || !supabaseClient){ $('#ping-feedback').textContent='This profile is missing a backend ID.'; return; }
+      button.disabled=true;
+      const {error}=await supabaseClient.from('connections').upsert({requester_id:activeUser.id,recipient_id:recipientId,status:'pending'},{onConflict:'requester_id,recipient_id'});
+      if(error){ button.disabled=false; $('#ping-feedback').textContent=`Could not connect: ${error.message}`; return; }
+      button.textContent='Requested'; button.classList.add('connected'); $('#ping-feedback').textContent=`Connection request sent to ${name}.`;
+    }
+    async function showMatches(criteria){
+      const stage=$('#love-stage'); stage.classList.add('open'); stage.setAttribute('aria-hidden','false');
+      await new Promise(resolve=>setTimeout(resolve,1800));
+      if(!supabaseClient || !activeUser){ stage.classList.remove('open'); stage.setAttribute('aria-hidden','true'); $('#matches-summary').textContent='Sign in to discover real student profiles.'; $('#matches-section').classList.add('visible'); return; }
+      const result=await supabaseClient.from('profiles').select('*').neq('id',activeUser.id).limit(100);
+      if(result.error){ stage.classList.remove('open'); stage.setAttribute('aria-hidden','true'); $('#matches-summary').textContent=`Backend error: ${result.error.message}`; $('#matches-section').classList.add('visible'); return; }
+      const profiles=result.data || [];
+      const compact = value => String(value || '').toLowerCase().replace(/[^a-z0-9]/g,'');
+      const filtered=profiles.filter(profile=>{
+        const collegeMatch=criteria.college==='all' || !criteria.college || !profile.college || compact(profile.college)===compact(criteria.college) || compact(profile.college).includes(compact(criteria.college));
+        const courseMatch=!criteria.course || compact(profile.course)===compact(criteria.course) || compact(profile.course).includes(compact(criteria.course));
+        const yearMatch=!criteria.year || compact(profile.year)===compact(criteria.year);
+        const genderMatch=criteria.gender==='everyone' || !criteria.gender || profile.gender?.toLowerCase()===criteria.gender.toLowerCase();
+        return collegeMatch && courseMatch && yearMatch && genderMatch;
+      });
+      stage.classList.remove('open'); stage.setAttribute('aria-hidden','true'); renderMatches(filtered,criteria);
+      history.replaceState(null,'','#matches');
+    }
+    $('#lets-btn').addEventListener('click', async e=>{
+      if(!e.currentTarget.classList.contains('ready')) return;
+      const btn=e.currentTarget; btn.disabled=true; const original=btn.textContent; btn.textContent='Finding your match...';
+      await showMatches({college:$('#college').value,gender:$('#gender').value,course:$('#course').value,year:$('#year').value});
+      btn.textContent=original; btn.disabled=false;
+    });
+    $('#clear-matches').addEventListener('click',()=>$('#matches-section').classList.remove('visible'));
+
+    // Testimonials carousel: auto-scroll
+    const track = $('#stories');
+    let autoScroll = setInterval(()=> {
+      if(!track) return;
+      const maxScroll = track.scrollWidth - track.clientWidth;
+      if(track.scrollLeft >= maxScroll - 10) {
+        track.scrollTo({left:0, behavior:'smooth'});
+      } else {
+        track.scrollBy({left: track.clientWidth/2, behavior:'smooth'});
+      }
+    }, 3600);
+    track.addEventListener('mouseenter', ()=>clearInterval(autoScroll));
+    track.addEventListener('mouseleave', ()=>autoScroll = setInterval(()=> {
+      if(track.scrollLeft >= track.scrollWidth - track.clientWidth - 10) track.scrollTo({left:0, behavior:'smooth'});
+      else track.scrollBy({left: track.clientWidth/2, behavior:'smooth'});
+    }, 3600));
+
+    // Persisted connection requests
+    let pings = new Set();
+    async function loadConnections(){
+      if(!supabaseClient || !activeUser) return;
+      const result=await supabaseClient.from('connections').select('recipient_id,status').eq('requester_id',activeUser.id);
+      if(!result.error) pings=new Set(result.data.map(row=>row.recipient_id));
+    }
+    $$('.classmate').forEach(el=>{
+      if(pings.has(el.dataset.user)){
+        el.style.opacity = 0.85;
+        el.querySelector('[data-connect-label]').textContent = 'Requested';
+      }
+    });
+    $$('.classmate').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        const name = el.dataset.user;
+        // toggle ping
+        if(pings.has(name)){ $('#ping-feedback').textContent = 'Connection requests cannot be removed from this view yet.'; }
+        else {
+          $('#ping-feedback').textContent = 'Select a real profile from your matches to connect.';
+        }
+      });
+    });
+
+    $('#view-pings').addEventListener('click', ()=> {
+      $('#ping-feedback').textContent = pings.size===0 ? 'No connection requests yet.' : `Your requests: ${[...pings].join(', ')}.`;
+    });
+
+    // "Seed" a mutual ping to simulate a match
+    $('#seed-pings').addEventListener('click', async ()=> {
+      if(!supabaseClient || !activeUser){ $('#ping-feedback').textContent = 'Sign in to view connections.'; return; }
+      const result=await supabaseClient.from('connections').select('status,recipient_id').eq('requester_id',activeUser.id);
+      if(result.error){ $('#ping-feedback').textContent=`Could not load connections: ${result.error.message}`; return; }
+      $('#ping-feedback').textContent=result.data.length ? `${result.data.length} connection request${result.data.length===1?'':'s'} saved.` : 'No connection requests yet.';
+    });
+
+    // small accessibility helpers: keyboard close for mega menu
+    document.addEventListener('keydown', e=>{
+      if(e.key === 'Escape') $$('.nav-item').forEach(i=>{i.setAttribute('aria-expanded','false'); i.querySelector('.mega')?.setAttribute('aria-hidden','true');});
+    });
+
+    // IntersectionObserver to reveal on scroll (cards)
+    const io = new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.style.transform = 'translateY(0)'; entry.target.style.opacity = 1;
+          io.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.12});
+    $$('.card, .story').forEach(el=>{
+      el.style.transform = 'translateY(10px)'; el.style.opacity = 0;
+      io.observe(el);
+    });
+    $$('.crush, .live-card, .stat').forEach(el=>{
+      el.classList.add('reveal-item');
+      io.observe(el);
+    });
+
+    // lightweight cleanup on unload
+    window.addEventListener('beforeunload', ()=>{ clearInterval(autoScroll); });
+
+  </script>
 </body>
 </html>

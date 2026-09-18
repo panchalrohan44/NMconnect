@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NMConnect — Campus Partner Connections</title>
+  <meta name="description" content="NMConnect — Pure campus dating and partner connections for NM students. Verified college profiles, schedule matcher, and instant direct partner chat." />
+  
+  <!-- Modern Typography & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="v1-style.css" />
+</head>
+<body>
+  <div id="app" class="app-container">
+    
+    <!-- Top Navigation Header -->
+    <header class="navbar">
+      <div class="nav-brand">
+        <div class="brand-logo">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">NMConnect</span>
+          <span class="brand-tag">Campus Partner Matcher</span>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <button class="nav-link active" data-tab="discover">Discover Partners</button>
+        <button class="nav-link" data-tab="timetable">Schedule Matcher</button>
+        <button class="nav-link" data-tab="events">Campus Hangouts</button>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="btn btn-secondary connections-btn" id="open-connections-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <span>My Connections</span>
+          <span class="badge-count" id="connections-count">0</span>
+        </button>
+
+        <div id="auth-status-container">
+          <button class="btn btn-primary" id="open-auth-btn">Sign In</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- HERO SECTION -->
+      <section class="hero-banner">
+        <div class="hero-content">
+          <div class="romantic-badge">
+            <span class="heart-pulse">♥</span> Genuine NM Campus Connections
+          </div>
+          <h1 class="hero-title">Find Your Ideal Partner at NM College</h1>
+          <p class="hero-subtitle">
+            Skip the noise. Connect with verified classmates based on timetable overlaps, shared societies, and favorite campus hangouts.
+          </p>
+
+          <!-- Quick Filter Bar -->
+          <div class="filter-bar">
+            <div class="filter-group">
+              <label for="filter-gender">Looking For</label>
+              <select id="filter-gender">
+                <option value="all">Everyone</option>
+                <option value="female">Women</option>
+                <option value="male">Men</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="filter-course">Course</label>
+              <select id="filter-course">
+                <option value="all">All Courses</option>
+                <option value="BBA">BBA</option>
+                <option value="B.Com">B.Com</option>
+                <option value="BMS">BMS</option>
+                <option value="B.Sc">B.Sc</option>
+                <option value="B.Tech">B.Tech</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="filter-year">Year</label>
+              <select id="filter-year">
+                <option value="all">All Years</option>
+                <option value="FY">Freshman (FY)</option>
+                <option value="SY">Sophomore (SY)</option>
+                <option value="TY">Senior (TY)</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="filter-hangout">Preferred Spot</label>
+              <select id="filter-hangout">
+                <option value="all">Any Location</option>
+                <option value="Canteen">Central Canteen</option>
+                <option value="Library">Library 3rd Floor</option>
+                <option value="Juhu Beach">Juhu Beach Walk</option>
+                <option value="Study Hall">Quiet Study Hall</option>
+              </select>
+            </div>
+
+            <button class="btn btn-primary filter-search-btn" id="apply-filters-btn">
+              Search Partners
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- DISCOVER PARTNERS TAB -->
+      <section id="tab-discover" class="tab-pane active">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Verified Student Profiles</h2>
+            <p class="section-desc">Authentic student profiles matching your campus filter criteria</p>
+          </div>
+          <div class="search-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="search-keyword" placeholder="Search by name, hobby, or interest..." />
+          </div>
+        </div>
+
+        <div class="profiles-grid" id="profiles-container">
+          <!-- Dynamically populated profile cards -->
+        </div>
+      </section>
+
+      <!-- TIMETABLE MATCHING TAB -->
+      <section id="tab-timetable" class="tab-pane">
+        <div class="timetable-container">
+          <div class="timetable-header">
+            <div>
+              <h2 class="section-title">Schedule Overlap Matcher</h2>
+              <p class="section-desc">Select your free lectures/study slots to discover classmates with identical free windows.</p>
+            </div>
+            <button class="btn btn-secondary" id="reset-schedule-btn">Reset My Schedule</button>
+          </div>
+
+          <div class="timetable-wrapper">
+            <div class="schedule-matrix">
+              <div class="matrix-header">
+                <div class="cell time-col">Time</div>
+                <div class="cell">Mon</div>
+                <div class="cell">Tue</div>
+                <div class="cell">Wed</div>
+                <div class="cell">Thu</div>
+                <div class="cell">Fri</div>
+              </div>
+              <div id="matrix-body">
+                <!-- Dynamically generated timetable grid -->
+              </div>
+            </div>
+
+            <div class="timetable-sidebar">
+              <div class="glass-card schedule-summary">
+                <h3>Schedule Status</h3>
+                <p>Click on slots to toggle your free time. Your selections save automatically.</p>
+                <div class="slot-count-badge">
+                  <span id="free-slots-count">0</span> Free Slots Selected
+                </div>
+                <button class="btn btn-primary btn-block" id="calculate-matches-btn">
+                  Find Compatible Partners
+                </button>
+              </div>
+
+              <div class="glass-card match-results-box" id="schedule-results-box">
+                <h4>Matching Overlaps</h4>
+                <div id="schedule-matches-list" class="schedule-matches-list">
+                  <p class="empty-state">Select slots above and click 'Find Compatible Partners' to list matching classmates.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CAMPUS HANGOUTS TAB -->
+      <section id="tab-events" class="tab-pane">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Campus Hangout Meetups</h2>
+            <p class="section-desc">Casual study dates, canteen coffee meetups, and society chill spots.</p>
+          </div>
+        </div>
+
+        <div class="events-grid">
+          <div class="event-card glass-card">
+            <div class="event-tag">Coffee & Code</div>
+            <h3>NM Central Canteen Meetup</h3>
+            <p class="event-time">Every Tuesday & Thursday • 1:00 PM - 2:30 PM</p>
+            <p class="event-desc">Grab a quick cold coffee between lectures and meet fellow BBA & BMS students.</p>
+            <div class="event-footer">
+              <span>18 Students Attending</span>
+              <button class="btn btn-secondary rsvp-btn" data-event="Canteen Meetup">Join Meetup</button>
+            </div>
+          </div>
+
+          <div class="event-card glass-card">
+            <div class="event-tag">Quiet Study</div>
+            <h3>Library 3rd Floor Assignment Club</h3>
+            <p class="event-time">Mon, Wed, Fri • 3:00 PM - 5:00 PM</p>
+            <p class="event-desc">Pair up with study partners to crush assignments before weekend fests.</p>
+            <div class="event-footer">
+              <span>12 Students Attending</span>
+              <button class="btn btn-secondary rsvp-btn" data-event="Library Study">Join Meetup</button>
+            </div>
+          </div>
+
+          <div class="event-card glass-card">
+            <div class="event-tag">Sunset Chill</div>
+            <h3>Juhu Beach Walk & Ice Cream</h3>
+            <p class="event-time">Fridays • 5:30 PM</p>
+            <p class="event-desc">Unwind after a busy week of lectures with sunset walks by Juhu beach with classmates.</p>
+            <div class="event-footer">
+              <span>24 Students Attending</span>
+              <button class="btn btn-secondary rsvp-btn" data-event="Juhu Walk">Join Meetup</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="brand-name">NMConnect</span>
+          <p>Created with care for NM College students. Safe, respectful & verified partner connections.</p>
+        </div>
+        <div class="footer-links">
+          <a href="#" onclick="alert('NMConnect is built exclusively for verified NM students for genuine campus dating & partner connections.'); return false;">Community Guidelines</a>
+          <a href="#" onclick="alert('Your student credentials & messages are strictly private and encrypted locally.'); return false;">Privacy & Safety</a>
+          <a href="#" onclick="alert('Report any inappropriate behavior instantly through profile options.'); return false;">Report Misuse</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 NMConnect. All rights reserved. 100% Free Campus Dating Platform.</p>
+      </div>
+    </footer>
+
+    <!-- AUTHENTICATION MODAL (Username & Password - Google Password Manager Compatible) -->
+    <div class="modal-overlay" id="auth-modal">
+      <div class="modal-card">
+        <button class="modal-close" id="close-auth-modal">&times;</button>
+        <div class="auth-header">
+          <div class="auth-icon">♥</div>
+          <h2 id="auth-modal-title">Sign In to NMConnect</h2>
+          <p id="auth-modal-desc">Access your campus partner connections</p>
+        </div>
+
+        <div class="auth-tabs">
+          <button class="auth-tab-btn active" id="tab-login-btn">Sign In</button>
+          <button class="auth-tab-btn" id="tab-register-btn">Create Account</button>
+        </div>
+
+        <!-- LOGIN FORM (Google Passwords compatible) -->
+        <form id="login-form" class="auth-form" action="#" method="POST" onsubmit="return false;">
+          <div class="form-group">
+            <label for="login-username">Username or Student Roll ID</label>
+            <input 
+              type="text" 
+              id="login-username" 
+              name="username" 
+              autocomplete="username" 
+              placeholder="e.g. rohan_nm" 
+              required 
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <input 
+              type="password" 
+              id="login-password" 
+              name="password" 
+              autocomplete="current-password" 
+              placeholder="••••••••" 
+              required 
+            />
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block" id="submit-login">Sign In</button>
+        </form>
+
+        <!-- REGISTER FORM (Google Passwords compatible) -->
+        <form id="register-form" class="auth-form hidden" action="#" method="POST" onsubmit="return false;">
+          <div class="form-group">
+            <label for="reg-username">Choose Username</label>
+            <input 
+              type="text" 
+              id="reg-username" 
+              name="username" 
+              autocomplete="username" 
+              placeholder="e.g. ananya_bba" 
+              required 
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="reg-password">Choose Password</label>
+            <input 
+              type="password" 
+              id="reg-password" 
+              name="password" 
+              autocomplete="new-password" 
+              placeholder="At least 6 characters" 
+              required 
+            />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="reg-course">Course</label>
+              <select id="reg-course" required>
+                <option value="BBA">BBA</option>
+                <option value="B.Com">B.Com</option>
+                <option value="BMS">BMS</option>
+                <option value="B.Sc">B.Sc</option>
+                <option value="B.Tech">B.Tech</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="reg-year">Year</label>
+              <select id="reg-year" required>
+                <option value="FY">FY</option>
+                <option value="SY">SY</option>
+                <option value="TY">TY</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block" id="submit-register">Create Account</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- MY CONNECTIONS DRAWER -->
+    <div class="drawer-overlay" id="connections-drawer">
+      <div class="drawer-panel">
+        <div class="drawer-header">
+          <div>
+            <h2>My Partner Connections</h2>
+            <p>Active matched partners & open chats</p>
+          </div>
+          <button class="drawer-close" id="close-connections-drawer">&times;</button>
+        </div>
+        <div class="drawer-body" id="connections-list">
+          <!-- Dynamically populated connected partner cards -->
+        </div>
+      </div>
+    </div>
+
+    <!-- PARTNER DIRECT CHAT MODAL -->
+    <div class="modal-overlay" id="chat-modal">
+      <div class="modal-card chat-modal-card">
+        <div class="chat-header">
+          <div class="chat-user-info">
+            <div class="avatar-circle" id="chat-avatar">AN</div>
+            <div>
+              <h3 id="chat-user-name">Ananya Sharma</h3>
+              <span class="chat-user-status" id="chat-user-status">BBA, SY • Online</span>
+            </div>
+          </div>
+          <button class="modal-close" id="close-chat-modal">&times;</button>
+        </div>
+
+        <div class="chat-messages" id="chat-messages-container">
+          <!-- Chat messages dynamically rendered -->
+        </div>
+
+        <div class="chat-quick-prompts">
+          <button class="prompt-chip" data-text="Hey! Are you free for coffee at canteen after 2 PM? ☕">Canteen Coffee? ☕</button>
+          <button class="prompt-chip" data-text="Saw we both have free time on Tuesday! Want to study together? 📚">Study Date? 📚</button>
+          <button class="prompt-chip" data-text="Are you going to the fest meetup on Friday? 🎉">Fest Meetup? 🎉</button>
+        </div>
+
+        <form id="chat-input-form" class="chat-input-bar" onsubmit="return false;">
+          <input type="text" id="chat-message-input" placeholder="Type a message to your partner..." required autocomplete="off" />
+          <button type="submit" class="btn btn-primary chat-send-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- MUTUAL MATCH CELEBRATION MODAL -->
+    <div class="modal-overlay" id="match-modal">
+      <div class="modal-card match-celebration-card">
+        <div class="sparkles-bg"></div>
+        <div class="match-heart">♥</div>
+        <h2>It's a Partner Connection!</h2>
+        <p>You and <strong id="matched-partner-name">Partner</strong> have both connected with each other.</p>
+        
+        <div class="matched-avatars-row">
+          <div class="avatar-circle avatar-large" id="matched-my-avatar">ME</div>
+          <div class="match-heart-small">♥</div>
+          <div class="avatar-circle avatar-large" id="matched-their-avatar">PT</div>
+        </div>
+
+        <div class="match-actions">
+          <button class="btn btn-primary btn-block" id="start-matched-chat-btn">Open Chat & Plan Date</button>
+          <button class="btn btn-secondary btn-block" id="continue-browsing-btn">Keep Discovering</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-container" class="toast-container"></div>
+
+  </div>
+
+  <script src="v1-app.js"></script>
+</body>
+</html>
