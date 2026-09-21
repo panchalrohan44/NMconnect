@@ -516,7 +516,20 @@
       const btn = $('#profile-save');
       btn.disabled = true; setStatus('profile-status', 'Saving...');
       try {
-        const { error } = await supabaseClient.from('profiles').upsert(profile);
+        let { error } = await supabaseClient.from('profiles').upsert(profile);
+        if (error && /column .*bio.* does not exist|could not find the .*bio.* column/i.test(error.message)) {
+          const profileWithoutBio = { ...profile };
+          delete profileWithoutBio.bio;
+          const retry = await supabaseClient.from('profiles').upsert(profileWithoutBio);
+          error = retry.error
+            ? new Error(`${retry.error.message} The database is missing profiles.bio; run the bio migration in supabase-schema.sql.`)
+            : null;
+          if (!error) {
+            setStatus('profile-status', 'Profile saved. Add the bio column in Supabase to save your bio.', 'success');
+            setTimeout(goHome, 1200);
+            return;
+          }
+        }
         if (error) {
           setStatus('profile-status',
             /relation .*profiles.* does not exist/i.test(error.message)
