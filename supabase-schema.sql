@@ -16,6 +16,8 @@ create table if not exists public.profiles (
   religion text,
   mother_tongue text,
   social_handles jsonb not null default '{}'::jsonb,
+  is_bot boolean not null default false,
+  bot_batch text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -27,6 +29,9 @@ alter table public.profiles add column if not exists college text;
 alter table public.profiles add column if not exists clubs_fests text;
 alter table public.profiles add column if not exists bio text;
 alter table public.profiles add column if not exists interests text;
+alter table public.profiles add column if not exists is_bot boolean not null default false;
+alter table public.profiles add column if not exists bot_batch text;
+create index if not exists profiles_bot_batch_idx on public.profiles (bot_batch) where is_bot = true;
 
 -- OAuth (Google) support:
 -- 1) Enable Google in Supabase Dashboard → Authentication → Providers → Google.
