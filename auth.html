@@ -5,10 +5,12 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Login · SVKM Connect</title>
   <meta name="description" content="Sign in or create your SVKM Connect account." />
+  <link rel="icon" type="image/svg+xml" href="logo.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.cdnfonts.com/css/nefelibata-script" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://accounts.google.com/gsi/client" async id="gsi-client"></script>
   <style>
     :root{
       --bg:#fcf1f6;
@@ -83,7 +85,7 @@
     }
     form{display:grid;gap:14px}
     label{display:grid;gap:6px;font-size:13px;color:var(--muted);font-weight:500}
-    input,select{
+    input,select,textarea{
       width:100%;padding:12px 14px;
       border:1px solid var(--pink-soft);
       border-radius:10px;
@@ -91,7 +93,8 @@
       color:var(--ink);
       font:inherit;
     }
-    input:focus,select:focus{outline:2px solid var(--pink-soft);border-color:var(--accent-1);background:#fff}
+    textarea{resize:vertical;min-height:74px}
+    input:focus,select:focus,textarea:focus{outline:2px solid var(--pink-soft);border-color:var(--accent-1);background:#fff}
     .pw{position:relative}
     .pw input{padding-right:78px}
     .reveal{
@@ -122,6 +125,8 @@
       display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12px;margin:14px 0;
     }
     .divider:before,.divider:after{content:"";flex:1;height:1px;background:var(--pink-soft)}
+    .gsi-button{display:flex;justify-content:center;width:100%;margin-top:2px}
+    .gsi-button iframe{width:100%}
     .switch{
       width:100%;margin-top:14px;padding:4px;border:0;background:transparent;
       color:var(--blue-deep);cursor:pointer;font:600 13px var(--font-body);text-decoration:underline;
@@ -134,7 +139,11 @@
     .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .full{grid-column:1/-1}
     .note{font-size:11px;color:var(--muted);margin:2px 0 0}
-    @media (max-width:600px){.grid{grid-template-columns:1fr}.title{font-size:38px}}
+    .legal-links{display:flex;justify-content:center;gap:8px;margin-top:16px;font-size:13px;color:var(--muted)}
+    .legal-links a{color:var(--blue-deep);text-decoration:none;font-weight:600}
+    .legal-links a:hover{color:var(--pink-deep)}
+    @media (max-width:600px){.grid{grid-template-columns:1fr}.title{font-size:38px}.auth-card{padding:22px 16px}}
+    @media (max-width:420px){.title{font-size:32px}.tagline{font-size:16px}.view h2{font-size:28px}.auth-shell{padding:4px}}
   </style>
 </head>
 <body>
@@ -161,10 +170,7 @@
           <div class="status" id="signin-status" role="status" aria-live="polite"></div>
         </form>
         <div class="divider">or</div>
-        <button class="btn google" id="signin-google" type="button">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23.5 12.27c0-.79-.07-1.54-.2-2.27H12v4.51h6.45a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.68-4.74 3.68-8.33z"/><path fill="#34A853" d="M12 24c3.24 0 5.96-1.08 7.94-2.91l-3.57-2.77c-1.01.68-2.3 1.07-4.37 1.07-3.35 0-6.2-2.26-7.22-5.3H1.09v2.87A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M4.78 14.1a7.2 7.2 0 0 1 0-4.2V7.03H1.09a12 12 0 0 0 0 10.94l3.69-2.87z"/><path fill="#EA4335" d="M12 4.61c1.76 0 3.34.6 4.59 1.78l3.44-3.44A12 12 0 0 0 1.09 7.03l3.69 2.87C5.8 6.87 8.65 4.61 12 4.61z"/></svg>
-          Continue with Google
-        </button>
+        <div class="gsi-button" id="gsi-signin"></div>
         <button class="switch" id="to-signup" type="button">New here? Create account</button>
       </div>
 
@@ -192,52 +198,85 @@
           <div class="status" id="signup-status" role="status" aria-live="polite"></div>
         </form>
         <div class="divider">or</div>
-        <button class="btn google" id="signup-google" type="button">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23.5 12.27c0-.79-.07-1.54-.2-2.27H12v4.51h6.45a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.68-4.74 3.68-8.33z"/><path fill="#34A853" d="M12 24c3.24 0 5.96-1.08 7.94-2.91l-3.57-2.77c-1.01.68-2.3 1.07-4.37 1.07-3.35 0-6.2-2.26-7.22-5.3H1.09v2.87A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M4.78 14.1a7.2 7.2 0 0 1 0-4.2V7.03H1.09a12 12 0 0 0 0 10.94l3.69-2.87z"/><path fill="#EA4335" d="M12 4.61c1.76 0 3.34.6 4.59 1.78l3.44-3.44A12 12 0 0 0 1.09 7.03l3.69 2.87C5.8 6.87 8.65 4.61 12 4.61z"/></svg>
-          Sign up with Google
-        </button>
+        <div class="gsi-button" id="gsi-signup"></div>
         <button class="switch" id="to-signin" type="button">Already have an account? Sign in</button>
       </div>
 
       <!-- BUILD YOUR PROFILE (mandatory after account creation) -->
       <div class="view" id="view-profile" hidden>
         <h2>Build your profile</h2>
-        <p class="muted">One last step to finish creating your account.</p>
+        <p class="muted">This powers your matches — what you fill here shows up on your profile.</p>
         <form id="profile-form">
           <div class="grid">
+            <label class="full">Full name (shown on your profile)
+              <input id="pf-name" type="text" placeholder="e.g. Ananya Sharma" autocomplete="name" required />
+            </label>
             <label>Age
               <input id="pf-age" type="number" min="18" max="99" required />
+            </label>
+            <label>Gender
+              <select id="pf-gender" required>
+                <option value="">Choose gender</option>
+                <option>Man</option>
+                <option>Woman</option>
+                <option>Non-binary</option>
+                <option>Prefer not to say</option>
+              </select>
+            </label>
+            <label>College
+              <select id="pf-college" required>
+                <option value="">Choose your college</option>
+                <option value="mithibai">Mithibai College of Arts, Chauhan Institute of Science & Amrutben Jivanlal College</option>
+                <option value="nm-commerce">Narsee Monjee College of Commerce and Economics (NM)</option>
+                <option value="nmims">NMIMS (Deemed-to-be-University)</option>
+                <option value="upg">Usha Pravin Gandhi College (UPG)</option>
+                <option value="sbmp">Shri Bhagubhai Mafatlal Polytechnic (SBMP)</option>
+                <option value="djsce">Dwarkadas J. Sanghvi College of Engineering (DJSCE)</option>
+                <option value="jcl">Jitendra Chauhan College of Law (JCL)</option>
+              </select>
             </label>
             <label>Course
               <select id="pf-course" required>
                 <option value="">Choose course</option>
-                <option>BBA</option><option>B.Com</option><option>BMS</option><option>B.Sc</option>
-                <option>BAF</option><option>BBI</option><option>B.A.</option><option>B.Sc. IT</option>
+                <option value="bcom">B.Com</option>
+                <option value="baf">B.Com (Accounting & Finance)</option>
+                <option value="bbi">B.Com (Banking & Insurance)</option>
+                <option value="bba">BBA</option>
+                <option value="bms">BMS</option>
+                <option value="bsc">B.Sc</option>
+                <option value="bsc-it">B.Sc IT</option>
+                <option value="ba">B.A.</option>
+                <option value="bammc">B.A. Multimedia & Mass Communication</option>
+                <option value="btech-cse">B.Tech Computer Engineering</option>
+                <option value="llb">LL.B.</option>
               </select>
             </label>
             <label>Year
               <select id="pf-year" required>
                 <option value="">Choose year</option>
-                <option>FY</option><option>SY</option><option>TY</option><option>Postgraduate</option>
+                <option>FY (Freshman)</option>
+                <option>SY (Sophomore)</option>
+                <option>TY (Senior)</option>
+                <option>Postgraduate</option>
               </select>
             </label>
-            <label>Gender
-              <select id="pf-gender" required>
-                <option value="">Choose gender</option>
-                <option>Man</option><option>Woman</option><option>Non-binary</option><option>Prefer not to say</option>
-              </select>
+            <label>Most-loved hangout
+              <input id="pf-hangout" type="text" list="hangout-suggestions" placeholder="e.g. Canteen" required />
+            </label>
+            <label>Hobbies & interests
+              <input id="pf-hobbies" type="text" placeholder="e.g. Music, books, football" required />
+            </label>
+            <label class="full">Clubs, fests & events you're part of
+              <input id="pf-clubs" type="text" placeholder="e.g. Rotaract, Dance Society, Umang, Kshitij, Enactus (optional)" />
+            </label>
+            <label class="full">About you / bio
+              <textarea id="pf-bio" rows="3" placeholder="A short intro — classes, societies, or what you're looking for (optional)"></textarea>
             </label>
             <label>Religion
               <input id="pf-religion" type="text" placeholder="Optional" />
             </label>
             <label>Mother tongue
               <input id="pf-mother-tongue" type="text" placeholder="e.g. Marathi" required />
-            </label>
-            <label>Favourite hangout
-              <input id="pf-hangout" type="text" placeholder="e.g. Canteen, library" required />
-            </label>
-            <label>Hobbies
-              <input id="pf-hobbies" type="text" placeholder="Music, books, football..." required />
             </label>
             <label>Instagram
               <input id="pf-instagram" type="text" placeholder="@yourhandle" />
@@ -249,19 +288,42 @@
               <input id="pf-other-social" type="text" placeholder="Discord, X, LinkedIn..." />
             </label>
           </div>
+          <datalist id="hangout-suggestions">
+            <option value="Canteen"></option>
+            <option value="Library"></option>
+            <option value="Juhu Beach"></option>
+            <option value="Study Hall"></option>
+            <option value="Sports Complex"></option>
+            <option value="Student Plaza"></option>
+            <option value="Auditorium"></option>
+          </datalist>
           <button class="btn primary" id="profile-save" type="submit">Save profile</button>
           <div class="status" id="profile-status" role="status" aria-live="polite"></div>
         </form>
       </div>
     </div>
+    <div class="legal-links">
+      <a href="privacy.html">Privacy Policy</a>
+      <span>·</span>
+      <a href="terms.html">Terms &amp; Conditions</a>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    /* Add your Supabase project values here. */
+    /* Add your Supabase project values here. Supabase Auth stores password hashes; this page never reads passwords. */
     const SUPABASE_URL = 'https://sjwoyiwrvtrcezmgzosg.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_s4dBdf87iuX7I0I0kNRQRg_5PI2rGN-';
-    const supabase = window.supabase && !SUPABASE_URL.includes('YOUR-')
+
+    /* Google OAuth "Web application" client ID. Must also be enabled in
+       Supabase Dashboard → Authentication → Providers → Google with its client secret;
+       and this site's origin must be in the client's Authorized JavaScript origins. */
+    const GOOGLE_CLIENT_ID = '650627100892-686a2c1hf735djqj6i6l0fkl5eulvu6c.apps.googleusercontent.com';
+
+    /* IMPORTANT: do NOT name this variable `supabase`. The @supabase/supabase-js CDN already declares
+       a global `var supabase`, so re-declaring it as `const supabase` here throws
+       "Identifier 'supabase' has already been declared" and disables the whole script. */
+    const supabaseClient = window.supabase && !SUPABASE_URL.includes('YOUR-')
       ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
       : null;
 
@@ -269,10 +331,9 @@
     const $$ = s => [...document.querySelectorAll(s)];
     let currentUser = null;
 
-    const REDIRECT = location.origin + location.pathname;
-
     function setStatus(id, message, type = '') {
-      const el = $(id);
+      const el = $('#' + id);
+      if (!el) return;
       el.className = `status ${type}`;
       el.textContent = message;
     }
@@ -295,8 +356,8 @@
     $('#to-signin').addEventListener('click', () => { showView('signin'); setStatus('signin-status', ''); });
 
     async function hasProfile(userId) {
-      if (!supabase) return false;
-      const { data } = await supabase.from('profiles').select('id').eq('id', userId).maybeSingle();
+      if (!supabaseClient) return false;
+      const { data } = await supabaseClient.from('profiles').select('id').eq('id', userId).maybeSingle();
       return !!data;
     }
     function goHome() { location.href = './index.html'; }
@@ -312,55 +373,117 @@
     /* Sign in with email + password */
     $('#signin-form').addEventListener('submit', async e => {
       e.preventDefault();
-      if (!supabase) { setStatus('signin-status', 'Supabase is not configured yet.', 'error'); return; }
+      if (!supabaseClient) { setStatus('signin-status', 'Supabase is not configured yet.', 'error'); return; }
       const email = $('#signin-email').value.trim().toLowerCase();
       const password = $('#signin-password').value;
       const btn = $('#signin-submit');
       btn.disabled = true; setStatus('signin-status', 'Signing in...');
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-      btn.disabled = false;
-      if (error) { setStatus('signin-status', error.message, 'error'); return; }
-      handleActive(data.user);
+      try {
+        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+        if (error) { setStatus('signin-status', error.message, 'error'); return; }
+        await handleActive(data.user);
+      } catch (err) {
+        setStatus('signin-status', err.message || 'Sign-in failed. Check your internet connection.', 'error');
+      } finally {
+        btn.disabled = false;
+      }
     });
 
     /* Create account with Gmail + password + confirm password */
     $('#signup-form').addEventListener('submit', async e => {
       e.preventDefault();
-      if (!supabase) { setStatus('signup-status', 'Supabase is not configured yet.', 'error'); return; }
+      if (!supabaseClient) { setStatus('signup-status', 'Supabase is not configured yet.', 'error'); return; }
       const email = $('#signup-email').value.trim().toLowerCase();
       const password = $('#signup-password').value;
       const confirm = $('#signup-confirm').value;
+      const btn = $('#signup-submit');
       if (password.length < 8) { setStatus('signup-status', 'Password must be at least 8 characters.', 'error'); return; }
       if (password !== confirm) { setStatus('signup-status', 'Passwords do not match.', 'error'); return; }
-      const btn = $('#signup-submit');
       btn.disabled = true; setStatus('signup-status', 'Creating account...');
-      /* Supabase records the email and password. The email is also kept as the profile login id. */
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: { data: { login_id: email } }
-      });
-      btn.disabled = false;
-      if (error) { setStatus('signup-status', error.message, 'error'); return; }
-      if (!data.session) {
-        setStatus('signup-status', 'Account created. Check your gmail to confirm, then sign in.', 'success');
-        return;
+      try {
+        /* Supabase records the email and password. The email is also kept as the profile login id. */
+        const { data, error } = await supabaseClient.auth.signUp({
+          email,
+          password,
+          options: { data: { login_id: email } }
+        });
+        if (error) { setStatus('signup-status', error.message, 'error'); return; }
+        if (!data.session) {
+          setStatus('signup-status', 'Account created. Check your gmail to confirm, then sign in.', 'success');
+          return;
+        }
+        await handleActive(data.user);
+      } catch (err) {
+        setStatus('signup-status', err.message || 'Sign-up failed. Check your internet connection.', 'error');
+      } finally {
+        btn.disabled = false;
       }
-      handleActive(data.user);
     });
 
-    /* Sign up / sign in with Google, skipping the email + password steps */
-    function googleAuth(statusId) {
-      if (!supabase) { setStatus(statusId, 'Supabase is not configured yet.', 'error'); return; }
-      setStatus(statusId, 'Redirecting to Google...');
-      /* Enable Google as a provider in Supabase Dashboard → Authentication → Providers → Google,
-         and add this page's URL to Authentication → URL Configuration → Redirect URLs. */
-      supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: REDIRECT } })
-        .then(({ error }) => { if (error) setStatus(statusId, error.message, 'error'); })
-        .catch(err => setStatus(statusId, err.message, 'error'));
+    /* Google sign in — Google Identity Services sends the ID token straight to Supabase (no redirect). */
+    function handleGoogleCredential(credential, statusId) {
+      if (!supabaseClient) { setStatus(statusId, 'Supabase is not configured yet.', 'error'); return; }
+      setStatus(statusId, 'Signing in with Google...');
+      supabaseClient.auth.signInWithIdToken({ provider: 'google', token: credential })
+        .then(async ({ data, error }) => {
+          if (error) {
+            setStatus(statusId, error.message + ' Also enable Google in Supabase → Authentication → Providers → Google and register this client ID.', 'error');
+            return;
+          }
+          await handleActive(data.user);
+        })
+        .catch(err => setStatus(statusId, err.message || 'Google sign-in failed.', 'error'));
     }
-    $('#signin-google').addEventListener('click', () => googleAuth('signin-status'));
-    $('#signup-google').addEventListener('click', () => googleAuth('signup-status'));
+
+    function renderGoogleButton(containerId, statusId) {
+      const el = document.getElementById(containerId);
+      if (!el || el.childElementCount) return;
+      const fallback = msg => {
+        el.innerHTML = '<button class="btn google" type="button">Continue with Google</button>';
+        el.querySelector('button').addEventListener('click', () => setStatus(statusId, msg, 'error'));
+      };
+      if (!GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID.startsWith('PASTE_')) {
+        fallback('Google sign-in is not configured yet. Add your Google Web client ID.');
+        return;
+      }
+      if (!window.google || !window.google.accounts) {
+        fallback('Google sign-in script could not load. Check your internet connection and try again.');
+        return;
+      }
+      try {
+        window.google.accounts.id.initialize({
+          client_id: GOOGLE_CLIENT_ID,
+          callback: resp => handleGoogleCredential(resp.credential, statusId),
+          auto_select: false
+        });
+        window.google.accounts.id.renderButton(el, {
+          type: 'standard', theme: 'outline', text: 'continue_with', shape: 'pill',
+          size: 'large', width: Math.min(380, Math.max(260, window.innerWidth - 88))
+        });
+      } catch (err) {
+        fallback('Google sign-in could not start: ' + (err.message || 'invalid client ID.'));
+      }
+    }
+
+    function initGoogleButtons() {
+      renderGoogleButton('gsi-signin', 'signin-status');
+      renderGoogleButton('gsi-signup', 'signup-status');
+    }
+    const gsiScript = document.querySelector('#gsi-client');
+    if (window.google && window.google.accounts) { initGoogleButtons(); }
+    else {
+      let ggTries = 0;
+      const waitGoogle = () => {
+        if (window.google && window.google.accounts) { initGoogleButtons(); return; }
+        if (++ggTries < 15) { setTimeout(waitGoogle, 250); }
+        else { initGoogleButtons(); } // GSI unavailable: still show a helpful button
+      };
+      if (gsiScript) {
+        gsiScript.addEventListener('load', waitGoogle);
+        gsiScript.addEventListener('error', waitGoogle);
+      }
+      setTimeout(waitGoogle, 250);
+    }
 
     /* Save the mandatory profile, then return to the main page */
     $('#profile-form').addEventListener('submit', async e => {
@@ -370,12 +493,17 @@
         id: currentUser.id,
         login_id: currentUser.email || currentUser.id,
         email: currentUser.email || null,
+        display_name: $('#pf-name').value.trim(),
         age: Number($('#pf-age').value),
-        hobbies: $('#pf-hobbies').value.trim(),
+        gender: $('#pf-gender').value,
+        college: $('#pf-college').value,
         course: $('#pf-course').value,
         year: $('#pf-year').value,
-        gender: $('#pf-gender').value,
         favourite_hangout: $('#pf-hangout').value.trim(),
+        hobbies: $('#pf-hobbies').value.trim(),
+        interests: $('#pf-hobbies').value.trim(),
+        clubs_fests: $('#pf-clubs').value.trim(),
+        bio: $('#pf-bio').value.trim(),
         religion: $('#pf-religion').value.trim(),
         mother_tongue: $('#pf-mother-tongue').value.trim(),
         social_handles: {
@@ -387,25 +515,30 @@
       };
       const btn = $('#profile-save');
       btn.disabled = true; setStatus('profile-status', 'Saving...');
-      const { error } = await supabase.from('profiles').upsert(profile);
-      btn.disabled = false;
-      if (error) {
-        setStatus('profile-status',
-          /relation .*profiles.* does not exist/i.test(error.message)
-            ? 'Create the profiles table using the supplied supabase-schema.sql file, then save again.'
-            : error.message, 'error');
-        return;
+      try {
+        const { error } = await supabaseClient.from('profiles').upsert(profile);
+        if (error) {
+          setStatus('profile-status',
+            /relation .*profiles.* does not exist/i.test(error.message)
+              ? 'Create the profiles table using the supplied supabase-schema.sql file, then save again.'
+              : error.message, 'error');
+          return;
+        }
+        setStatus('profile-status', 'Profile saved. Welcome!', 'success');
+        setTimeout(goHome, 700);
+      } catch (err) {
+        setStatus('profile-status', err.message || 'Could not save your profile.', 'error');
+      } finally {
+        btn.disabled = false;
       }
-      setStatus('profile-status', 'Profile saved. Welcome!', 'success');
-      setTimeout(goHome, 700);
     });
 
     /* Restore the session (handles the return from Google) */
-    if (supabase) {
-      supabase.auth.getSession().then(({ data: { session } }) => {
+    if (supabaseClient) {
+      supabaseClient.auth.getSession().then(({ data: { session } }) => {
         if (session?.user) handleActive(session.user);
       });
-      supabase.auth.onAuthStateChange((_event, session) => {
+      supabaseClient.auth.onAuthStateChange((_event, session) => {
         if (_event === 'SIGNED_IN' && session?.user) handleActive(session.user);
       });
     }

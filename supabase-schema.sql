@@ -3,10 +3,15 @@ create table if not exists public.profiles (
   login_id text unique not null,
   email text,
   age integer check (age >= 18 and age <= 99),
+  display_name text,
   hobbies text,
+  interests text,
   course text,
   year text,
   gender text,
+  college text,
+  clubs_fests text,
+  bio text,
   favourite_hangout text,
   religion text,
   mother_tongue text,
@@ -17,6 +22,11 @@ create table if not exists public.profiles (
 
 -- Columns added after the original schema was published
 alter table public.profiles add column if not exists email text;
+alter table public.profiles add column if not exists display_name text;
+alter table public.profiles add column if not exists college text;
+alter table public.profiles add column if not exists clubs_fests text;
+alter table public.profiles add column if not exists bio text;
+alter table public.profiles add column if not exists interests text;
 
 -- OAuth (Google) support:
 -- 1) Enable Google in Supabase Dashboard → Authentication → Providers → Google.
@@ -70,8 +80,7 @@ create policy "Users can update their own connection requests"
   using (auth.uid() = requester_id or auth.uid() = recipient_id)
   with check (auth.uid() = requester_id or auth.uid() = recipient_id);
 
--- SVKM Connect intentionally has no timetable or club/society data model.
-alter table public.profiles drop column if exists clubs_committees_fests;
-alter table public.profiles drop column if exists committee_position;
+-- Clubs, fests and events are stored as a plain-text list on profiles ("clubs_fests"),
+-- and a profile's timetable is not modelled separately, so the legacy data model is removed.
 drop table if exists public.timetable_slots cascade;
 drop table if exists public.society_preferences cascade;

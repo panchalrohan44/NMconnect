@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>SVKM Connect — Campus Community</title>
   <meta name="description" content="SVKM Connect — a verified campus community for students." />
+  <link rel="icon" type="image/svg+xml" href="logo.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.cdnfonts.com/css/nefelibata-script" rel="stylesheet" />
@@ -86,6 +87,7 @@
     .brand h1{font-family:var(--font-cursive);font-size:36px;margin:0;color:var(--pink-deep);line-height:.95}
     .brand-link{color:inherit;text-decoration:none}
     .brand-tag{font-family:var(--font-script);font-size:17px;color:var(--muted)}
+    .nav-toggle{display:none}
     h1,h2,h3,h4,.pill,.eyebrow{font-family:var(--font-cursive)}
     h2{font-size:36px;color:var(--pink-deep);margin:0;font-weight:400}
     h3,h4{font-family:var(--font-script);font-size:21px;color:var(--pink-deep);margin:0;font-weight:600}
@@ -276,12 +278,78 @@
     /* responsive */
     @media (max-width:1000px){
       .hero{grid-template-columns:1fr;gap:18px;height:auto}
+      .hero-left{height:auto}
+      .hero-right{height:250px}
       .features{grid-template-columns:1fr;overflow:auto}
       .bonus{grid-template-columns:1fr}
       .mega{min-width:360px;grid-template-columns:repeat(1,1fr)}
       .match-grid{grid-template-columns:repeat(2,1fr)}
     }
-    @media (max-width:600px){.match-grid{grid-template-columns:1fr}.matches-head{display:block}.quick{padding:10px}.filter-dropdown{flex:0 0 150px}.lets{flex:0 0 auto}}
+    @media (max-width:880px){
+      body{padding:16px}
+      header{flex-wrap:wrap;gap:10px}
+      .brand{flex:1 1 auto;min-width:0}
+      .brand h1{font-size:27px;line-height:1.05}
+      .logo{width:42px;height:42px;font-size:15px}
+      .nav-toggle{
+        display:inline-grid;place-items:center;width:44px;height:44px;border-radius:12px;
+        background:var(--card);border:1px solid var(--pink-soft);color:var(--pink-deep);
+        cursor:pointer;padding:0;box-shadow:var(--shadow);flex:0 0 auto;
+      }
+      .nav-toggle span{display:block;width:20px;height:2px;background:currentColor;border-radius:2px;margin:3px auto;transition:transform .22s var(--ease),opacity .22s var(--ease)}
+      .nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(5px) rotate(45deg)}
+      .nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+      .nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-5px) rotate(-45deg)}
+      nav{
+        order:3;flex:1 1 100%;display:none;flex-direction:column;gap:6px;
+        background:var(--card);border:1px solid var(--pink-soft);border-radius:14px;padding:10px;
+        box-shadow:var(--shadow);max-height:calc(100vh - 100px);overflow-y:auto;
+      }
+      nav.open{display:flex}
+      .nav-item{width:100%}
+      .nav-button{
+        width:100%;text-align:left;justify-content:space-between;gap:10px;
+        background:var(--bg);border-radius:12px;font-size:15px;
+        padding:12px 14px;border:1px solid transparent;
+      }
+      .nav-button:after{content:"+";font-size:18px;line-height:1;color:var(--muted);transition:transform .22s var(--ease)}
+      .nav-item[aria-expanded="true"] .nav-button{background:var(--card);color:var(--pink-deep);border-color:var(--pink-deep)}
+      .nav-item[aria-expanded="true"] .nav-button:after{transform:rotate(45deg);color:var(--pink-deep)}
+      .mega{
+        position:static;transform:none;opacity:1;pointer-events:auto;display:none;
+        min-width:0;width:100%;grid-template-columns:1fr;margin-top:8px;padding:14px;
+        box-shadow:none;border-radius:12px;background:var(--bg);
+      }
+      .nav-item[aria-expanded="true"] .mega{display:grid}
+      .mega a{padding:9px 10px;font-size:14px}
+      .session-chip{max-width:120px}
+      .actions .btn{padding:8px 12px;font-size:12px}
+    }
+    @media (max-width:640px){
+      .actions .btn:not(.primary){display:none}
+      .stats{gap:8px}
+      .stat{flex:1 1 0;min-width:0;padding:8px 10px}
+      .stat strong{font-size:16px}
+    }
+    @media (max-width:600px){
+      .match-grid{grid-template-columns:1fr}
+      .matches-head{display:block}
+      .quick{flex-wrap:wrap;height:auto;gap:8px;padding:10px}
+      .select.filter-dropdown{flex:1 1 100%;width:100%;min-width:0;max-width:none}
+      .filter-dropdown[data-filter] .filter-menu{width:100%;min-width:0}
+      .lets{flex:1 1 100%;width:100%;margin-left:0}
+      .story{min-width:min(320px,82vw)}
+      .stats{flex-wrap:wrap}
+    }
+    @media (max-width:480px){
+      body{padding:12px}
+      .brand h1{font-size:24px}
+      .brand-tag{display:none}
+      .headline{font-size:clamp(28px,9vw,34px)}
+      .footer-grid{justify-content:center}
+      .sitemap{justify-content:center}
+      .sitemap a{font-size:13px}
+    }
     @media (prefers-reduced-motion:reduce){
       .pulse, .dot, .lets, .card,body:before,body:after,.hero-left,.hero-right,.features,.carousel,.bonus,footer{animation:none;transition:none}
     }
@@ -297,7 +365,7 @@
           <div class="brand-tag">Campus connections</div>
         </div>
       </a>
-      <nav aria-label="Main navigation">
+      <nav id="main-nav" aria-label="Main navigation">
         <div class="nav-item" aria-expanded="false">
           <button class="nav-button" aria-haspopup="true" aria-controls="mega-courses">Browse</button>
           <div class="mega" id="mega-courses" role="menu" aria-hidden="true">
@@ -373,6 +441,10 @@
         <span class="session-chip" id="session-chip" hidden></span>
         <button class="btn primary" id="auth-button">Login</button>
       </div>
+
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav">
+        <span></span><span></span><span></span>
+      </button>
     </header>
 
     <!-- HERO -->
@@ -609,10 +681,10 @@
 
           <nav class="sitemap" aria-label="Sitemap">
             <a href="#">About Us</a>
-            <a href="#">Privacy Policy</a>
+            <a href="privacy.html">Privacy Policy</a>
             <a href="#">Report Misuse</a>
             <a href="#">Safety Center</a>
-            <a href="#">Terms</a>
+            <a href="terms.html">Terms</a>
           </nav>
 
           <div class="app-badges" aria-hidden="true">
@@ -784,6 +856,16 @@
     }
 
     // Mega menu a11y: toggle aria-expanded on click
+    const navToggle = $('#nav-toggle');
+    const mainNav = $('#main-nav');
+    function closeNavPanel(){
+      mainNav.classList.remove('open');
+      navToggle.setAttribute('aria-expanded','false');
+    }
+    navToggle.addEventListener('click', ()=>{
+      const open = mainNav.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', String(open));
+    });
     $$('.nav-item').forEach(item=>{
       const btn = item.querySelector('.nav-button');
       btn.addEventListener('click', e=>{
@@ -798,6 +880,7 @@
       const filter = link.dataset.filter || link.textContent.trim();
       $('#ping-feedback').textContent = `Showing campus options for ${filter}.`;
       link.closest('.nav-item').setAttribute('aria-expanded','false');
+      closeNavPanel();
     }));
     $$('.filter-dropdown').forEach(dropdown=>{
       const toggle = dropdown.querySelector('.filter-button');
@@ -836,12 +919,14 @@
     document.addEventListener('click', e=>{
       if(!e.target.closest('.nav-item')) $$('.nav-item').forEach(i=>{i.setAttribute('aria-expanded','false'); i.querySelector('.mega')?.setAttribute('aria-hidden','true');});
       if(!e.target.closest('.filter-dropdown')) closeFilterMenus();
+      if(!e.target.closest('nav') && !e.target.closest('#nav-toggle')) closeNavPanel();
     });
 
     const normalizeProfile = profile => ({...profile, display_name:profile.display_name || profile.full_name || profile.login_id || 'SVKM student', hobbies:profile.hobbies || '', favourite_hangout:profile.favourite_hangout || 'Campus'});
     function renderMatches(profiles, criteria){
       const grid = $('#match-grid');
-      grid.innerHTML = profiles.length ? profiles.map((raw,index)=>{ const profile=normalizeProfile(raw); const initials=profile.display_name.split(/\s+/).map(part=>part[0]).join('').slice(0,2).toUpperCase(); return `<article class="match-card"><div class="match-card-top"><div class="match-avatar">${initials}</div><div><h3>${profile.display_name}</h3><p>${profile.course || 'Student'} · ${profile.year || 'Student'} · ${profile.age ? profile.age+' yrs' : 'Campus'}</p></div></div><div class="match-tags"><span class="match-tag">${profile.favourite_hangout}</span><span class="match-tag">${profile.gender || 'Open-minded'}</span></div><p>${profile.hobbies || 'Looking for good campus energy.'}</p><button class="match-connect" data-match-id="${profile.id}" data-match-name="${profile.display_name}" type="button">Connect</button></article>`; }).join('') : '<p>No profiles match these criteria yet.</p>';
+      const collegeName = label => collegeLabels[label] || label || '';
+      grid.innerHTML = profiles.length ? profiles.map((raw,index)=>{ const profile=normalizeProfile(raw); const initials=profile.display_name.split(/\s+/).map(part=>part[0]).join('').slice(0,2).toUpperCase(); const clubs=profile.clubs_fests?.split(',').map(s=>s.trim()).filter(Boolean).slice(0,3).join(' · '); return `<article class="match-card"><div class="match-card-top"><div class="match-avatar">${initials}</div><div><h3>${profile.display_name}</h3><p>${[profile.course || 'Student', profile.year, collegeName(profile.college), profile.age ? profile.age+' yrs' : ''].filter(Boolean).join(' · ')}</p></div></div><div class="match-tags"><span class="match-tag">${profile.favourite_hangout}</span><span class="match-tag">${profile.gender || 'Open-minded'}</span>${clubs ? `<span class="match-tag">${clubs}</span>` : ''}</div><p>${profile.hobbies || profile.bio || 'Looking for good campus energy.'}</p><button class="match-connect" data-match-id="${profile.id}" data-match-name="${profile.display_name}" type="button">Connect</button></article>`; }).join('') : '<p>No profiles match these criteria yet.</p>';
       $('#matches-summary').textContent = `${profiles.length} student${profiles.length === 1 ? '' : 's'} found for ${criteria.college === 'all' ? 'all colleges' : (collegeLabels[criteria.college] || criteria.college)} · ${criteria.course ? criteria.course.toUpperCase() : 'all courses'} · ${criteria.year ? criteria.year.toUpperCase() : 'all years'}.`;
       $('#matches-section').classList.add('visible');
       $('#matches-section').scrollIntoView({behavior:'smooth',block:'start'});
@@ -863,11 +948,19 @@
       if(result.error){ stage.classList.remove('open'); stage.setAttribute('aria-hidden','true'); $('#matches-summary').textContent=`Backend error: ${result.error.message}`; $('#matches-section').classList.add('visible'); return; }
       const profiles=result.data || [];
       const compact = value => String(value || '').toLowerCase().replace(/[^a-z0-9]/g,'');
+      const yearKey = y => { const n = compact(y); return (n === 'postgraduate' || n.startsWith('postgrad')) ? 'pg' : n; };
+      const genderKey = g => {
+        const n = String(g || '').toLowerCase().replace(/[^a-z]/g,'');
+        if(n.startsWith('man') || n === 'male') return 'man';
+        if(n.startsWith('woman') || n === 'female') return 'woman';
+        if(n.includes('nonbinary') || n === 'nb') return 'nonbinary';
+        return 'any';
+      };
       const filtered=profiles.filter(profile=>{
         const collegeMatch=criteria.college==='all' || !criteria.college || !profile.college || compact(profile.college)===compact(criteria.college) || compact(profile.college).includes(compact(criteria.college));
         const courseMatch=!criteria.course || compact(profile.course)===compact(criteria.course) || compact(profile.course).includes(compact(criteria.course));
-        const yearMatch=!criteria.year || compact(profile.year)===compact(criteria.year);
-        const genderMatch=criteria.gender==='everyone' || !criteria.gender || profile.gender?.toLowerCase()===criteria.gender.toLowerCase();
+        const yearMatch=!criteria.year || yearKey(profile.year)===yearKey(criteria.year);
+        const genderMatch=criteria.gender==='everyone' || !criteria.gender || (criteria.gender==='any' ? genderKey(profile.gender)==='any' : genderKey(profile.gender)===criteria.gender);
         return collegeMatch && courseMatch && yearMatch && genderMatch;
       });
       stage.classList.remove('open'); stage.setAttribute('aria-hidden','true'); renderMatches(filtered,criteria);
@@ -936,7 +1029,7 @@
 
     // small accessibility helpers: keyboard close for mega menu
     document.addEventListener('keydown', e=>{
-      if(e.key === 'Escape') $$('.nav-item').forEach(i=>{i.setAttribute('aria-expanded','false'); i.querySelector('.mega')?.setAttribute('aria-hidden','true');});
+      if(e.key === 'Escape'){ $$('.nav-item').forEach(i=>{i.setAttribute('aria-expanded','false'); i.querySelector('.mega')?.setAttribute('aria-hidden','true');}); closeNavPanel(); }
     });
 
     // IntersectionObserver to reveal on scroll (cards)
