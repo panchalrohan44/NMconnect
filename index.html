@@ -84,13 +84,13 @@
       border:2px solid var(--pink-soft);
     }
     .logo img{width:100%;height:100%;object-fit:contain;border-radius:50%}
-    .brand h1{font-family:var(--font-cursive);font-size:36px;margin:0;color:var(--pink-deep);line-height:.95}
+    .brand h1{font-family:var(--font-cursive);font-size:36px;margin:0;color:var(--blue-deep);line-height:.95}
     .brand-link{color:inherit;text-decoration:none}
     .brand-tag{font-family:var(--font-script);font-size:17px;color:var(--muted)}
     .nav-toggle{display:none}
     h1,h2,h3,h4,.pill,.eyebrow{font-family:var(--font-cursive)}
-    h2{font-size:36px;color:var(--pink-deep);margin:0;font-weight:400}
-    h3,h4{font-family:var(--font-script);font-size:21px;color:var(--pink-deep);margin:0;font-weight:600}
+    h2{font-size:36px;color:var(--blue-deep);margin:0;font-weight:400}
+    h3,h4{font-family:var(--font-script);font-size:21px;color:var(--blue-deep);margin:0;font-weight:600}
     nav{display:flex;gap:8px;align-items:center}
     /* mega menu base */
     .nav-item{position:relative;}
@@ -128,12 +128,17 @@
       background:var(--accent-1);
       color:#fff;font-weight:700;border:0;box-shadow:0 8px 22px rgba(233,151,186,.35);
     }
+    .btn.login-button{background:var(--blue-deep);color:#fff;border-color:var(--blue-deep)}
+    .btn.login-button:hover{background:#3f618d;color:#fff;border-color:#3f618d}
+    .btn.signup-button{background:var(--accent-1);color:#fff;border-color:var(--accent-1)}
+    .btn.signup-button:hover{background:var(--pink-deep);color:#fff;border-color:var(--pink-deep)}
+    a.btn{text-decoration:none}
     .btn.primary:hover{background:var(--pink-deep);color:#fff;border-color:var(--pink-deep)}
     .btn:hover,.nav-button:hover{color:var(--pink-deep);border-color:var(--pink-deep);transform:translateY(-2px)}
     .btn:hover{background:var(--bg)}
     .btn,.nav-button{transition:transform .22s var(--ease),color .22s var(--ease),border-color .22s var(--ease),background .22s var(--ease)}
-    .hero-left,.hero-right,.features,.carousel,.bonus,footer{animation:pageRise .7s var(--ease) both}
-    .hero-right{animation-delay:.1s}.features{animation-delay:.18s}.carousel{animation-delay:.3s}.bonus{animation-delay:.36s}footer{animation-delay:.42s}
+    .hero-left,.hero-right,.dating-flow,footer{animation:pageRise .7s var(--ease) both}
+    .hero-right{animation-delay:.1s}.dating-flow{animation-delay:.3s}footer{animation-delay:.5s}
     @keyframes pageRise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
     .reveal-item{opacity:0;transform:translateY(12px);transition:opacity .65s var(--ease),transform .65s var(--ease)}
     .matches-section{display:none;margin:0 0 28px;padding:22px;border:1px solid var(--pink-soft);border-radius:var(--radius);background:var(--card);box-shadow:var(--shadow);animation:pageRise .7s var(--ease) both}.matches-section.visible{display:block}.matches-head{display:flex;justify-content:space-between;align-items:end;gap:14px;margin-bottom:16px}.matches-head p{margin:4px 0 0;color:var(--muted)}.match-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.match-card{padding:16px;border-radius:14px;background:var(--card);border:1px solid var(--pink-soft);transition:transform .25s var(--ease),border-color .25s var(--ease)}.match-card:hover{transform:translateY(-5px);border-color:var(--pink-deep)}.match-avatar{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:var(--accent-1);color:#fff;font-family:var(--font-script);font-weight:700;font-size:18px}.match-card:nth-child(even) .match-avatar{background:var(--accent-2)}.match-card-top{display:flex;gap:10px;align-items:center}.match-card h3{font-size:19px;margin:0}.bot-badge{display:inline-block;margin-left:5px;padding:2px 6px;border-radius:999px;background:var(--blue-light);color:var(--blue-deep);font:600 10px var(--font-body);vertical-align:middle}.match-card p{color:var(--muted);font-size:12px;margin:3px 0 0}.match-tags{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}.match-tag{padding:5px 9px;border-radius:999px;background:var(--bg);color:var(--blue-deep);font-size:11px}.match-connect{width:100%;padding:9px;border:1px solid var(--pink-soft);border-radius:999px;background:var(--card);color:var(--pink-deep);cursor:pointer;font-weight:600}.match-connect.connected{background:var(--pink-soft);color:#fff;border-color:var(--pink-soft)}.love-stage{position:fixed;inset:0;z-index:70;display:grid;place-items:center;background:var(--bg);opacity:0;pointer-events:none;transition:opacity .35s ease}.love-stage.open{opacity:1;pointer-events:auto}.love-stage-content{text-align:center}.love-stage h2{font-size:clamp(34px,6vw,58px);margin:0}.love-stage p{color:var(--muted)}.love-burst{font-size:60px;color:var(--accent-1);animation:loveBeat 1s ease-in-out infinite}.love-particle{position:absolute;color:var(--accent-1);font-size:24px;animation:loveFloat 2.8s ease-out forwards}.love-particle:nth-child(1){left:18%;top:72%}.love-particle:nth-child(2){left:78%;top:64%;animation-delay:.2s}.love-particle:nth-child(3){left:32%;top:22%;animation-delay:.4s}.love-particle:nth-child(4){left:66%;top:28%;animation-delay:.6s}@keyframes loveBeat{50%{transform:scale(1.18)}}@keyframes loveFloat{to{transform:translateY(-170px) scale(1.35);opacity:0}}
@@ -150,7 +155,7 @@
       display:flex;flex-direction:column;justify-content:center;
     }
     .eyebrow{color:var(--blue-deep);font-size:22px;margin-bottom:4px;font-weight:500}
-    .headline{font-size:clamp(34px,4vw,48px);line-height:1.05;margin:0 0 8px 0;color:var(--pink-deep);font-weight:400}
+    .headline{font-size:clamp(34px,4vw,48px);line-height:1.05;margin:0 0 8px 0;color:var(--blue-deep);font-weight:400}
     .sub{color:var(--muted);margin-bottom:12px}
 
     /* quick widget */
@@ -208,7 +213,7 @@
 
     .stats{display:flex;gap:12px;margin-top:16px;align-items:center}
     .stat{background:var(--bg);padding:10px 14px;border-radius:12px;color:var(--muted);display:flex;flex-direction:column;gap:4px;border:1px solid var(--pink-soft)}
-    .stat strong{font-size:19px;color:var(--pink-deep)}
+    .stat strong{font-size:19px;color:var(--blue-deep)}
 
     /* hero-right (illustration / live feed) */
     .hero-right{
@@ -220,51 +225,28 @@
       color:#fff;
     }
     .live-card{width:100%;height:100%;display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:center}
-    .live-avatars{display:flex;gap:8px;align-items:center}
+    .live-intro{margin:0;color:var(--muted);font-size:12px;text-align:center}
+    .live-matches{display:grid;gap:8px;width:100%;max-height:210px;overflow:auto;padding:2px}
+    .live-profile{display:flex;align-items:center;gap:9px;padding:8px;border-radius:12px;background:rgba(255,255,255,.78);color:var(--ink)}
+    .live-profile-avatar{width:34px;height:34px;flex:0 0 34px;border-radius:50%;display:grid;place-items:center;background:var(--blue-light);color:var(--blue-deep);font-size:12px;font-weight:700}
+    .live-profile-info{min-width:0;flex:1}
+    .live-profile-info strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px}
+    .live-profile-info span{display:block;color:var(--muted);font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .live-ping{padding:6px 9px;border:1px solid var(--blue-light);border-radius:999px;background:#fff;color:var(--blue-deep);cursor:pointer;font:600 10px var(--font-body)}
+    .live-ping.pinged{background:var(--blue-deep);color:#fff}
+    .live-empty{margin:0;color:var(--muted);font-size:12px;text-align:center}
     .avatar{width:42px;height:42px;border-radius:50%;background:#fff;color:var(--blue-deep);display:grid;place-items:center;font-weight:700;border:2px solid rgba(255,255,255,.6)}
     .avatar:nth-child(2n){background:var(--pink-soft);color:#fff}
-    .processing{
-      display:flex;gap:10px;align-items:center;color:#fff;font-size:14px;
-    }
+    .dating-flow{margin-bottom:28px;padding:28px 30px;border-radius:var(--radius);background:linear-gradient(135deg,#fff,#eef6ff);border:1px solid var(--blue-light);box-shadow:var(--shadow)}
+    .dating-flow h2{font-family:var(--font-cursive);font-size:34px;margin:0 0 10px}
+    .dating-flow h3{font-size:25px;margin:24px 0 6px}
+    .dating-flow p{color:var(--muted);font-size:14px;max-width:760px}
+    .dating-flow blockquote{margin:22px 0;padding-left:14px;border-left:3px solid var(--blue-light);color:var(--blue-deep);font-family:var(--font-script);font-size:22px}
     .dot{width:8px;height:8px;border-radius:50%;background:#fff;opacity:.2;animation:blink 1.2s infinite;}
     .dot:nth-child(2){animation-delay:.12s}
     .dot:nth-child(3){animation-delay:.24s}
     @keyframes blink{0%{opacity:.15}50%{opacity:1}100%{opacity:.15}}
 
-    /* === Features Grid === */
-    .features{
-      margin-bottom:24px;
-      display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
-    }
-    .card{
-      background:var(--card);
-      border-radius:14px;padding:18px;border:1px solid var(--pink-soft);
-      box-shadow:var(--shadow);
-      transition:transform .32s var(--ease), box-shadow .32s var(--ease);
-      transform:translateZ(0);
-      will-change:transform;
-    }
-    .card:hover{transform:translateY(-10px) scale(1.02);box-shadow:0 20px 45px rgba(212,140,171,.22)}
-    .card h4{margin:0 0 8px 0}
-    .card p{color:var(--muted);font-size:14px;margin:6px 0 0}
-    .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:var(--bg);font-weight:600;color:var(--blue-deep);font-family:var(--font-body);font-size:12px;margin-bottom:10px;border:1px solid var(--blue-light)}
-
-    /* === Testimonials Carousel === */
-    .carousel{
-      margin-bottom:24px;padding:12px;border-radius:var(--radius);background:var(--card);border:1px solid var(--blue-light);box-shadow:var(--shadow);
-      overflow:hidden;
-    }
-    .track{display:flex;gap:12px;scroll-snap-type:x mandatory;overflow-x:auto;padding-bottom:8px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
-    .story{min-width:320px;background:var(--bg);padding:16px;border-radius:14px;scroll-snap-align:center;border:1px solid var(--pink-soft)}
-    .story strong{font-family:var(--font-script);font-size:18px;color:var(--pink-deep)}
-    .story p{color:var(--muted);margin:8px 0;font-size:14px}
-
-    /* === Community features === */
-    .bonus{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px}
-    /* connection requests */
-    .crush{padding:16px;border-radius:var(--radius);background:var(--card);border:1px solid var(--pink-soft);box-shadow:var(--shadow)}
-    .classmate{display:flex;gap:10px;align-items:center;padding:8px;border-radius:12px;background:var(--bg);cursor:pointer;border:1px solid transparent}
-    .classmate:hover{background:#fff;border-color:var(--pink-soft)}
     .action{margin-top:12px;display:flex;gap:8px}
 
     /* === Footer === */
@@ -280,8 +262,6 @@
       .hero{grid-template-columns:1fr;gap:18px;height:auto}
       .hero-left{height:auto}
       .hero-right{height:250px}
-      .features{grid-template-columns:1fr;overflow:auto}
-      .bonus{grid-template-columns:1fr}
       .mega{min-width:360px;grid-template-columns:repeat(1,1fr)}
       .match-grid{grid-template-columns:repeat(2,1fr)}
     }
@@ -326,7 +306,7 @@
       .actions .btn{padding:8px 12px;font-size:12px}
     }
     @media (max-width:640px){
-      .actions .btn:not(.primary){display:none}
+      .actions #help-button{display:none}
       .stats{gap:8px}
       .stat{flex:1 1 0;min-width:0;padding:8px 10px}
       .stat strong{font-size:16px}
@@ -338,7 +318,6 @@
       .select.filter-dropdown{flex:1 1 100%;width:100%;min-width:0;max-width:none}
       .filter-dropdown[data-filter] .filter-menu{width:100%;min-width:0}
       .lets{flex:1 1 100%;width:100%;margin-left:0}
-      .story{min-width:min(320px,82vw)}
       .stats{flex-wrap:wrap}
     }
     @media (max-width:480px){
@@ -351,8 +330,74 @@
       .sitemap a{font-size:13px}
     }
     @media (prefers-reduced-motion:reduce){
-      .pulse, .dot, .lets, .card,body:before,body:after,.hero-left,.hero-right,.features,.carousel,.bonus,footer{animation:none;transition:none}
+      .pulse, .dot, .lets,body:before,body:after,.hero-left,.hero-right,.dating-flow,footer{animation:none;transition:none}
     }
+  </style>
+  <style>
+    /* Premium navy system: keep the interaction model, refine the visual language. */
+    :root{
+      --bg:#f4f7fb;--card:#ffffff;--muted:#627089;--ink:#14233b;
+      --blue-deep:#123d72;--accent-1:#1d5da8;--accent-2:#77a9dd;
+      --accent-3:#b6536e;--blue-light:#dceafa;--pink-soft:#e8c8d1;
+      --pink-deep:#a94360;--shadow:0 16px 40px rgba(18,61,114,.10);
+      --font-body:"Poppins","Segoe UI",sans-serif;--font-cursive:"Poppins","Segoe UI",sans-serif;
+      --font-script:"Poppins","Segoe UI",sans-serif;
+    }
+    body{background:var(--bg);padding:20px 24px;color:var(--ink)}
+    body:before,body:after{display:none}
+    header{margin-bottom:34px;padding:10px 16px;background:rgba(255,255,255,.9);border:1px solid #e3eaf3;border-radius:16px;box-shadow:0 8px 24px rgba(18,61,114,.06);backdrop-filter:blur(14px)}
+    .logo{border:1px solid #d8e3f0;box-shadow:none;border-radius:12px;width:46px;height:46px}
+    .brand{gap:12px}.brand h1{font-size:24px;font-weight:700;letter-spacing:-.03em}.brand-tag{font-family:var(--font-body);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+    h1,h2,h3,h4,.pill,.eyebrow{font-family:var(--font-body)}
+    h2{font-size:32px;font-weight:700;letter-spacing:-.04em;color:var(--blue-deep)}
+    h3,h4{font-family:var(--font-body);font-size:16px;font-weight:700;color:var(--blue-deep)}
+    .btn{border-color:#d8e3f0;color:var(--blue-deep);box-shadow:0 5px 14px rgba(18,61,114,.07);background:#fff}
+    .btn.primary,.btn.signup-button{background:var(--accent-1);border-color:var(--accent-1);box-shadow:0 8px 18px rgba(29,93,168,.22)}
+    .btn.login-button{background:var(--blue-deep);border-color:var(--blue-deep)}
+    .btn:hover,.nav-button:hover{background:#eef4fb;color:var(--blue-deep);border-color:#9bb9d8}
+    .hero{gap:30px}.hero-left{background:linear-gradient(145deg,#123d72,#1d5da8);border-radius:24px;padding:clamp(28px,5vw,62px);color:#fff;box-shadow:0 20px 44px rgba(18,61,114,.2)}
+    .eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#aacaf0}
+    .headline{font-size:clamp(38px,5vw,66px);line-height:1.02;color:#fff;letter-spacing:-.06em;max-width:620px}
+    .sub{color:#d7e7f8;font-size:17px;max-width:500px}.quick{background:#fff;border:0;box-shadow:0 12px 30px rgba(6,31,63,.22);border-radius:14px;padding:8px}
+    .select{border-right:1px solid #e3eaf3}.filter-button{color:var(--blue-deep);font-weight:600}.quick select{color:var(--ink)}
+    .lets{background:var(--accent-3);box-shadow:0 9px 18px rgba(182,83,110,.28);border-radius:11px}.lets:hover{background:#9f445d}
+    .stats{border-top-color:rgba(255,255,255,.2)}.stat strong{color:#fff}.stat span{color:#c5dbf3!important}
+    .hero-right{height:auto;min-height:340px}.live-card,.dating-flow,.matches-section{background:#fff;border:1px solid #e0e8f2;border-radius:20px;box-shadow:var(--shadow)}
+    .live-card{padding:24px}.live-card h2{font-size:24px}.live-profile{border-color:#e3eaf3;background:#f8faff}.live-profile-avatar,.match-avatar{background:var(--blue-deep)}.live-profile:nth-child(even) .live-profile-avatar,.match-card:nth-child(even) .match-avatar{background:var(--accent-3)}
+    .live-ping,.match-connect{color:var(--blue-deep);border-color:#b9cee5;background:#fff}.live-ping:hover,.match-connect:hover{background:var(--blue-deep);color:#fff}
+    .matches-section{padding:24px}.match-card{border-color:#e1e9f3;background:#fbfcfe}.match-card:hover{border-color:#8eafd2;box-shadow:0 10px 24px rgba(18,61,114,.1)}
+    .match-tag{background:#edf4fc;color:var(--blue-deep);border-color:#d9e7f5}
+    .dating-flow{padding:28px;margin-top:28px}.dating-flow h2{font-size:26px}.dating-flow .eyebrow{color:var(--accent-3)}
+    footer{border-top-color:#dce5ef}.sitemap a{color:var(--muted)}.sitemap a:hover{color:var(--blue-deep)}
+    .love-particle,.love-burst{display:none}
+    .love-stage{background:rgba(9,30,57,.72)}
+    ::selection{background:#cfe2f7;color:var(--blue-deep)}
+    :focus-visible{outline:3px solid rgba(182,83,110,.45);outline-offset:3px}
+    .hero-left{position:relative;isolation:isolate;overflow:visible}
+    .hero-left:after{content:"";position:absolute;width:280px;height:280px;right:-100px;top:-120px;border:1px solid rgba(255,255,255,.2);border-radius:50%;box-shadow:0 0 0 24px rgba(255,255,255,.035),0 0 0 48px rgba(255,255,255,.025);pointer-events:none;z-index:-1}
+    .hero-left>*{position:relative;z-index:1}
+    .quick{display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) auto;gap:8px;height:auto;min-height:68px;align-items:stretch}
+    .quick .filter-dropdown{width:auto;min-width:0;flex:none;z-index:1}
+    .quick .filter-dropdown.open{z-index:80}
+    .quick .filter-menu{position:absolute;top:calc(100% + 10px);left:0;right:auto;z-index:100;max-height:min(360px,calc(100vh - 120px));overflow-y:auto}
+    .quick .filter-dropdown[data-filter="college"] .filter-menu{width:min(520px,calc(100vw - 32px))}
+    .quick .filter-dropdown[data-filter="gender"] .filter-menu,
+    .quick .filter-dropdown[data-filter="course"] .filter-menu,
+    .quick .filter-dropdown[data-filter="year"] .filter-menu{width:min(260px,calc(100vw - 32px))}
+    .quick .lets{align-self:center;white-space:nowrap}
+    .btn:active,.lets:active,.live-ping:active,.match-connect:active{transform:translateY(1px) scale(.98)}
+    .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.35);transform:scale(0);animation:ripple .55s ease-out;pointer-events:none}
+    @keyframes ripple{to{transform:scale(4);opacity:0}}
+    .live-profile,.match-card,.dating-flow{transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-color .35s var(--ease)}
+    .live-profile:hover{transform:translateX(4px);box-shadow:0 8px 18px rgba(18,61,114,.08);border-color:#9bb9d8}
+    .dating-flow blockquote{position:relative}
+    .dating-flow blockquote:before{content:"“";position:absolute;left:-10px;top:-24px;color:var(--accent-3);font-size:54px;font-family:Georgia,serif;opacity:.35}
+    .is-visible{animation:sectionEnter .65s var(--ease) both}
+    @keyframes sectionEnter{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+    @media (max-width:880px){header{padding:10px 12px}.hero-left{padding:34px 26px}.nav-toggle{border-color:#d8e3f0;color:var(--blue-deep);box-shadow:none}nav{border-color:#d8e3f0;background:#fff}.nav-button{background:#f4f7fb}}
+    @media (max-width:900px) and (min-width:601px){.quick{grid-template-columns:repeat(2,minmax(0,1fr));height:auto}.quick .lets{width:100%;grid-column:1/-1}}
+    @media (max-width:600px){body{padding:12px}.hero-left{border-radius:18px;padding:28px 20px}.headline{font-size:38px}.quick{display:flex;padding:6px}.select{border-right:0;border-bottom:1px solid #e3eaf3}.quick .filter-dropdown{flex:1 1 100%;width:100%}.quick .lets{width:100%}}
+    @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}.hero-left:after{display:none}}
   </style>
 </head>
 <body>
@@ -365,86 +410,13 @@
           <div class="brand-tag">Campus connections</div>
         </div>
       </a>
-      <nav id="main-nav" aria-label="Main navigation">
-        <div class="nav-item" aria-expanded="false">
-          <button class="nav-button" aria-haspopup="true" aria-controls="mega-courses">Browse</button>
-          <div class="mega" id="mega-courses" role="menu" aria-hidden="true">
-            <div>
-              <h3>By Course</h3>
-              <ul>
-                <li><a href="#">B.Com</a></li>
-                <li><a href="#">BBA</a></li>
-                <li><a href="#">BMS</a></li>
-                <li><a href="#">B.Sc</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3>By Year</h3>
-              <ul>
-                <li><a href="#">Freshman (FY)</a></li>
-                <li><a href="#">Sophomore (SY)</a></li>
-                <li><a href="#">Senior (TY)</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3>By Hangout</h3>
-              <ul>
-                <li><a href="#">Canteen</a></li>
-                <li><a href="#">Library</a></li>
-                <li><a href="#">Juhu Beach</a></li>
-                <li><a href="#">Study Halls</a></li>
-                <li><a href="#">Sports Complex</a></li>
-                <li><a href="#">Student Plaza</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="nav-item" aria-expanded="false">
-          <button class="nav-button" aria-haspopup="true" aria-controls="mega-events">Events</button>
-          <div class="mega" id="mega-events" role="menu" aria-hidden="true">
-            <div>
-              <h3>Campus Calendar</h3>
-              <ul>
-                <li><a href="#events" data-filter="Cultural fests">Cultural fests</a></li>
-                <li><a href="#events" data-filter="Workshops">Workshops</a></li>
-                <li><a href="#events" data-filter="Sports meets">Sports meets</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="nav-item" aria-expanded="false">
-          <button class="nav-button" aria-haspopup="true" aria-controls="mega-college">College</button>
-          <div class="mega" id="mega-college" role="menu" aria-hidden="true">
-            <div>
-              <h3>Campus life</h3>
-              <ul>
-                <li><a href="#features">Student initiatives</a></li>
-                <li><a href="#stories">Success stories</a></li>
-                <li><a href="#connections">Campus connections</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3>Explore</h3>
-              <ul>
-                <li><a href="#matches">Find matches</a></li>
-                <li><a href="#events">Upcoming events</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </nav>
-
       <div class="actions">
-        <button class="btn">Help</button>
+        <button class="btn" id="crush-pings-button" type="button">Crush Pings</button>
+        <button class="btn" id="help-button" type="button">Help</button>
         <span class="session-chip" id="session-chip" hidden></span>
-        <button class="btn primary" id="auth-button">Login</button>
+        <button class="btn login-button" id="auth-button" type="button">Login</button>
+        <a class="btn signup-button" href="./auth.html?mode=signup">Sign in</a>
       </div>
-
-      <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav">
-        <span></span><span></span><span></span>
-      </button>
     </header>
 
     <!-- HERO -->
@@ -549,10 +521,6 @@
             </button>
           </div>
 
-          <div class="stats" aria-hidden="true">
-            <div class="stat"><span style="font-size:12px;color:var(--muted)">Verified Profiles</span><strong id="counter-profiles">0</strong></div>
-            <div class="stat"><span style="font-size:12px;color:var(--muted)">Success Stories</span><strong id="counter-stories">0</strong></div>
-          </div>
         </div>
 
         <aside class="hero-right" aria-labelledby="live-title">
@@ -561,19 +529,9 @@
               <div style="font-weight:800;font-family:var(--font-script);font-size:22px">Live Matches</div>
             </div>
 
-            <div class="live-avatars" aria-hidden="true">
-              <div class="avatar">A1</div>
-              <div class="avatar">B2</div>
-              <div class="avatar">C3</div>
-              <div class="avatar">D4</div>
-            </div>
-            <div class="hearts" aria-hidden="true"><span class="heart">♥</span><span class="heart">♥</span><span class="heart">♥</span><span class="heart">♥</span></div>
-
-            <div class="processing" aria-live="polite">
-              <div style="font-weight:700">AI Matching</div>
-              <div style="display:flex;gap:6px">
-                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-              </div>
+            <p class="live-intro">Possible matches from your campus</p>
+            <div class="live-matches" id="live-matches" aria-live="polite">
+              <p class="live-empty">Sign in to see people who match your preferences.</p>
             </div>
           </div>
         </aside>
@@ -584,98 +542,27 @@
         <div class="match-grid" id="match-grid"></div>
       </section>
 
-      <!-- FEATURES -->
-      <section class="features" aria-label="Core features">
-        <article class="card" tabindex="0" aria-labelledby="f1">
-          <div class="pill">30-Day Promise</div>
-          <h4 id="f1">30-Day Match Guarantee</h4>
-          <p>A connection within 30 days.</p>
-        </article>
-
-        <article class="card" tabindex="0" aria-labelledby="f2">
-          <div class="pill">Blue Check</div>
-          <h4 id="f2">College-ID Verified</h4>
-          <p>Verified profiles get more matches.</p>
-        </article>
-
-        <article class="card" tabindex="0" aria-labelledby="f3">
-          <div class="pill">AI Matching</div>
-          <h4 id="f3">Smarter Matches</h4>
-          <p>Matches tuned to your interests.</p>
-        </article>
-      </section>
-
-      <!-- TESTIMONIALS -->
-      <section class="carousel" aria-label="Success stories">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <h2 style="font-size:28px;font-weight:400">Love stories</h2>
-        </div>
-
-        <div class="track" id="stories">
-          <div class="story">
-            <strong>Priya & Aman</strong>
-            <p>Met over assignments in the library — just clicked.</p>
-          </div>
-          <div class="story">
-            <strong>Pooja & Sameer</strong>
-            <p>Now co-lead student initiatives together.</p>
-          </div>
-          <div class="story">
-            <strong>Riya & Karan</strong>
-            <p>Anonymous pings led to their first date.</p>
-          </div>
-          <div class="story">
-            <strong>Neha & Vikram</strong>
-            <p>Started as study buddies, now married.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- CONNECTIONS -->
-      <section class="bonus" aria-label="Connections">
-        <div>
-          <div class="crush" aria-labelledby="crush-title">
-            <h3 id="crush-title">Crush Pings</h3>
-            <p style="color:var(--muted);font-size:13px;margin-top:4px">Mutual pings = a match.</p>
-
-            <div style="margin-top:8px;display:flex;flex-direction:column;gap:8px">
-              <div class="classmate" data-user="Aman" role="button" tabindex="0">
-                <div style="width:44px;height:44px;border-radius:50%;background:var(--pink-soft);display:grid;place-items:center;color:#fff;font-weight:700">AM</div>
-                <div>
-                  <div style="font-weight:800">Aman</div>
-                  <div style="font-size:13px;color:var(--muted)">BBA, SY</div>
-                </div>
-                <div style="margin-left:auto;color:var(--muted)" data-connect-label>Connect</div>
-              </div>
-
-              <div class="classmate" data-user="Priya" role="button" tabindex="0">
-                <div style="width:44px;height:44px;border-radius:50%;background:var(--blue-light);display:grid;place-items:center;color:#fff;font-weight:700">PR</div>
-                <div>
-                  <div style="font-weight:800">Priya</div>
-                  <div style="font-size:13px;color:var(--muted)">B.Com, FY</div>
-                </div>
-                <div style="margin-left:auto;color:var(--muted)" data-connect-label>Connect</div>
-              </div>
-
-              <div class="action" aria-hidden="true">
-                <button class="btn" id="view-pings">View My Pings</button>
-                <button class="btn primary" id="seed-pings">Connect</button>
-              </div>
-
-              <div id="ping-feedback" style="color:var(--muted);font-size:13px"></div>
-            </div>
-          </div>
-
-          <div style="height:12px"></div>
-
-        </div>
+      <section class="dating-flow" aria-label="Dating inspiration">
+        <p class="eyebrow">A better way to meet on campus</p>
+        <h2>Good conversations start with a little courage.</h2>
+        <p>SVKM Connect helps you find people who share your classes, campus routines, and interests — without turning dating into a popularity contest.</p>
+        <blockquote>“The best relationships begin when two people feel comfortable being themselves.”</blockquote>
+        <p>Browse thoughtfully, send a crush ping when someone catches your eye, and let mutual interest turn a familiar face into a real connection.</p>
+        <h3>Start with curiosity</h3>
+        <p>Ask about the playlist, the project, or the place they always study. Small questions make room for genuine chemistry.</p>
+        <h3>Choose connection over pressure</h3>
+        <p>Take your time. A meaningful match is built on shared energy, respect, and conversations that feel easy.</p>
+        <blockquote>“The right connection feels less like a performance and more like coming home to a good conversation.”</blockquote>
+        <h3>Your campus, your story</h3>
+        <p>From a canteen hello to a walk after class, the best memories are often waiting in the spaces you already share.</p>
+        <div id="ping-feedback" style="color:var(--muted);font-size:13px"></div>
       </section>
 
       <!-- FOOTER -->
       <footer>
         <div class="footer-grid">
           <div>
-            <strong style="font-family:var(--font-cursive);font-size:26px;color:var(--pink-deep);font-weight:400">SVKM Connect</strong>
+            <strong style="font-family:var(--font-cursive);font-size:26px;color:var(--blue-deep);font-weight:400">SVKM Connect</strong>
             <div style="color:var(--muted);font-size:13px">Verified campus community.</div>
           </div>
 
@@ -820,7 +707,8 @@
       $('#session-chip').hidden = !user;
       $('#session-chip').textContent = user ? `ID: ${user.email || user.id.slice(0,8)}...` : '';
       authButton.textContent = user ? 'Sign out' : 'Login';
-      if(user){ loadConnections(); }
+      if(user){ loadConnections(); loadLiveMatches(); }
+      else $('#live-matches').innerHTML = '<p class="live-empty">Sign in to see possible matches from your campus.</p>';
     }
     authButton.addEventListener('click', async ()=>{
       if(!supabaseClient){ alert('Add your Supabase URL and anon key in the script before signing in.'); return; }
@@ -833,36 +721,15 @@
       supabaseClient.auth.onAuthStateChange((_event, session)=>renderSession(session));
     }
 
-    // Animated counters (profiles & stories)
-    function animateCounter(el, to, ms=1600){
-      let start = 0, startTime = null;
-      function step(t){
-        if(!startTime) startTime = t;
-        const progress = Math.min((t - startTime) / ms, 1);
-        const eased = progress * (2 - progress);
-        el.textContent = Math.floor(start + (to - start) * eased).toLocaleString();
-        if(progress < 1) requestAnimationFrame(step);
-      }
-      requestAnimationFrame(step);
-    }
-    document.addEventListener('DOMContentLoaded', () => {
-      loadPlatformStats();
-    });
-    async function loadPlatformStats(){
-      if(!supabaseClient){ animateCounter($('#counter-profiles'), 0, 400); animateCounter($('#counter-stories'), 0, 400); return; }
-      const result=await supabaseClient.from('profiles').select('id',{count:'exact',head:true});
-      animateCounter($('#counter-profiles'), result.count || 0, 900);
-      animateCounter($('#counter-stories'), 0, 400);
-    }
-
     // Mega menu a11y: toggle aria-expanded on click
     const navToggle = $('#nav-toggle');
     const mainNav = $('#main-nav');
     function closeNavPanel(){
+      if(!mainNav || !navToggle) return;
       mainNav.classList.remove('open');
       navToggle.setAttribute('aria-expanded','false');
     }
-    navToggle.addEventListener('click', ()=>{
+    navToggle?.addEventListener('click', ()=>{
       const open = mainNav.classList.toggle('open');
       navToggle.setAttribute('aria-expanded', String(open));
     });
@@ -922,7 +789,74 @@
       if(!e.target.closest('nav') && !e.target.closest('#nav-toggle')) closeNavPanel();
     });
 
+    $('#crush-pings-button').addEventListener('click', async ()=>{
+      if(!activeUser){
+        $('#ping-feedback').textContent='Sign in to manage your crush pings.';
+        location.href='auth.html';
+        return;
+      }
+      $('#ping-feedback').textContent='Your saved crush pings are marked Saved in Live Matches.';
+      $('#live-matches').scrollIntoView({behavior:'smooth',block:'center'});
+      await loadLiveMatches();
+    });
+
     const normalizeProfile = profile => ({...profile, display_name:profile.display_name || profile.full_name || profile.login_id || 'SVKM student', hobbies:profile.hobbies || '', favourite_hangout:profile.favourite_hangout || 'Campus'});
+    const compact = value => String(value || '').toLowerCase().replace(/[^a-z0-9]/g,'');
+    const genderKey = gender => {
+      const value = compact(gender);
+      if(value.startsWith('man') || value === 'male' || value === 'males') return 'man';
+      if(value.startsWith('woman') || value === 'female' || value === 'females') return 'woman';
+      if(value.includes('nonbinary') || value === 'nb') return 'nonbinary';
+      return 'any';
+    };
+    function oppositeGender(gender){
+      const key = genderKey(gender);
+      return key === 'man' ? 'woman' : key === 'woman' ? 'man' : null;
+    }
+    function initialsFor(profile){
+      return profile.display_name.split(/\s+/).map(part=>part[0]).join('').slice(0,2).toUpperCase();
+    }
+    function profileMeta(profile){
+      return [profile.course || 'Student', profile.year, collegeLabels[profile.college] || profile.college].filter(Boolean).join(' · ');
+    }
+    function renderLiveMatches(profiles){
+      const container = $('#live-matches');
+      if(!profiles.length){
+        container.innerHTML = '<p class="live-empty">No possible matches yet. Check back as more students join.</p>';
+        return;
+      }
+      container.innerHTML = profiles.slice(0,4).map(profile=>{
+        const pinged = pings.has(profile.id);
+        return `<div class="live-profile">
+          <div class="live-profile-avatar">${initialsFor(profile)}</div>
+          <div class="live-profile-info"><strong>${profile.display_name}</strong><span>${profileMeta(profile)}</span></div>
+          <button class="live-ping${pinged ? ' pinged' : ''}" type="button" data-ping-id="${profile.id}" data-ping-name="${profile.display_name}">${pinged ? 'Saved' : 'Crush ping'}</button>
+        </div>`;
+      }).join('');
+      container.querySelectorAll('[data-ping-id]').forEach(button=>{
+        button.addEventListener('click', ()=>toggleCrushPing(button.dataset.pingId, button.dataset.pingName, button));
+      });
+    }
+    async function loadLiveMatches(){
+      const container = $('#live-matches');
+      if(!activeUser || !supabaseClient){
+        container.innerHTML = '<p class="live-empty">Sign in to see possible matches from your campus.</p>';
+        return;
+      }
+      const {data:account, error:accountError} = await supabaseClient.from('profiles').select('gender,college,course,year').eq('id',activeUser.id).maybeSingle();
+      if(accountError){ container.innerHTML = '<p class="live-empty">We could not load your match preferences.</p>'; return; }
+      const targetGender = oppositeGender(account?.gender);
+      let query = supabaseClient.from('profiles').select('*').neq('id',activeUser.id).limit(40);
+      const result = await query;
+      if(result.error){ container.innerHTML = '<p class="live-empty">Possible matches are temporarily unavailable.</p>'; return; }
+      const profiles = (result.data || []).filter(profile => {
+        if(targetGender && genderKey(profile.gender) !== targetGender) return false;
+        const sameCollege = account?.college && profile.college && compact(account.college) === compact(profile.college);
+        const sameCourse = account?.course && profile.course && compact(account.course) === compact(profile.course);
+        return sameCollege || sameCourse || !account?.college;
+      });
+      renderLiveMatches(profiles);
+    }
     function renderMatches(profiles, criteria){
       const grid = $('#match-grid');
       const collegeName = label => collegeLabels[label] || label || '';
@@ -947,15 +881,7 @@
       const result=await supabaseClient.from('profiles').select('*').neq('id',activeUser.id).limit(100);
       if(result.error){ stage.classList.remove('open'); stage.setAttribute('aria-hidden','true'); $('#matches-summary').textContent=`Backend error: ${result.error.message}`; $('#matches-section').classList.add('visible'); return; }
       const profiles=result.data || [];
-      const compact = value => String(value || '').toLowerCase().replace(/[^a-z0-9]/g,'');
       const yearKey = y => { const n = compact(y); return (n === 'postgraduate' || n.startsWith('postgrad')) ? 'pg' : n; };
-      const genderKey = g => {
-        const n = String(g || '').toLowerCase().replace(/[^a-z]/g,'');
-        if(n.startsWith('man') || n === 'male') return 'man';
-        if(n.startsWith('woman') || n === 'female') return 'woman';
-        if(n.includes('nonbinary') || n === 'nb') return 'nonbinary';
-        return 'any';
-      };
       const filtered=profiles.filter(profile=>{
         const collegeMatch=criteria.college==='all' || !criteria.college || !profile.college || compact(profile.college)===compact(criteria.college) || compact(profile.college).includes(compact(criteria.college));
         const courseMatch=!criteria.course || compact(profile.course)===compact(criteria.course) || compact(profile.course).includes(compact(criteria.course));
@@ -974,58 +900,30 @@
     });
     $('#clear-matches').addEventListener('click',()=>$('#matches-section').classList.remove('visible'));
 
-    // Testimonials carousel: auto-scroll
-    const track = $('#stories');
-    let autoScroll = setInterval(()=> {
-      if(!track) return;
-      const maxScroll = track.scrollWidth - track.clientWidth;
-      if(track.scrollLeft >= maxScroll - 10) {
-        track.scrollTo({left:0, behavior:'smooth'});
-      } else {
-        track.scrollBy({left: track.clientWidth/2, behavior:'smooth'});
-      }
-    }, 3600);
-    track.addEventListener('mouseenter', ()=>clearInterval(autoScroll));
-    track.addEventListener('mouseleave', ()=>autoScroll = setInterval(()=> {
-      if(track.scrollLeft >= track.scrollWidth - track.clientWidth - 10) track.scrollTo({left:0, behavior:'smooth'});
-      else track.scrollBy({left: track.clientWidth/2, behavior:'smooth'});
-    }, 3600));
-
-    // Persisted connection requests
+    // Persisted crush pings
     let pings = new Set();
     async function loadConnections(){
       if(!supabaseClient || !activeUser) return;
       const result=await supabaseClient.from('connections').select('recipient_id,status').eq('requester_id',activeUser.id);
       if(!result.error) pings=new Set(result.data.map(row=>row.recipient_id));
+      await loadLiveMatches();
     }
-    $$('.classmate').forEach(el=>{
-      if(pings.has(el.dataset.user)){
-        el.style.opacity = 0.85;
-        el.querySelector('[data-connect-label]').textContent = 'Requested';
+    async function toggleCrushPing(recipientId, name, button){
+      if(!supabaseClient || !activeUser){ $('#ping-feedback').textContent='Sign in to save a crush ping.'; return; }
+      button.disabled=true;
+      if(pings.has(recipientId)){
+        const result=await supabaseClient.from('connections').delete().eq('requester_id',activeUser.id).eq('recipient_id',recipientId);
+        if(result.error){ $('#ping-feedback').textContent=`Could not remove ${name}: ${result.error.message}`; button.disabled=false; return; }
+        pings.delete(recipientId); button.textContent='Crush ping'; button.classList.remove('pinged');
+        $('#ping-feedback').textContent=`${name} was removed from your crush pings.`;
+      } else {
+        const result=await supabaseClient.from('connections').upsert({requester_id:activeUser.id,recipient_id:recipientId,status:'pending'},{onConflict:'requester_id,recipient_id'});
+        if(result.error){ $('#ping-feedback').textContent=`Could not save ${name}: ${result.error.message}`; button.disabled=false; return; }
+        pings.add(recipientId); button.textContent='Saved'; button.classList.add('pinged');
+        $('#ping-feedback').textContent=`${name} was added to your crush pings.`;
       }
-    });
-    $$('.classmate').forEach(el=>{
-      el.addEventListener('click', ()=>{
-        const name = el.dataset.user;
-        // toggle ping
-        if(pings.has(name)){ $('#ping-feedback').textContent = 'Connection requests cannot be removed from this view yet.'; }
-        else {
-          $('#ping-feedback').textContent = 'Select a real profile from your matches to connect.';
-        }
-      });
-    });
-
-    $('#view-pings').addEventListener('click', ()=> {
-      $('#ping-feedback').textContent = pings.size===0 ? 'No connection requests yet.' : `Your requests: ${[...pings].join(', ')}.`;
-    });
-
-    // "Seed" a mutual ping to simulate a match
-    $('#seed-pings').addEventListener('click', async ()=> {
-      if(!supabaseClient || !activeUser){ $('#ping-feedback').textContent = 'Sign in to view connections.'; return; }
-      const result=await supabaseClient.from('connections').select('status,recipient_id').eq('requester_id',activeUser.id);
-      if(result.error){ $('#ping-feedback').textContent=`Could not load connections: ${result.error.message}`; return; }
-      $('#ping-feedback').textContent=result.data.length ? `${result.data.length} connection request${result.data.length===1?'':'s'} saved.` : 'No connection requests yet.';
-    });
+      button.disabled=false;
+    }
 
     // small accessibility helpers: keyboard close for mega menu
     document.addEventListener('keydown', e=>{
@@ -1041,17 +939,26 @@
         }
       });
     }, {threshold:0.12});
-    $$('.card, .story').forEach(el=>{
-      el.style.transform = 'translateY(10px)'; el.style.opacity = 0;
-      io.observe(el);
-    });
-    $$('.crush, .live-card, .stat').forEach(el=>{
+    $$('.live-card').forEach(el=>{
       el.classList.add('reveal-item');
       io.observe(el);
     });
-
-    // lightweight cleanup on unload
-    window.addEventListener('beforeunload', ()=>{ clearInterval(autoScroll); });
+    $$('.btn, .lets, .live-ping, .match-connect').forEach(button=>{
+      button.addEventListener('click', event=>{
+        const rect=button.getBoundingClientRect();
+        const ripple=document.createElement('span');
+        const size=Math.max(rect.width,rect.height);
+        ripple.className='ripple';
+        ripple.style.width=`${size}px`;
+        ripple.style.height=`${size}px`;
+        ripple.style.left=`${event.clientX-rect.left-size/2}px`;
+        ripple.style.top=`${event.clientY-rect.top-size/2}px`;
+        button.style.position='relative';
+        button.style.overflow='hidden';
+        button.appendChild(ripple);
+        ripple.addEventListener('animationend',()=>ripple.remove(),{once:true});
+      });
+    });
 
   </script>
 </body>
