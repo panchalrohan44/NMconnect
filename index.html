@@ -400,7 +400,27 @@
     @keyframes sectionEnter{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
     @media (max-width:880px){header{padding:10px 12px}.hero-left{padding:34px 26px}.nav-toggle{border-color:#d8e3f0;color:var(--blue-deep);box-shadow:none}nav{border-color:#d8e3f0;background:#fff}.nav-button{background:#f4f7fb}}
     @media (max-width:900px) and (min-width:601px){.quick{grid-template-columns:repeat(2,minmax(0,1fr));height:auto}.quick .lets{width:100%;grid-column:1/-1}}
-    @media (max-width:600px){body{padding:12px}.hero-left{border-radius:18px;padding:28px 20px}.headline{font-size:38px}.quick{display:flex;padding:6px}.select{border-right:0;border-bottom:1px solid #e3eaf3}.quick .filter-dropdown{flex:1 1 100%;width:100%}.quick .lets{width:100%}}
+    @media (max-width:600px){
+      body{padding:12px}.hero-left{border-radius:18px;padding:28px 20px}.headline{font-size:38px}
+      .quick{display:flex;padding:6px;gap:8px}.select{border-right:0;border-bottom:1px solid #e3eaf3}
+      .quick .filter-dropdown{flex:1 1 100%;width:100%;position:relative;z-index:1}
+      .quick .filter-dropdown.open{z-index:200}
+      .quick .filter-dropdown select{
+        display:block;position:absolute;inset:4px;width:calc(100% - 8px);height:calc(100% - 8px);
+        opacity:0;z-index:3;margin:0;cursor:pointer;
+      }
+      .quick .filter-dropdown .filter-menu{z-index:2}
+      .quick .filter-button{min-height:46px;padding:11px 12px;font-size:14px;touch-action:manipulation}
+      .quick .filter-menu,
+      .quick .filter-dropdown[data-filter="college"] .filter-menu{
+        display:grid;position:absolute;top:calc(100% + 6px);left:0;right:0;width:100%;min-width:0;
+        max-height:min(48vh,300px);overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;
+        transform:translateY(8px) scale(.98);opacity:0;pointer-events:none;
+      }
+      .quick .filter-dropdown.open .filter-menu{transform:translateY(0) scale(1);opacity:1;pointer-events:auto}
+      .quick .filter-menu button{min-height:44px;padding:11px 10px;font-size:14px;touch-action:manipulation}
+      .quick .lets{width:100%;min-height:48px}
+    }
     @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}.hero-left:after{display:none}}
   </style>
 </head>
@@ -769,6 +789,24 @@
     $$('.filter-dropdown').forEach(dropdown=>{
       const toggle = dropdown.querySelector('.filter-button');
       const select = dropdown.querySelector('select');
+      function applySelection(value, label) {
+        select.value = value;
+        toggle.textContent = label;
+        dropdown.dataset.selected = 'true';
+        dropdown.classList.remove('open');
+        toggle.setAttribute('aria-expanded','false');
+        if(dropdown.dataset.filter === 'college'){
+          updateCourseOptions(value);
+          $('[data-filter="course"]').dataset.selected = 'false';
+          $('[data-filter="year"]').dataset.selected = 'false';
+        }
+        if(dropdown.dataset.filter === 'course'){
+          updateYearOptions(value);
+          $('[data-filter="year"]').dataset.selected = 'false';
+        }
+        closeFilterMenus();
+        updateBeginState();
+      }
       toggle.addEventListener('click', ()=>{
         const open = dropdown.classList.contains('open');
         $$('.filter-dropdown').forEach(item=>{
@@ -781,22 +819,11 @@
       dropdown.querySelector('.filter-menu').addEventListener('click', e=>{
         const option = e.target.closest('[data-value]');
         if(!option) return;
-        select.value = option.dataset.value;
-        toggle.textContent = option.textContent.trim();
-        dropdown.dataset.selected = 'true';
-        dropdown.classList.remove('open');
-        toggle.setAttribute('aria-expanded','false');
-        if(dropdown.dataset.filter === 'college'){
-          updateCourseOptions(select.value);
-          $('[data-filter="course"]').dataset.selected = 'false';
-          $('[data-filter="year"]').dataset.selected = 'false';
-        }
-        if(dropdown.dataset.filter === 'course'){
-          updateYearOptions(select.value);
-          $('[data-filter="year"]').dataset.selected = 'false';
-        }
-        closeFilterMenus();
-        updateBeginState();
+        applySelection(option.dataset.value, option.textContent.trim());
+      });
+      select.addEventListener('change', ()=>{
+        const option = select.options[select.selectedIndex];
+        if(option) applySelection(option.value, option.textContent.trim());
       });
     });
     // close on outside click
