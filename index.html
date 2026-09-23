@@ -143,6 +143,10 @@
     .reveal-item{opacity:0;transform:translateY(12px);transition:opacity .65s var(--ease),transform .65s var(--ease)}
     .matches-section{display:none;margin:0 0 28px;padding:22px;border:1px solid var(--pink-soft);border-radius:var(--radius);background:var(--card);box-shadow:var(--shadow);animation:pageRise .7s var(--ease) both}.matches-section.visible{display:block}.matches-head{display:flex;justify-content:space-between;align-items:end;gap:14px;margin-bottom:16px}.matches-head p{margin:4px 0 0;color:var(--muted)}.match-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.match-card{padding:16px;border-radius:14px;background:var(--card);border:1px solid var(--pink-soft);transition:transform .25s var(--ease),border-color .25s var(--ease)}.match-card:hover{transform:translateY(-5px);border-color:var(--pink-deep)}.match-avatar{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:var(--accent-1);color:#fff;font-family:var(--font-script);font-weight:700;font-size:18px}.match-card:nth-child(even) .match-avatar{background:var(--accent-2)}.match-card-top{display:flex;gap:10px;align-items:center}.match-card h3{font-size:19px;margin:0}.bot-badge{display:inline-block;margin-left:5px;padding:2px 6px;border-radius:999px;background:var(--blue-light);color:var(--blue-deep);font:600 10px var(--font-body);vertical-align:middle}.match-card p{color:var(--muted);font-size:12px;margin:3px 0 0}.match-tags{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}.match-tag{padding:5px 9px;border-radius:999px;background:var(--bg);color:var(--blue-deep);font-size:11px}.match-connect{width:100%;padding:9px;border:1px solid var(--pink-soft);border-radius:999px;background:var(--card);color:var(--pink-deep);cursor:pointer;font-weight:600}.match-connect.connected{background:var(--pink-soft);color:#fff;border-color:var(--pink-soft)}.love-stage{position:fixed;inset:0;z-index:70;display:grid;place-items:center;background:var(--bg);opacity:0;pointer-events:none;transition:opacity .35s ease}.love-stage.open{opacity:1;pointer-events:auto}.love-stage-content{text-align:center}.love-stage h2{font-size:clamp(34px,6vw,58px);margin:0}.love-stage p{color:var(--muted)}.love-burst{font-size:60px;color:var(--accent-1);animation:loveBeat 1s ease-in-out infinite}.love-particle{position:absolute;color:var(--accent-1);font-size:24px;animation:loveFloat 2.8s ease-out forwards}.love-particle:nth-child(1){left:18%;top:72%}.love-particle:nth-child(2){left:78%;top:64%;animation-delay:.2s}.love-particle:nth-child(3){left:32%;top:22%;animation-delay:.4s}.love-particle:nth-child(4){left:66%;top:28%;animation-delay:.6s}@keyframes loveBeat{50%{transform:scale(1.18)}}@keyframes loveFloat{to{transform:translateY(-170px) scale(1.35);opacity:0}}
     .session-chip{font-size:12px;color:var(--blue-deep);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    [hidden]{display:none !important}
+    dialog.connection-dialog{width:min(560px,calc(100% - 28px));border:0;border-radius:20px;padding:0;color:var(--blue-deep);box-shadow:0 24px 70px rgba(18,61,114,.24)}dialog.connection-dialog::backdrop{background:rgba(10,29,54,.42)}.connection-dialog-inner{padding:24px}.connection-dialog h2{margin:0 0 5px}.connection-dialog p{color:var(--muted);margin:0 0 16px}.connection-list{display:grid;gap:10px;max-height:45vh;overflow:auto}.connection-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px;border:1px solid #d8e3f0;border-radius:12px}.connection-row strong{display:block}.connection-row span{display:block;color:var(--muted);font-size:12px}.connection-row .btn{padding:8px 12px;font-size:12px}
+    .profile-button{display:inline-flex;align-items:center;gap:7px}
+    .profile-avatar{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--blue-light);color:var(--blue-deep);font-size:11px;font-weight:700}
 
     /* === Hero === */
     .hero{
@@ -414,10 +418,19 @@
         <button class="btn" id="crush-pings-button" type="button">Crush Pings</button>
         <button class="btn" id="help-button" type="button">Help</button>
         <span class="session-chip" id="session-chip" hidden></span>
+        <a class="btn profile-button" id="profile-button" href="./profile.html" hidden><span class="profile-avatar" aria-hidden="true">SV</span>Profile</a>
         <button class="btn login-button" id="auth-button" type="button">Login</button>
         <a class="btn signup-button" href="./auth.html?mode=signup">Sign in</a>
       </div>
     </header>
+    <dialog class="connection-dialog" id="connection-dialog">
+      <div class="connection-dialog-inner">
+         <h2>Your connections</h2>
+         <p>Accept a crush ping to unlock a private chat.</p>
+         <div class="connection-list" id="connection-list"><p>Loading connections...</p></div>
+         <button class="btn" id="close-connections" type="button">Close</button>
+      </div>
+    </dialog>
 
     <!-- HERO -->
     <main>
@@ -705,8 +718,12 @@
       const user = session?.user;
       activeUser = user || null;
       $('#session-chip').hidden = !user;
-      $('#session-chip').textContent = user ? `ID: ${user.email || user.id.slice(0,8)}...` : '';
+      $('#session-chip').textContent = user ? `Profile ID: ${user.id.slice(0,8).toUpperCase()}` : '';
+      $('#profile-button').hidden = !user;
       authButton.textContent = user ? 'Sign out' : 'Login';
+      $('#auth-button').classList.toggle('login-button', !user);
+      $('#auth-button').classList.toggle('logout-button', !!user);
+      $('.signup-button').hidden = !!user;
       if(user){ loadConnections(); loadLiveMatches(); }
       else $('#live-matches').innerHTML = '<p class="live-empty">Sign in to see possible matches from your campus.</p>';
     }
@@ -795,10 +812,24 @@
         location.href='auth.html';
         return;
       }
-      $('#ping-feedback').textContent='Your saved crush pings are marked Saved in Live Matches.';
+      $('#connection-dialog').showModal();
+      await loadConnectionRequests();
       $('#live-matches').scrollIntoView({behavior:'smooth',block:'center'});
       await loadLiveMatches();
     });
+    $('#close-connections').addEventListener('click',()=>$('#connection-dialog').close());
+    async function loadConnectionRequests(){
+      const list=$('#connection-list');
+      const result=await supabaseClient.from('connections').select('id,status,requester_id,recipient_id').or(`requester_id.eq.${activeUser.id},recipient_id.eq.${activeUser.id}`).order('created_at',{ascending:false});
+      if(result.error){list.innerHTML=`<p>Could not load connections: ${result.error.message}</p>`;return;}
+      const rows=result.data||[];
+      if(!rows.length){list.innerHTML='<p>No crush pings yet. Keep exploring your campus matches.</p>';return;}
+      const ids=[...new Set(rows.map(row=>row.requester_id===activeUser.id?row.recipient_id:row.requester_id))];
+      const profiles=await supabaseClient.from('profiles').select('id,display_name,college,course').in('id',ids);
+      const byId=new Map((profiles.data||[]).map(profile=>[profile.id,profile]));
+      list.innerHTML=rows.map(row=>{const partner=byId.get(row.requester_id===activeUser.id?row.recipient_id:row.requester_id)||{};const incoming=row.recipient_id===activeUser.id;return `<div class="connection-row"><div><strong>${partner.display_name||'Campus connection'}</strong><span>${partner.course||'Student'} · ${row.status==='accepted'?'Connected':incoming?'Wants to connect':'Waiting for response'}</span></div>${row.status==='accepted'?`<a class="btn" href="./chat.html?connection=${row.id}">Chat</a>`:incoming?`<button class="btn" data-accept-connection="${row.id}" type="button">Accept</button>`:'<span>Pending</span>'}</div>`;}).join('');
+      list.querySelectorAll('[data-accept-connection]').forEach(button=>button.addEventListener('click',async()=>{button.disabled=true;const update=await supabaseClient.from('connections').update({status:'accepted'}).eq('id',button.dataset.acceptConnection).eq('recipient_id',activeUser.id);if(update.error){button.disabled=false;button.textContent='Try again';return;}await loadConnectionRequests();}));
+    }
 
     const normalizeProfile = profile => ({...profile, display_name:profile.display_name || profile.full_name || profile.login_id || 'SVKM student', hobbies:profile.hobbies || '', favourite_hangout:profile.favourite_hangout || 'Campus'});
     const compact = value => String(value || '').toLowerCase().replace(/[^a-z0-9]/g,'');
@@ -846,14 +877,18 @@
       const {data:account, error:accountError} = await supabaseClient.from('profiles').select('gender,college,course,year').eq('id',activeUser.id).maybeSingle();
       if(accountError){ container.innerHTML = '<p class="live-empty">We could not load your match preferences.</p>'; return; }
       const targetGender = oppositeGender(account?.gender);
+      const accountCollege = compact(account?.college);
+      const accountCourse = compact(account?.course);
+      const accountYear = compact(account?.year);
       let query = supabaseClient.from('profiles').select('*').neq('id',activeUser.id).limit(40);
       const result = await query;
       if(result.error){ container.innerHTML = '<p class="live-empty">Possible matches are temporarily unavailable.</p>'; return; }
       const profiles = (result.data || []).filter(profile => {
         if(targetGender && genderKey(profile.gender) !== targetGender) return false;
-        const sameCollege = account?.college && profile.college && compact(account.college) === compact(profile.college);
-        const sameCourse = account?.course && profile.course && compact(account.course) === compact(profile.course);
-        return sameCollege || sameCourse || !account?.college;
+        const sameCollege = accountCollege && compact(profile.college) === accountCollege;
+        const sameCourse = accountCourse && compact(profile.course) === accountCourse;
+        const sameYear = accountYear && compact(profile.year) === accountYear;
+        return sameCollege && sameCourse && sameYear;
       });
       renderLiveMatches(profiles);
     }

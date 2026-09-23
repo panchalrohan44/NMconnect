@@ -400,17 +400,30 @@
 
     async function hasProfile(userId) {
       if (!supabaseClient) return false;
-      const { data } = await supabaseClient.from('profiles').select('id').eq('id', userId).maybeSingle();
+      const { data, error } = await supabaseClient.from('profiles').select('id').eq('id', userId).maybeSingle();
+      if (error) throw new Error(`Could not check your profile: ${error.message}`);
       return !!data;
     }
     function goHome() { location.href = './index.html'; }
 
     /* A signed-in user must finish their profile before continuing (mandatory step). */
+    let activeCheckPromise = null;
     async function handleActive(user) {
+      if (activeCheckPromise) return activeCheckPromise;
       currentUser = user;
-      const exists = await hasProfile(user.id);
-      if (exists) { goHome(); return; }
-      showView('profile');
+      activeCheckPromise = (async () => {
+        try {
+          const exists = await hasProfile(user.id);
+          if (exists) { goHome(); return; }
+          showView('profile');
+        } catch (err) {
+          setStatus('signin-status', err.message || 'Could not load your profile.', 'error');
+          setStatus('signup-status', err.message || 'Could not load your profile.', 'error');
+        } finally {
+          activeCheckPromise = null;
+        }
+      })();
+      return activeCheckPromise;
     }
 
     /* Sign in with email + password */

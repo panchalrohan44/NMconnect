@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Your Profile · SVKM Connect</title>
+  <link rel="icon" type="image/svg+xml" href="logo.svg" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#f4f7fb;--card:#fff;--ink:#14233b;--muted:#627089;--blue:#123d72;--blue-light:#dceafa;--rose:#a94360;--border:#d8e3f0;--shadow:0 18px 42px rgba(18,61,114,.12)}
+    *{box-sizing:border-box}body{margin:0;padding:28px 16px;background:var(--bg);color:var(--ink);font:14px/1.45 Poppins,"Segoe UI",sans-serif}
+    .shell{width:100%;max-width:760px;margin:auto}.back{color:var(--blue);font-weight:600;text-decoration:none}.back:hover{color:var(--rose)}
+    .card{margin-top:16px;padding:30px;border:1px solid var(--border);border-radius:22px;background:var(--card);box-shadow:var(--shadow)}
+    .heading{display:flex;align-items:center;gap:14px;margin-bottom:24px}.avatar{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:var(--blue-light);color:var(--blue);font-weight:700;font-size:18px}
+    h1{margin:0;color:var(--blue);font-size:28px;letter-spacing:-.03em}h1 small{display:block;margin-top:3px;color:var(--muted);font-size:12px;font-weight:500;letter-spacing:0}
+    form{display:grid;gap:16px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.full{grid-column:1/-1}label{display:grid;gap:6px;color:var(--muted);font-size:12px;font-weight:600}
+    input,select,textarea{width:100%;padding:12px 13px;border:1px solid var(--border);border-radius:10px;background:#f8faff;color:var(--ink);font:inherit}textarea{min-height:90px;resize:vertical}
+    input:focus,select:focus,textarea:focus{outline:3px solid rgba(29,93,168,.14);border-color:var(--blue);background:#fff}
+    .actions{display:flex;gap:10px;align-items:center}.button{padding:11px 17px;border:0;border-radius:999px;background:var(--blue);color:#fff;font:600 13px inherit;cursor:pointer}.button:hover{background:#1d5da8}.button.secondary{background:#fff;color:var(--blue);border:1px solid var(--border)}
+    .status{min-height:20px;color:var(--muted);font-size:13px}.status.error{color:var(--rose)}.status.success{color:var(--blue)}
+    @media(max-width:620px){body{padding:16px 12px}.card{padding:22px 16px}.grid{grid-template-columns:1fr}.full{grid-column:auto}.heading{align-items:flex-start}h1{font-size:24px}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <a class="back" href="./index.html">← Back to SVKM Connect</a>
+    <section class="card">
+      <div class="heading"><div class="avatar" aria-hidden="true">SV</div><h1>Your profile<small id="profile-id">Profile ID</small></h1></div>
+      <form id="profile-edit-form">
+        <div class="grid">
+          <label>Full name<input id="pf-name" required /></label>
+          <label>Age<input id="pf-age" type="number" min="18" max="99" required /></label>
+          <label>Gender<select id="pf-gender" required><option value="">Choose gender</option><option value="males">Males</option><option value="females">Females</option><option value="non-binary">Non-binary</option><option value="prefer-not-to-say">Prefer not to say</option></select></label>
+          <label>College<select id="pf-college" required><option value="">Choose college</option><option value="mithibai">Mithibai College</option><option value="nm-commerce">Narsee Monjee College of Commerce and Economics</option><option value="nmims">NMIMS</option><option value="upg">Usha Pravin Gandhi College</option><option value="sbmp">Shri Bhagubhai Mafatlal Polytechnic</option><option value="djsce">Dwarkadas J. Sanghvi College of Engineering</option><option value="jcl">Jitendra Chauhan College of Law</option></select></label>
+          <label>Course<select id="pf-course" required><option value="">Choose course</option></select></label>
+          <label>Year<select id="pf-year" required><option value="">Choose year</option></select></label>
+          <label>Most-loved hangout<input id="pf-hangout" required /></label>
+          <label>Hobbies & interests<input id="pf-hobbies" required /></label>
+          <label class="full">Clubs, fests & events<input id="pf-clubs" /></label>
+          <label class="full">About you / bio<textarea id="pf-bio"></textarea></label>
+          <label>Religion<input id="pf-religion" /></label>
+          <label>Mother tongue<input id="pf-mother-tongue" required /></label>
+          <label>Instagram<input id="pf-instagram" /></label>
+          <label>Snapchat<input id="pf-snapchat" /></label>
+          <label class="full">Other social handle<input id="pf-other-social" /></label>
+        </div>
+        <div class="actions"><button class="button" type="submit" id="save-profile">Save changes</button><a class="button secondary" href="./chat.html">Your chats</a><a class="button secondary" href="./index.html">Cancel</a></div>
+        <div class="status" id="profile-status" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const supabaseClient=window.supabase.createClient('https://sjwoyiwrvtrcezmgzosg.supabase.co','sb_publishable_s4dBdf87iuX7I0I0kNRQRg_5PI2rGN-');
+    const $=selector=>document.querySelector(selector);
+    const courses={
+      mithibai:[['ba','B.A.'],['bsc','B.Sc.'],['bcom','B.Com.'],['bms','BMS'],['baf','B.Com. Accounting & Finance'],['bbi','B.Com. Banking & Insurance'],['bammc','B.A. Multimedia & Mass Communication'],['bsc-it','B.Sc. IT']],
+      'nm-commerce':[['bcom','B.Com.'],['baf','B.Com. Accounting & Finance'],['bbi','B.Com. Banking & Insurance'],['bms','BMS'],['bsc-it','B.Sc. IT'],['bcom-cs','B.Com. Computer Systems'],['bcom-ms','B.Com. Management Studies']],
+      nmims:[['bba-fin','BBA (Finance)'],['bba','BBA'],['bsc-fin','B.Sc. Finance'],['bcom-hons','B.Com. (Hons.)']],
+      upg:[['bms','BMS'],['bammc','B.A. Multimedia & Mass Communication'],['bsc-it','B.Sc. IT'],['bsc-aids','B.Sc. AI & Data Science'],['mcom','M.Com.'],['msc-it','M.Sc. IT'],['ma','M.A.']],
+      sbmp:[['dip-computer','Diploma in Computer Engineering'],['dip-it','Diploma in Information Technology'],['btech-computer','B.Tech Computer Engineering'],['btech-it','B.Tech Information Technology']],
+      djsce:[['btech-extc','B.Tech Electronics & Telecommunication'],['btech-it','B.Tech Information Technology'],['btech-computer','B.Tech Computer Engineering'],['btech-aiml','B.Tech AI & Machine Learning'],['mtech','M.Tech']],
+      jcl:[['ba-llb','B.A. LL.B.'],['bba-llb','B.B.A. LL.B.'],['llb','LL.B.'],['llm','LL.M.']]
+    };
+    const years={bsc:['FY','SY','TY'],ba:['FY','SY','TY'],bcom:['FY','SY','TY'],baf:['FY','SY','TY'],bbi:['FY','SY','TY'],bms:['FY','SY','TY'],bba:['FY','SY','TY'],'bba-fin':['FY','SY','TY'],'bammc':['FY','SY','TY'],'bsc-it':['FY','SY','TY'],'bsc-aids':['FY','SY','TY'],'bsc-fin':['Year 1','Year 2','Year 3'],'bcom-cs':['FY','SY','TY'],'bcom-ms':['FY','SY','TY'],'bcom-hons':['FY','SY','TY'],'dip-computer':['First Year','Second Year','Third Year'],'dip-it':['First Year','Second Year','Third Year'],'btech-computer':['First Year','Second Year','Third Year','Final Year'],'btech-it':['First Year','Second Year','Third Year','Final Year'],'btech-extc':['First Year','Second Year','Third Year','Final Year'],'btech-aiml':['First Year','Second Year','Third Year','Final Year'],'ba-llb':['First Year','Second Year','Third Year','Final Year'],'bba-llb':['First Year','Second Year','Third Year','Final Year'],llb:['First Year','Second Year','Third Year'],llm:['Year 1','Year 2'],mcom:['Year 1','Year 2'],'msc-it':['Year 1','Year 2'],ma:['Year 1','Year 2'],mtech:['First Year','Final Year']};
+    const fill=(select,items,placeholder)=>{select.innerHTML=`<option value="">${placeholder}</option>`+items.map(item=>`<option value="${item[0]||item}">${item[1]||item}</option>`).join('')};
+    $('#pf-college').addEventListener('change',()=>{fill($('#pf-course'),courses[$('#pf-college').value]||[],'Choose course');fill($('#pf-year'),[],'Choose year')});
+    $('#pf-course').addEventListener('change',()=>fill($('#pf-year'),years[$('#pf-course').value]||[],'Choose year'));
+    const fields={display_name:'pf-name',age:'pf-age',gender:'pf-gender',college:'pf-college',course:'pf-course',year:'pf-year',favourite_hangout:'pf-hangout',hobbies:'pf-hobbies',clubs_fests:'pf-clubs',bio:'pf-bio',religion:'pf-religion',mother_tongue:'pf-mother-tongue'};
+    const socialFields={instagram:'pf-instagram',snapchat:'pf-snapchat',other:'pf-other-social'};
+    const status=(message,type='')=>{$('#profile-status').textContent=message;$('#profile-status').className=`status ${type}`};
+    async function loadProfile(){
+      const {data:{session}}=await supabaseClient.auth.getSession();
+      if(!session){location.href='./auth.html';return}
+      const {data,error}=await supabaseClient.from('profiles').select('*').eq('id',session.user.id).maybeSingle();
+      if(error){status(error.message,'error');return}
+      if(!data){location.href='./auth.html';return}
+      $('#profile-id').textContent=`Profile ID: ${session.user.id.slice(0,8).toUpperCase()}`;
+      Object.entries(fields).forEach(([key,id])=>{if(key==='course'||key==='year')return; if($( '#'+id)) $('#'+id).value=data[key]||''});
+      $('#pf-college').value=data.college||'';$('#pf-college').dispatchEvent(new Event('change'));$('#pf-course').value=data.course||'';$('#pf-course').dispatchEvent(new Event('change'));$('#pf-year').value=data.year||'';
+      Object.entries(socialFields).forEach(([key,id])=>$('#'+id).value=data.social_handles?.[key]||'');
+    }
+    $('#profile-edit-form').addEventListener('submit',async event=>{
+      event.preventDefault();const {data:{session}}=await supabaseClient.auth.getSession();if(!session){location.href='./auth.html';return}
+      const profile={id:session.user.id,login_id:session.user.email||session.user.id,email:session.user.email||null,updated_at:new Date().toISOString()};
+      Object.entries(fields).forEach(([key,id])=>profile[key]=key==='age'?Number($('#'+id).value):$('#'+id).value.trim());
+      profile.interests=profile.hobbies;profile.social_handles={};Object.entries(socialFields).forEach(([key,id])=>profile.social_handles[key]=$('#'+id).value.trim());
+      const {error}=await supabaseClient.from('profiles').upsert(profile);if(error){status(error.message,'error');return}status('Profile updated successfully.','success');
+    });
+    loadProfile();
+  </script>
+</body>
+</html>
