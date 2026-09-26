@@ -4,28 +4,297 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Chat · SVKM Connect</title>
+  <meta name="description" content="Your private conversations with accepted connections." />
+  <meta name="theme-color" content="#0b1f3a" />
+  <meta name="robots" content="noindex" />
   <link rel="icon" href="logo.svg">
+  <link rel="preconnect" href="https://fonts.cdnfonts.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/roobert">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap">
+  <link rel="stylesheet" href="styles.css">
   <style>
-    :root{--blue:#123d72;--light:#eef5fc;--ink:#17243a;--muted:#68778f;--line:#d8e3f0;--rose:#a94360}*{box-sizing:border-box}body{margin:0;background:#f4f7fb;color:var(--ink);font:14px/1.45 Poppins,"Segoe UI",sans-serif}.shell{width:min(980px,calc(100% - 28px));margin:24px auto}.back{color:var(--blue);font-weight:600;text-decoration:none}.layout{display:grid;grid-template-columns:250px 1fr;gap:16px;margin-top:16px}.card{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 16px 40px #123d7218;padding:18px}h1,h2{color:var(--blue);margin:0 0 5px}h1{font-size:25px}.muted,.empty{color:var(--muted)}.chat-list{display:grid;gap:8px;margin-top:14px}.chat-link{display:block;width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);text-align:left;cursor:pointer}.chat-link.active{border-color:var(--blue);background:var(--light)}.messages{height:52vh;overflow:auto;padding:12px 2px;display:grid;align-content:start;gap:9px}.bubble{max-width:78%;padding:10px 13px;border-radius:14px;background:var(--light)}.bubble.mine{justify-self:end;background:var(--blue);color:#fff}.bubble small{display:block;opacity:.7;font-size:10px;margin-top:3px}.composer{display:flex;gap:9px;border-top:1px solid var(--line);padding-top:14px}.composer input{flex:1;padding:12px;border:1px solid var(--line);border-radius:999px;font:inherit}.btn{border:0;border-radius:999px;background:var(--blue);color:#fff;padding:11px 16px;font-weight:600;cursor:pointer}.assistant{margin-top:16px;background:#fff8fb;border:1px solid #f0d5df}.assistant button{background:#fff;color:var(--rose);border:1px solid #e6b8c6;margin:5px 5px 0 0;padding:8px 10px;border-radius:999px;cursor:pointer}.assistant-output{margin-top:10px;color:var(--muted);min-height:20px}@media(max-width:720px){.layout{grid-template-columns:1fr}.messages{height:48vh}}
+    .chat-shell{width:min(1080px,100%);margin-inline:auto;padding:26px 16px 48px}
+    .chat-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}
+    .app-back{display:inline-flex;align-items:center;gap:7px;padding:9px 15px;border-radius:var(--r-pill);background:var(--card);border:1px solid var(--line);color:var(--muted);font-size:13px;font-weight:600;text-decoration:none;transition:background .2s var(--ease),color .2s var(--ease)}
+    .app-back:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+
+    .chat-layout{display:grid;grid-template-columns:270px minmax(0,1fr);gap:18px;align-items:start}
+    .chat-panel{padding:20px;border:1px solid var(--line);border-radius:var(--r-xl);background:var(--card);box-shadow:var(--sh-2)}
+    .chat-panel--thread{display:flex;flex-direction:column;min-height:min(70vh,640px)}
+    .chat-panel h2{margin:0;font-size:17px;font-weight:800;letter-spacing:-.02em;color:var(--blue)}
+    .chat-panel__sub{margin:5px 0 0;font-size:12.5px;color:var(--muted)}
+
+    .chat-list{display:grid;gap:8px;margin-top:16px;max-height:min(58vh,520px);overflow:auto;padding-right:2px}
+    .chat-link{display:flex;flex-direction:column;gap:3px;width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:var(--r-md);background:var(--bg);color:var(--ink);text-align:left;cursor:pointer;transition:border-color .2s var(--ease),background .2s var(--ease),transform .2s var(--ease)}
+    .chat-link:hover{border-color:var(--pink);background:#fff;transform:translateX(2px)}
+    .chat-link.active{border-color:var(--blue);background:var(--blue-soft)}
+    .chat-link strong{font-size:14px;color:var(--blue)}
+    .chat-link small{font-size:11.5px;color:var(--muted)}
+
+    .thread-head{display:flex;align-items:center;gap:12px;padding-bottom:15px;border-bottom:1px solid var(--line-soft)}
+    .thread-avatar{flex:0 0 44px;width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(150deg,var(--cyan) 0%,var(--pink) 100%);color:#fff;font-weight:800;font-size:15px}
+    .thread-head h1{margin:0;font-family:var(--font-display);font-size:22px;font-weight:600;letter-spacing:-.02em;color:var(--blue)}
+    .thread-head p{margin:2px 0 0;font-size:12px;color:var(--muted)}
+
+    .messages{flex:1;height:min(46vh,420px);overflow:auto;padding:16px 2px;display:grid;align-content:start;gap:9px}
+    .bubble{max-width:78%;padding:11px 14px;border-radius:18px 18px 18px 6px;background:var(--blue-soft);color:var(--blue);font-size:14.5px;line-height:1.45;word-break:break-word}
+    .bubble.mine{justify-self:end;border-radius:18px 18px 6px 18px;background:var(--pink);color:#fff}
+    .bubble small{display:block;margin-top:4px;font-size:10px;opacity:.66}
+
+    .composer{display:flex;gap:10px;padding-top:15px;border-top:1px solid var(--line-soft)}
+    .composer input{flex:1;min-width:0;border-radius:var(--r-pill)}
+
+    .assistant{margin-top:15px;padding:15px 16px;border-radius:var(--r-md);background:var(--pink-soft)}
+    .assistant strong{display:block;color:var(--pink-deep);font-size:13px}
+    .assistant p{margin:4px 0 10px;color:var(--blue-mid);font-size:12.5px}
+    .assistant button{margin:0 6px 6px 0;padding:8px 12px;border:1px solid var(--pink);border-radius:var(--r-pill);background:#fff;color:var(--pink-deep);font-size:12px;font-weight:700;cursor:pointer;transition:background .2s var(--ease),color .2s var(--ease)}
+    .assistant button:hover{background:var(--pink);color:#fff}
+    .assistant-output{margin-top:4px;color:var(--pink-deep);font-size:12.5px;min-height:18px}
+
+    .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.4);transform:scale(0);animation:ripple .55s ease-out;pointer-events:none}
+    @keyframes ripple{to{transform:scale(4);opacity:0}}
+
+    .chat-shell .app-footer{margin-top:24px}
+    @media (max-width:860px){
+      .chat-layout{grid-template-columns:1fr}
+      .chat-panel--thread{min-height:0}
+      .chat-list{max-height:230px}
+      .messages{height:44vh}
+    }
+    @media (max-width:520px){
+      .chat-shell{padding:16px 12px 34px}
+      .chat-panel{padding:16px;border-radius:var(--r-lg)}
+      .composer{flex-direction:column}
+      .composer .btn{width:100%}
+    }
   </style>
 </head>
 <body>
-  <main class="shell">
-    <a class="back" href="./index.html">← Back to SVKM Connect</a>
-    <div class="layout">
-      <aside class="card"><h2>Chats</h2><p class="muted">Your accepted connections.</p><div class="chat-list" id="chat-list"><p class="empty">Loading...</p></div></aside>
-      <section class="card"><h1 id="partner-name">Private chat</h1><p class="muted" id="partner-meta">Choose an accepted connection to start chatting.</p><div class="messages" id="messages"><p class="empty">Your messages will appear here.</p></div><form class="composer" id="message-form"><input id="message-input" maxlength="2000" placeholder="Write a message..." autocomplete="off" required><button class="btn" type="submit">Send</button></form><section class="assistant" id="assistant" hidden><strong>Conversation coach</strong><p class="muted">Need an opening line? I can suggest a friendly one.</p><button type="button" data-suggestion="What has been the highlight of your day?">Suggest a question</button><button type="button" data-suggestion="You seem fun to talk to — what are you into lately?">Suggest an opener</button><div class="assistant-output" id="assistant-output"></div></section></section>
+  <div class="chat-shell">
+    <div class="chat-top">
+      <a class="app-back" href="./discover.html">&larr; Back to live matches</a>
     </div>
-  </main>
+
+    <div class="chat-layout">
+      <aside class="chat-panel">
+        <h2>Chats</h2>
+        <p class="chat-panel__sub">Your accepted connections.</p>
+        <div class="chat-list" id="chat-list"><p class="chat-panel__sub">Loading&hellip;</p></div>
+      </aside>
+
+      <section class="chat-panel chat-panel--thread">
+        <div class="thread-head">
+          <div class="thread-avatar" id="partner-avatar" aria-hidden="true">&#9825;</div>
+          <div>
+            <h1 id="partner-name">Private chat</h1>
+            <p id="partner-meta">Choose an accepted connection to start chatting.</p>
+          </div>
+        </div>
+
+        <div class="messages" id="messages"><p class="chat-panel__sub">Your messages will appear here.</p></div>
+
+        <form class="composer" id="message-form">
+          <input id="message-input" maxlength="2000" placeholder="Write a message&hellip;" autocomplete="off" required>
+          <button class="btn" type="submit">Send</button>
+        </form>
+        <div class="status" id="chat-status" role="status" aria-live="polite"></div>
+
+        <section class="assistant" id="assistant" hidden>
+          <strong>Conversation coach</strong>
+          <p>Need an opening line? Pick one and edit it before you send.</p>
+          <button type="button" data-suggestion="What has been the highlight of your day?">Suggest a question</button>
+          <button type="button" data-suggestion="You seem fun to talk to &mdash; what are you into lately?">Suggest an opener</button>
+          <div class="assistant-output" id="assistant-output"></div>
+        </section>
+      </section>
+    </div>
+
+    <footer class="app-footer">
+      <div class="app-footer__grid">
+        <div class="app-footer__brand">
+          <strong>SVKM Connect</strong>
+          <span>Verified campus community.</span>
+        </div>
+        <nav class="app-footer__links" aria-label="Sitemap">
+          <a href="./discover.html">Live Matches</a>
+          <a href="./profile.html">Your Profile</a>
+          <a href="./index.html">Home</a>
+          <a href="./privacy.html">Privacy Policy</a>
+          <a href="./terms.html">Terms</a>
+        </nav>
+      </div>
+    </footer>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const client=window.supabase.createClient('https://sjwoyiwrvtrcezmgzosg.supabase.co','sb_publishable_s4dBdf87iuX7I0I0kNRQRg_5PI2rGN-');const $=s=>document.querySelector(s);const connectionId=new URLSearchParams(location.search).get('connection');let session,activeConnection;
-    const escapeHtml=value=>String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
-    async function init(){const result=await client.auth.getSession();session=result.data.session;if(!session){location.href='./auth.html';return}const mine=await client.from('profiles').select('is_bot').eq('id',session.user.id).maybeSingle();if(!mine.error&&!mine.data?.is_bot)$('#assistant').hidden=false;await loadConnections();}
-    async function loadConnections(){const result=await client.from('connections').select('id,requester_id,recipient_id').or(`requester_id.eq.${session.user.id},recipient_id.eq.${session.user.id}`).eq('status','accepted').order('updated_at',{ascending:false});if(result.error){$('#chat-list').innerHTML='<p class="empty">Chat is unavailable until the chat_messages migration is applied.</p>';return}const rows=result.data||[];const ids=rows.map(row=>row.requester_id===session.user.id?row.recipient_id:row.requester_id);const profiles=await client.from('profiles').select('id,display_name,college,course').in('id',ids);const map=new Map((profiles.data||[]).map(profile=>[profile.id,profile]));$('#chat-list').innerHTML=rows.length?rows.map(row=>{const id=row.requester_id===session.user.id?row.recipient_id:row.requester_id;const partner=map.get(id)||{};return `<button class="chat-link${row.id===connectionId?' active':''}" data-connection="${row.id}">${escapeHtml(partner.display_name||'Campus connection')}<br><small>${escapeHtml(partner.course||'Student')}</small></button>`}).join(''):'<p class="empty">No accepted connections yet.</p>';document.querySelectorAll('[data-connection]').forEach(button=>button.addEventListener('click',()=>{location.href=`./chat.html?connection=${button.dataset.connection}`}));if(connectionId){activeConnection=rows.find(row=>row.id===connectionId);if(!activeConnection){$('#messages').innerHTML='<p class="empty">That connection is not available.</p>';return}const id=activeConnection.requester_id===session.user.id?activeConnection.recipient_id:activeConnection.requester_id;const profile=map.get(id)||{};$('#partner-name').textContent=profile.display_name||'Private chat';$('#partner-meta').textContent=[profile.course,profile.college].filter(Boolean).join(' · ');await loadMessages();}}
-    async function loadMessages(){const result=await client.from('chat_messages').select('sender_id,body,created_at').eq('connection_id',connectionId).order('created_at');if(result.error){$('#messages').innerHTML='<p class="empty">Chat messages are unavailable. Apply the supplied schema migration first.</p>';return}$('#messages').innerHTML=result.data.length?result.data.map(message=>`<div class="bubble${message.sender_id===session.user.id?' mine':''}">${escapeHtml(message.body)}<small>${new Date(message.created_at).toLocaleString()}</small></div>`).join(''):'<p class="empty">Start the conversation with a friendly hello.</p>';$('#messages').scrollTop=$('#messages').scrollHeight;}
-    $('#message-form').addEventListener('submit',async event=>{event.preventDefault();if(!activeConnection)return;const input=$('#message-input');const body=input.value.trim();if(!body)return;const result=await client.from('chat_messages').insert({connection_id:activeConnection.id,sender_id:session.user.id,body});if(result.error){$('#partner-meta').textContent=result.error.message;return}input.value='';await loadMessages();});
-    document.querySelectorAll('[data-suggestion]').forEach(button=>button.addEventListener('click',()=>{$('#assistant-output').textContent=button.dataset.suggestion;$('#message-input').value=button.dataset.suggestion;$('#message-input').focus();}));
+    const SUPABASE_URL = 'https://sjwoyiwrvtrcezmgzosg.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_s4dBdf87iuX7I0I0kNRQRg_5PI2rGN-';
+    /* NOTE: never name this `supabase` — the CDN already declares that global. */
+    const client = window.supabase && !SUPABASE_URL.includes('YOUR-')
+      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+      : null;
+
+    const $ = s => document.querySelector(s);
+    const $$ = s => [...document.querySelectorAll(s)];
+    const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+    const connectionId = new URLSearchParams(location.search).get('connection');
+    let session = null;
+    let activeConnection = null;
+    let sendInFlight = false;
+
+    const status = (message, type = '') => {
+      const el = $('#chat-status');
+      el.textContent = message;
+      el.className = `status ${type}`;
+    };
+    const friendlyError = (error, fallback) => {
+      const raw = (error && error.message) || error || '';
+      if (/does not exist|schema cache/i.test(raw) && /chat_messages/i.test(raw)) return 'Run the chat_messages part of supabase-schema.sql in the Supabase SQL Editor to enable chat.';
+      if (/row-level security|permission denied/i.test(raw)) return 'Permission denied. Check the RLS policies in supabase-schema.sql.';
+      if (/fetch|network|failed to fetch/i.test(raw)) return 'Network problem. Check your connection and try again.';
+      return raw || fallback;
+    };
+    const goToAuth = () => location.replace('./auth.html');
+
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      $$('.btn').forEach(button => {
+        button.addEventListener('click', event => {
+          const rect = button.getBoundingClientRect();
+          const size = Math.max(rect.width, rect.height);
+          const ripple = document.createElement('span');
+          ripple.className = 'ripple';
+          ripple.style.width = `${size}px`;
+          ripple.style.height = `${size}px`;
+          ripple.style.left = `${event.clientX - rect.left - size / 2}px`;
+          ripple.style.top = `${event.clientY - rect.top - size / 2}px`;
+          button.style.position = 'relative';
+          button.style.overflow = 'hidden';
+          button.appendChild(ripple);
+          ripple.addEventListener('animationend', () => ripple.remove(), { once: true });
+        });
+      });
+    }
+
+    async function init() {
+      if (!client) {
+        $('#chat-list').innerHTML = '<p class="chat-panel__sub">Could not reach the sign-in service. Check your connection and reload.</p>';
+        $('#message-form').querySelector('button').disabled = true;
+        return;
+      }
+      const result = await client.auth.getSession();
+      session = result.data && result.data.session;
+      if (!session) { goToAuth(); return; }
+      const mine = await client.from('profiles').select('is_bot').eq('id', session.user.id).maybeSingle();
+      if (!mine.error && mine.data && !mine.data.is_bot) $('#assistant').hidden = false;
+      await loadConnections();
+    }
+
+    async function loadConnections() {
+      const result = await client
+        .from('connections')
+        .select('id,requester_id,recipient_id')
+        .or(`requester_id.eq.${session.user.id},recipient_id.eq.${session.user.id}`)
+        .eq('status', 'accepted')
+        .order('updated_at', { ascending: false });
+      if (result.error) {
+        $('#chat-list').innerHTML = `<p class="chat-panel__sub">${escapeHtml(friendlyError(result.error, 'Chat is unavailable right now.'))}</p>`;
+        return;
+      }
+      const rows = result.data || [];
+      if (!rows.length) {
+        $('#chat-list').innerHTML = '<p class="chat-panel__sub">No accepted connections yet. Send a connection request from live matches first.</p>';
+        return;
+      }
+      const partnerIds = rows.map(row => row.requester_id === session.user.id ? row.recipient_id : row.requester_id);
+      const profiles = await client.from('profiles').select('id,display_name,college,course').in('id', partnerIds);
+      const map = new Map((profiles.data || []).map(profile => [profile.id, profile]));
+      $('#chat-list').innerHTML = rows.map(row => {
+        const id = row.requester_id === session.user.id ? row.recipient_id : row.requester_id;
+        const partner = map.get(id) || {};
+        return `<button class="chat-link${row.id === connectionId ? ' active' : ''}" type="button" data-connection="${escapeHtml(row.id)}"><strong>${escapeHtml(partner.display_name || 'Campus connection')}</strong><small>${escapeHtml(partner.course || 'Student')}</small></button>`;
+      }).join('');
+      $$('[data-connection]').forEach(button => {
+        button.addEventListener('click', () => { location.href = `./chat.html?connection=${encodeURIComponent(button.dataset.connection)}`; });
+      });
+
+      if (!connectionId) {
+        $('#messages').innerHTML = '<p class="chat-panel__sub">Pick a connection on the left to open the conversation.</p>';
+        return;
+      }
+      activeConnection = rows.find(row => row.id === connectionId) || null;
+      if (!activeConnection) {
+        $('#messages').innerHTML = '<p class="chat-panel__sub">That connection is not available.</p>';
+        status('This conversation is no longer shared with you.', 'error');
+        return;
+      }
+      const id = activeConnection.requester_id === session.user.id ? activeConnection.recipient_id : activeConnection.requester_id;
+      const profile = map.get(id) || {};
+      $('#partner-name').textContent = profile.display_name || 'Private chat';
+      $('#partner-avatar').textContent = String(profile.display_name || '?').split(/\s+/).filter(Boolean).map(part => part[0]).join('').slice(0, 2).toUpperCase() || '?';
+      $('#partner-meta').textContent = [profile.course, profile.college].filter(Boolean).join(' · ') || 'Your accepted connection';
+      await loadMessages();
+    }
+
+    async function loadMessages() {
+      const result = await client
+        .from('chat_messages')
+        .select('sender_id,body,created_at')
+        .eq('connection_id', activeConnection.id)
+        .order('created_at');
+      if (result.error) {
+        $('#messages').innerHTML = `<p class="chat-panel__sub">${escapeHtml(friendlyError(result.error, 'Messages could not be loaded.'))}</p>`;
+        return;
+      }
+      const rows = result.data || [];
+      $('#messages').innerHTML = rows.length
+        ? rows.map(message => `<div class="bubble${message.sender_id === session.user.id ? ' mine' : ''}">${escapeHtml(message.body)}<small>${new Date(message.created_at).toLocaleString()}</small></div>`).join('')
+        : '<p class="chat-panel__sub">Start the conversation with a friendly hello.</p>';
+      $('#messages').scrollTop = $('#messages').scrollHeight;
+    }
+
+    $('#message-form').addEventListener('submit', async event => {
+      event.preventDefault();
+      if (sendInFlight) return;
+      const input = $('#message-input');
+      const body = input.value.trim();
+      if (!body) return;
+      if (!activeConnection) { status('Choose a connection before sending a message.', 'error'); return; }
+      if (!session) { goToAuth(); return; }
+      sendInFlight = true;
+      const button = event.currentTarget.querySelector('button');
+      button.disabled = true;
+      status('');
+      try {
+        const result = await client.from('chat_messages').insert({ connection_id: activeConnection.id, sender_id: session.user.id, body });
+        if (result.error) { status(friendlyError(result.error, 'Message could not be sent.'), 'error'); return; }
+        input.value = '';
+        await loadMessages();
+      } catch (error) {
+        status(friendlyError(error, 'Message could not be sent.'), 'error');
+      } finally {
+        sendInFlight = false;
+        button.disabled = false;
+      }
+    });
+
+    $$('[data-suggestion]').forEach(button => {
+      button.addEventListener('click', () => {
+        const suggestion = button.dataset.suggestion;
+        $('#assistant-output').textContent = suggestion;
+        $('#message-input').value = suggestion;
+        $('#message-input').focus();
+      });
+    });
+
+    if (client) {
+      client.auth.onAuthStateChange((event, nextSession) => {
+        if (event === 'SIGNED_OUT') goToAuth();
+        if (event === 'SIGNED_IN' && nextSession) session = nextSession;
+      });
+    }
     init();
   </script>
 </body>

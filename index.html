@@ -2,1026 +2,422 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SVKM Connect — Campus Community</title>
-  <meta name="description" content="SVKM Connect — a verified campus community for students." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SVKM Connect | Match. Chat. Meet on Campus.</title>
+  <meta name="description" content="SVKM Connect is the verified campus matchmaking community for SVKM students across 7 colleges and 64 courses. Set your preferences, see live matches from your campus, and start a real conversation." />
+  <meta name="theme-color" content="#0b1f3a" />
   <link rel="icon" type="image/svg+xml" href="logo.svg" />
+  <link rel="canonical" href="index.html" />
+
+  <link rel="preconnect" href="https://fonts.cdnfonts.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/roobert" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.cdnfonts.com/css/nefelibata-script" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" />
+  <link rel="stylesheet" href="styles.css" />
+
   <style>
-    /* === Variables & Reset === */
-    :root{
-      --bg:#fcf1f6;                 /* matte blush background */
-      --card:#ffffff;               /* card background */
-      --muted:#a58997;              /* secondary text */
-      --accent-1:#e997ba;           /* matte pink */
-      --accent-2:#8cb2dd;           /* matte blue */
-      --accent-3:#c26a90;           /* deep rose */
-      --blue-light:#aecdf0;
-      --pink-soft:#e79cb9;
-      --blue-deep:#5276a3;
-      --pink-deep:#c66b92;
-      --ink:#45363e;                /* body text */
-      --max-width:1200px;
-      --radius:18px;
-      --ease: cubic-bezier(.16,.84,.29,1);
-      --font-cursive:"Nefelibata Script","Dancing Script","Brush Script MT",cursive;
-      --font-script:"Dancing Script","Brush Script MT",cursive;
-      --font-body:"Poppins","Segoe UI",sans-serif;
-      --shadow:0 12px 28px rgba(212,140,171,.16);
+    /* page-only layout */
+    .m-hero__proof{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:4px;color:rgba(255,255,255,.55);font-size:12.5px;font-weight:600;letter-spacing:.02em}
+    .m-hero__proof span{display:inline-flex;align-items:center;gap:7px}
+    .m-hero__proof span::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--cyan);flex:0 0 5px}
+    .m-why__body p+p{margin-top:16px}
+    .m-split{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,5vw,60px);align-items:start}
+    .m-why__art{
+      position:relative;display:grid;gap:12px;padding:26px;border-radius:var(--r-xl);
+      background:linear-gradient(155deg,var(--blue) 0%,var(--blue-mid) 100%);box-shadow:var(--sh-4);color:#fff;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-    body{
-      margin:0;
-      font-family:var(--font-body);
-      color:var(--ink);
-      background:var(--bg);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height:1.35;
-      padding:24px;
-      display:flex;
-      justify-content:center;
-      overflow-x:hidden;
-    }
-    body:before,body:after{content:"";position:fixed;z-index:-1;pointer-events:none;border-radius:50%}
-    body:before{width:40vw;height:40vw;right:-16vw;top:10vh;background:var(--pink-soft);opacity:.18;animation:ambientDrift 14s ease-in-out infinite}
-    body:after{width:32vw;height:32vw;left:-14vw;bottom:-6vh;background:var(--accent-2);opacity:.14;animation:ambientDrift 18s ease-in-out infinite reverse}
-    @keyframes ambientDrift{50%{transform:translate3d(0,-24px,0) scale(1.08)}100%{transform:translate3d(18px,8px,0) scale(.96)}}
-    .container{width:100%;max-width:var(--max-width);}
-
-    /* === Header === */
-    header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      margin-bottom:28px;
-      position:sticky;
-      top:0;
-      z-index:50;
-      padding:10px 0;
-      background:rgba(252,241,246,.92);
-      backdrop-filter:blur(12px);
-    }
-    .brand{
-      display:flex;
-      gap:14px;
-      align-items:center;
-    }
-    .logo {
-      width:48px;height:48px;border-radius:50%;
-      background:#fff;
-      display:grid;place-items:center;
-      box-shadow:var(--shadow);
-      font-weight:700;
-      font-size:18px;
-      padding:5px;
-      border:2px solid var(--pink-soft);
-    }
-    .logo img{width:100%;height:100%;object-fit:contain;border-radius:50%}
-    .brand h1{font-family:var(--font-cursive);font-size:36px;margin:0;color:var(--blue-deep);line-height:.95}
-    .brand-link{color:inherit;text-decoration:none}
-    .brand-tag{font-family:var(--font-script);font-size:17px;color:var(--muted)}
-    .nav-toggle{display:none}
-    h1,h2,h3,h4,.pill,.eyebrow{font-family:var(--font-cursive)}
-    h2{font-size:36px;color:var(--blue-deep);margin:0;font-weight:400}
-    h3,h4{font-family:var(--font-script);font-size:21px;color:var(--blue-deep);margin:0;font-weight:600}
-    nav{display:flex;gap:8px;align-items:center}
-    /* mega menu base */
-    .nav-item{position:relative;}
-    .nav-button{
-      background:transparent;border:0;color:var(--muted);padding:10px 14px;border-radius:999px;font-size:14px;
-      cursor:pointer;font-weight:600;
-    }
-    .nav-button:focus{outline:2px solid var(--pink-soft)}
-    .mega{
-      position:absolute;left:0;top:calc(100% + 12px);
-      background:var(--card);
-      padding:18px;border-radius:14px;min-width:520px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;
-      box-shadow:var(--shadow);
-      transform-origin:top center;transform:translateY(12px) scale(.98);opacity:0;pointer-events:none;transition:all .22s var(--ease);
-      border:1px solid var(--pink-soft);
-      z-index:40;
-    }
-    .nav-item:hover .mega, .nav-item:focus-within .mega, .nav-item[aria-expanded="true"] .mega{
-      transform:translateY(0) scale(1);opacity:1;pointer-events:auto;
-    }
-    .mega h3{margin:0 0 8px 0;font-size:20px;color:var(--blue-deep);font-family:var(--font-script)}
-    .mega ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
-    .mega a{color:var(--muted);text-decoration:none;padding:8px;border-radius:8px;font-size:14px;display:block}
-    .mega a:hover{background:var(--bg);color:var(--pink-deep);transform:translateX(3px)}
-
-    /* Login/Help */
-    .actions{display:flex;gap:10px;align-items:center}
-    .actions .btn{padding:8px 13px;font-size:13px}
-    .btn{
-      padding:10px 14px;border-radius:999px;background:var(--card);
-      border:1px solid var(--pink-soft);cursor:pointer;color:var(--pink-deep);font-weight:600;
-      box-shadow:var(--shadow);
-    }
-    .btn.primary{
-      background:var(--accent-1);
-      color:#fff;font-weight:700;border:0;box-shadow:0 8px 22px rgba(233,151,186,.35);
-    }
-    .btn.login-button{background:var(--blue-deep);color:#fff;border-color:var(--blue-deep)}
-    .btn.login-button:hover{background:#3f618d;color:#fff;border-color:#3f618d}
-    .btn.signup-button{background:var(--accent-1);color:#fff;border-color:var(--accent-1)}
-    .btn.signup-button:hover{background:var(--pink-deep);color:#fff;border-color:var(--pink-deep)}
-    a.btn{text-decoration:none}
-    .btn.primary:hover{background:var(--pink-deep);color:#fff;border-color:var(--pink-deep)}
-    .btn:hover,.nav-button:hover{color:var(--pink-deep);border-color:var(--pink-deep);transform:translateY(-2px)}
-    .btn:hover{background:var(--bg)}
-    .btn,.nav-button{transition:transform .22s var(--ease),color .22s var(--ease),border-color .22s var(--ease),background .22s var(--ease)}
-    .hero-left,.hero-right,.dating-flow,footer{animation:pageRise .7s var(--ease) both}
-    .hero-right{animation-delay:.1s}.dating-flow{animation-delay:.3s}footer{animation-delay:.5s}
-    @keyframes pageRise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-    .reveal-item{opacity:0;transform:translateY(12px);transition:opacity .65s var(--ease),transform .65s var(--ease)}
-    .matches-section{display:none;margin:0 0 28px;padding:22px;border:1px solid var(--pink-soft);border-radius:var(--radius);background:var(--card);box-shadow:var(--shadow);animation:pageRise .7s var(--ease) both}.matches-section.visible{display:block}.matches-head{display:flex;justify-content:space-between;align-items:end;gap:14px;margin-bottom:16px}.matches-head p{margin:4px 0 0;color:var(--muted)}.match-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.match-card{padding:16px;border-radius:14px;background:var(--card);border:1px solid var(--pink-soft);transition:transform .25s var(--ease),border-color .25s var(--ease)}.match-card:hover{transform:translateY(-5px);border-color:var(--pink-deep)}.match-avatar{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:var(--accent-1);color:#fff;font-family:var(--font-script);font-weight:700;font-size:18px}.match-card:nth-child(even) .match-avatar{background:var(--accent-2)}.match-card-top{display:flex;gap:10px;align-items:center}.match-card h3{font-size:19px;margin:0}.bot-badge{display:inline-block;margin-left:5px;padding:2px 6px;border-radius:999px;background:var(--blue-light);color:var(--blue-deep);font:600 10px var(--font-body);vertical-align:middle}.match-card p{color:var(--muted);font-size:12px;margin:3px 0 0}.match-tags{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}.match-tag{padding:5px 9px;border-radius:999px;background:var(--bg);color:var(--blue-deep);font-size:11px}.match-connect{width:100%;padding:9px;border:1px solid var(--pink-soft);border-radius:999px;background:var(--card);color:var(--pink-deep);cursor:pointer;font-weight:600}.match-connect.connected{background:var(--pink-soft);color:#fff;border-color:var(--pink-soft)}.love-stage{position:fixed;inset:0;z-index:70;display:grid;place-items:center;background:var(--bg);opacity:0;pointer-events:none;transition:opacity .35s ease}.love-stage.open{opacity:1;pointer-events:auto}.love-stage-content{text-align:center}.love-stage h2{font-size:clamp(34px,6vw,58px);margin:0}.love-stage p{color:var(--muted)}.love-burst{font-size:60px;color:var(--accent-1);animation:loveBeat 1s ease-in-out infinite}.love-particle{position:absolute;color:var(--accent-1);font-size:24px;animation:loveFloat 2.8s ease-out forwards}.love-particle:nth-child(1){left:18%;top:72%}.love-particle:nth-child(2){left:78%;top:64%;animation-delay:.2s}.love-particle:nth-child(3){left:32%;top:22%;animation-delay:.4s}.love-particle:nth-child(4){left:66%;top:28%;animation-delay:.6s}@keyframes loveBeat{50%{transform:scale(1.18)}}@keyframes loveFloat{to{transform:translateY(-170px) scale(1.35);opacity:0}}
-    .session-chip{font-size:12px;color:var(--blue-deep);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-    [hidden]{display:none !important}
-    dialog.connection-dialog{width:min(560px,calc(100% - 28px));border:0;border-radius:20px;padding:0;color:var(--blue-deep);box-shadow:0 24px 70px rgba(18,61,114,.24)}dialog.connection-dialog::backdrop{background:rgba(10,29,54,.42)}.connection-dialog-inner{padding:24px}.connection-dialog h2{margin:0 0 5px}.connection-dialog p{color:var(--muted);margin:0 0 16px}.connection-list{display:grid;gap:10px;max-height:45vh;overflow:auto}.connection-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px;border:1px solid #d8e3f0;border-radius:12px}.connection-row strong{display:block}.connection-row span{display:block;color:var(--muted);font-size:12px}.connection-row .btn{padding:8px 12px;font-size:12px}
-    .profile-button{display:inline-flex;align-items:center;gap:7px}
-    .profile-avatar{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--blue-light);color:var(--blue-deep);font-size:11px;font-weight:700}
-
-    /* === Hero === */
-    .hero{
-      display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;align-items:stretch;margin-bottom:20px;min-width:0;height:320px;
-    }
-    .hero-left{
-      background:var(--card);
-      border-radius:var(--radius);padding:18px;min-width:0;min-height:0;height:320px;position:relative;overflow:visible;z-index:5;border:1px solid var(--pink-soft);
-      box-shadow:var(--shadow);
-      display:flex;flex-direction:column;justify-content:center;
-    }
-    .eyebrow{color:var(--blue-deep);font-size:22px;margin-bottom:4px;font-weight:500}
-    .headline{font-size:clamp(34px,4vw,48px);line-height:1.05;margin:0 0 8px 0;color:var(--blue-deep);font-weight:400}
-    .sub{color:var(--muted);margin-bottom:12px}
-
-    /* quick widget */
-    .quick{
-      background:var(--bg);
-      width:100%;height:68px;min-width:0;padding:8px;border-radius:14px;display:flex;gap:6px;align-items:center;flex-wrap:nowrap;overflow:visible;
-      position:relative;z-index:10;box-shadow:inset 0 1px 0 #fff, 0 8px 24px rgba(212,140,171,.12);
-    }
-    .select{
-      position:relative;
-      background:var(--card);padding:8px 12px;border-radius:14px;min-width:140px;color:var(--ink);
-      display:flex;align-items:center;gap:8px;border:1px solid var(--pink-soft);box-shadow:var(--shadow);
-    }
-    .select select{width:100%;background:var(--card);border:1px solid transparent;border-radius:10px;color:var(--ink);padding:8px 30px 8px 10px;appearance:auto;font-weight:600;cursor:pointer;font-family:var(--font-body)}
-    .select select option{background:var(--card);color:var(--ink)}
-    .filter-dropdown{display:block;padding:4px;min-width:0;flex:1 1 0;width:0}
-    .filter-button{width:100%;background:var(--card);border:1px solid transparent;border-radius:10px;color:var(--ink);padding:7px 8px;text-align:left;font:600 13px var(--font-body);cursor:pointer}
-    .filter-button:focus{outline:2px solid var(--pink-soft)}
-    .filter-menu{display:grid;top:calc(100% + 8px);left:0;width:220px;min-width:0;padding:10px;overflow:visible;grid-template-columns:1fr;gap:4px;z-index:60}
-    .filter-dropdown[data-filter="college"] .filter-menu{width:min(520px,calc(100vw - 32px));grid-template-columns:repeat(2,minmax(0,1fr))}
-    .filter-dropdown.open .filter-menu{transform:translateY(0) scale(1);opacity:1;pointer-events:auto}
-    .filter-menu button{width:100%;background:transparent;border:0;color:var(--muted);text-align:left;padding:8px;border-radius:8px;font:14px var(--font-body);line-height:1.25;white-space:normal;cursor:pointer}
-    .filter-menu button:hover{background:var(--bg);color:var(--pink-deep);transform:translateX(3px)}
-    .filter-dropdown select{display:none}
-    .filter-dropdown .filter-button{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .lets{
-      margin-left:auto;flex:0 0 auto;
-      display:inline-grid;place-items:center;padding:12px 22px;border-radius:999px;font-weight:700;
-      color:#fff;background:var(--muted);cursor:not-allowed;border:0;opacity:.7;
-      transform:translateY(0);transition:transform .22s var(--ease), box-shadow .22s var(--ease);
-      box-shadow:none;
-      position:relative;overflow:hidden;
-      font-family:var(--font-body);
-    }
-    .lets.ready{background:var(--accent-1);cursor:pointer;opacity:1;box-shadow:0 10px 22px rgba(233,151,186,.35);animation:readyGlow 2.2s ease-in-out infinite}
-    .lets:hover{background:var(--pink-deep)}
-    .lets:active{transform:translateY(2px)}
-    @keyframes readyGlow{0%,100%{box-shadow:0 8px 18px rgba(233,151,186,.28),0 0 0 0 rgba(140,178,221,0)}50%{box-shadow:0 12px 26px rgba(233,151,186,.48),0 0 0 6px rgba(140,178,221,.13)}}
-    .pulse {
-      position:absolute;inset:-40%;transform:rotate(25deg);
-      background:var(--pink-soft);
-      opacity:.4;
-      animation:float 5s linear infinite;
-      pointer-events:none;
-    }
-    @keyframes float{
-      0%{transform:translateX(-30%) translateY(0) scale(1)}
-      50%{transform:translateX(30%) translateY(-6%) scale(1.03)}
-      100%{transform:translateX(-30%) translateY(0) scale(1)}
-    }
-    .hearts{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.55}
-    .heart{position:absolute;color:var(--accent-1);font-size:20px;animation:heartRise 7s linear infinite;filter:drop-shadow(0 5px 12px rgba(198,107,146,.35))}
-    .heart:nth-child(1){left:8%;animation-delay:0s}.heart:nth-child(2){left:24%;animation-delay:2s;font-size:14px}.heart:nth-child(3){left:74%;animation-delay:1s}.heart:nth-child(4){left:90%;animation-delay:3.5s;font-size:16px}
-    @keyframes heartRise{0%{transform:translateY(110%) rotate(-10deg) scale(.7);opacity:0}18%{opacity:.8}100%{transform:translateY(-360px) rotate(18deg) scale(1.2);opacity:0}}
-
-    .stats{display:flex;gap:12px;margin-top:16px;align-items:center}
-    .stat{background:var(--bg);padding:10px 14px;border-radius:12px;color:var(--muted);display:flex;flex-direction:column;gap:4px;border:1px solid var(--pink-soft)}
-    .stat strong{font-size:19px;color:var(--blue-deep)}
-
-    /* hero-right (illustration / live feed) */
-    .hero-right{
-      background:var(--accent-2);
-      padding:12px;border-radius:var(--radius);border:1px solid var(--blue-light);
-      box-shadow:var(--shadow);
-      display:flex;flex-direction:column;gap:12px;
-      min-width:0;min-height:0;height:320px;justify-content:center;align-items:center;position:relative;z-index:1;
-      color:#fff;
-    }
-    .live-card{width:100%;height:100%;display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:center}
-    .live-intro{margin:0;color:var(--muted);font-size:12px;text-align:center}
-    .live-matches{display:grid;gap:8px;width:100%;max-height:210px;overflow:auto;padding:2px}
-    .live-profile{display:flex;align-items:center;gap:9px;padding:8px;border-radius:12px;background:rgba(255,255,255,.78);color:var(--ink)}
-    .live-profile-avatar{width:34px;height:34px;flex:0 0 34px;border-radius:50%;display:grid;place-items:center;background:var(--blue-light);color:var(--blue-deep);font-size:12px;font-weight:700}
-    .live-profile-info{min-width:0;flex:1}
-    .live-profile-info strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px}
-    .live-profile-info span{display:block;color:var(--muted);font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-    .live-ping{padding:6px 9px;border:1px solid var(--blue-light);border-radius:999px;background:#fff;color:var(--blue-deep);cursor:pointer;font:600 10px var(--font-body)}
-    .live-ping.pinged{background:var(--blue-deep);color:#fff}
-    .live-empty{margin:0;color:var(--muted);font-size:12px;text-align:center}
-    .avatar{width:42px;height:42px;border-radius:50%;background:#fff;color:var(--blue-deep);display:grid;place-items:center;font-weight:700;border:2px solid rgba(255,255,255,.6)}
-    .avatar:nth-child(2n){background:var(--pink-soft);color:#fff}
-    .dating-flow{margin-bottom:28px;padding:28px 30px;border-radius:var(--radius);background:linear-gradient(135deg,#fff,#eef6ff);border:1px solid var(--blue-light);box-shadow:var(--shadow)}
-    .dating-flow h2{font-family:var(--font-cursive);font-size:34px;margin:0 0 10px}
-    .dating-flow h3{font-size:25px;margin:24px 0 6px}
-    .dating-flow p{color:var(--muted);font-size:14px;max-width:760px}
-    .dating-flow blockquote{margin:22px 0;padding-left:14px;border-left:3px solid var(--blue-light);color:var(--blue-deep);font-family:var(--font-script);font-size:22px}
-    .dot{width:8px;height:8px;border-radius:50%;background:#fff;opacity:.2;animation:blink 1.2s infinite;}
-    .dot:nth-child(2){animation-delay:.12s}
-    .dot:nth-child(3){animation-delay:.24s}
-    @keyframes blink{0%{opacity:.15}50%{opacity:1}100%{opacity:.15}}
-
-    .action{margin-top:12px;display:flex;gap:8px}
-
-    /* === Footer === */
-    footer{margin-top:18px;padding:18px;border-radius:var(--radius);background:var(--card);border:1px solid var(--blue-light);box-shadow:var(--shadow)}
-    .footer-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;align-items:center}
-    .sitemap{display:flex;gap:12px;flex-wrap:wrap}
-    .sitemap a{color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:8px}
-    .sitemap a:hover{color:var(--pink-deep);background:var(--bg)}
-    .app-badges{display:flex;gap:8px;align-items:center}
-
-    /* responsive */
-    @media (max-width:1000px){
-      .hero{grid-template-columns:1fr;gap:18px;height:auto}
-      .hero-left{height:auto}
-      .hero-right{height:250px}
-      .mega{min-width:360px;grid-template-columns:repeat(1,1fr)}
-      .match-grid{grid-template-columns:repeat(2,1fr)}
-    }
-    @media (max-width:880px){
-      body{padding:16px}
-      header{flex-wrap:wrap;gap:10px}
-      .brand{flex:1 1 auto;min-width:0}
-      .brand h1{font-size:27px;line-height:1.05}
-      .logo{width:42px;height:42px;font-size:15px}
-      .nav-toggle{
-        display:inline-grid;place-items:center;width:44px;height:44px;border-radius:12px;
-        background:var(--card);border:1px solid var(--pink-soft);color:var(--pink-deep);
-        cursor:pointer;padding:0;box-shadow:var(--shadow);flex:0 0 auto;
-      }
-      .nav-toggle span{display:block;width:20px;height:2px;background:currentColor;border-radius:2px;margin:3px auto;transition:transform .22s var(--ease),opacity .22s var(--ease)}
-      .nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(5px) rotate(45deg)}
-      .nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
-      .nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-5px) rotate(-45deg)}
-      nav{
-        order:3;flex:1 1 100%;display:none;flex-direction:column;gap:6px;
-        background:var(--card);border:1px solid var(--pink-soft);border-radius:14px;padding:10px;
-        box-shadow:var(--shadow);max-height:calc(100vh - 100px);overflow-y:auto;
-      }
-      nav.open{display:flex}
-      .nav-item{width:100%}
-      .nav-button{
-        width:100%;text-align:left;justify-content:space-between;gap:10px;
-        background:var(--bg);border-radius:12px;font-size:15px;
-        padding:12px 14px;border:1px solid transparent;
-      }
-      .nav-button:after{content:"+";font-size:18px;line-height:1;color:var(--muted);transition:transform .22s var(--ease)}
-      .nav-item[aria-expanded="true"] .nav-button{background:var(--card);color:var(--pink-deep);border-color:var(--pink-deep)}
-      .nav-item[aria-expanded="true"] .nav-button:after{transform:rotate(45deg);color:var(--pink-deep)}
-      .mega{
-        position:static;transform:none;opacity:1;pointer-events:auto;display:none;
-        min-width:0;width:100%;grid-template-columns:1fr;margin-top:8px;padding:14px;
-        box-shadow:none;border-radius:12px;background:var(--bg);
-      }
-      .nav-item[aria-expanded="true"] .mega{display:grid}
-      .mega a{padding:9px 10px;font-size:14px}
-      .session-chip{max-width:120px}
-      .actions .btn{padding:8px 12px;font-size:12px}
-    }
-    @media (max-width:640px){
-      .actions #help-button{display:none}
-      .stats{gap:8px}
-      .stat{flex:1 1 0;min-width:0;padding:8px 10px}
-      .stat strong{font-size:16px}
-    }
-    @media (max-width:600px){
-      .match-grid{grid-template-columns:1fr}
-      .matches-head{display:block}
-      .quick{flex-wrap:wrap;height:auto;gap:8px;padding:10px}
-      .select.filter-dropdown{flex:1 1 100%;width:100%;min-width:0;max-width:none}
-      .filter-dropdown[data-filter] .filter-menu{width:100%;min-width:0}
-      .lets{flex:1 1 100%;width:100%;margin-left:0}
-      .stats{flex-wrap:wrap}
-    }
-    @media (max-width:480px){
-      body{padding:12px}
-      .brand h1{font-size:24px}
-      .brand-tag{display:none}
-      .headline{font-size:clamp(28px,9vw,34px)}
-      .footer-grid{justify-content:center}
-      .sitemap{justify-content:center}
-      .sitemap a{font-size:13px}
-    }
-    @media (prefers-reduced-motion:reduce){
-      .pulse, .dot, .lets,body:before,body:after,.hero-left,.hero-right,.dating-flow,footer{animation:none;transition:none}
-    }
-  </style>
-  <style>
-    /* Premium navy system: keep the interaction model, refine the visual language. */
-    :root{
-      --bg:#f4f7fb;--card:#ffffff;--muted:#627089;--ink:#14233b;
-      --blue-deep:#123d72;--accent-1:#1d5da8;--accent-2:#77a9dd;
-      --accent-3:#b6536e;--blue-light:#dceafa;--pink-soft:#e8c8d1;
-      --pink-deep:#a94360;--shadow:0 16px 40px rgba(18,61,114,.10);
-      --font-body:"Poppins","Segoe UI",sans-serif;--font-cursive:"Poppins","Segoe UI",sans-serif;
-      --font-script:"Poppins","Segoe UI",sans-serif;
-    }
-    body{background:var(--bg);padding:20px 24px;color:var(--ink)}
-    body:before,body:after{display:none}
-    header{margin-bottom:34px;padding:10px 16px;background:rgba(255,255,255,.9);border:1px solid #e3eaf3;border-radius:16px;box-shadow:0 8px 24px rgba(18,61,114,.06);backdrop-filter:blur(14px)}
-    .logo{border:1px solid #d8e3f0;box-shadow:none;border-radius:12px;width:46px;height:46px}
-    .brand{gap:12px}.brand h1{font-size:24px;font-weight:700;letter-spacing:-.03em}.brand-tag{font-family:var(--font-body);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-    h1,h2,h3,h4,.pill,.eyebrow{font-family:var(--font-body)}
-    h2{font-size:32px;font-weight:700;letter-spacing:-.04em;color:var(--blue-deep)}
-    h3,h4{font-family:var(--font-body);font-size:16px;font-weight:700;color:var(--blue-deep)}
-    .btn{border-color:#d8e3f0;color:var(--blue-deep);box-shadow:0 5px 14px rgba(18,61,114,.07);background:#fff}
-    .btn.primary,.btn.signup-button{background:var(--accent-1);border-color:var(--accent-1);box-shadow:0 8px 18px rgba(29,93,168,.22)}
-    .btn.login-button{background:var(--blue-deep);border-color:var(--blue-deep)}
-    .btn:hover,.nav-button:hover{background:#eef4fb;color:var(--blue-deep);border-color:#9bb9d8}
-    .hero{gap:30px}.hero-left{background:linear-gradient(145deg,#123d72,#1d5da8);border-radius:24px;padding:clamp(28px,5vw,62px);color:#fff;box-shadow:0 20px 44px rgba(18,61,114,.2)}
-    .eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#aacaf0}
-    .headline{font-size:clamp(38px,5vw,66px);line-height:1.02;color:#fff;letter-spacing:-.06em;max-width:620px}
-    .sub{color:#d7e7f8;font-size:17px;max-width:500px}.quick{background:#fff;border:0;box-shadow:0 12px 30px rgba(6,31,63,.22);border-radius:14px;padding:8px}
-    .select{border-right:1px solid #e3eaf3}.filter-button{color:var(--blue-deep);font-weight:600}.quick select{color:var(--ink)}
-    .lets{background:var(--accent-3);box-shadow:0 9px 18px rgba(182,83,110,.28);border-radius:11px}.lets:hover{background:#9f445d}
-    .stats{border-top-color:rgba(255,255,255,.2)}.stat strong{color:#fff}.stat span{color:#c5dbf3!important}
-    .hero-right{height:auto;min-height:340px}.live-card,.dating-flow,.matches-section{background:#fff;border:1px solid #e0e8f2;border-radius:20px;box-shadow:var(--shadow)}
-    .live-card{padding:24px}.live-card h2{font-size:24px}.live-profile{border-color:#e3eaf3;background:#f8faff}.live-profile-avatar,.match-avatar{background:var(--blue-deep)}.live-profile:nth-child(even) .live-profile-avatar,.match-card:nth-child(even) .match-avatar{background:var(--accent-3)}
-    .live-ping,.match-connect{color:var(--blue-deep);border-color:#b9cee5;background:#fff}.live-ping:hover,.match-connect:hover{background:var(--blue-deep);color:#fff}
-    .matches-section{padding:24px}.match-card{border-color:#e1e9f3;background:#fbfcfe}.match-card:hover{border-color:#8eafd2;box-shadow:0 10px 24px rgba(18,61,114,.1)}
-    .match-tag{background:#edf4fc;color:var(--blue-deep);border-color:#d9e7f5}
-    .dating-flow{padding:28px;margin-top:28px}.dating-flow h2{font-size:26px}.dating-flow .eyebrow{color:var(--accent-3)}
-    footer{border-top-color:#dce5ef}.sitemap a{color:var(--muted)}.sitemap a:hover{color:var(--blue-deep)}
-    .love-particle,.love-burst{display:none}
-    .love-stage{background:rgba(9,30,57,.72)}
-    ::selection{background:#cfe2f7;color:var(--blue-deep)}
-    :focus-visible{outline:3px solid rgba(182,83,110,.45);outline-offset:3px}
-    .hero-left{position:relative;isolation:isolate;overflow:visible}
-    .hero-left:after{content:"";position:absolute;width:280px;height:280px;right:-100px;top:-120px;border:1px solid rgba(255,255,255,.2);border-radius:50%;box-shadow:0 0 0 24px rgba(255,255,255,.035),0 0 0 48px rgba(255,255,255,.025);pointer-events:none;z-index:-1}
-    .hero-left>*{position:relative;z-index:1}
-    .quick{display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) auto;gap:8px;height:auto;min-height:68px;align-items:stretch}
-    .quick .filter-dropdown{width:auto;min-width:0;flex:none;z-index:1}
-    .quick .filter-dropdown.open{z-index:80}
-    .quick .filter-menu{position:absolute;top:calc(100% + 10px);left:0;right:auto;z-index:100;max-height:min(360px,calc(100vh - 120px));overflow-y:auto}
-    .quick .filter-dropdown[data-filter="college"] .filter-menu{width:min(520px,calc(100vw - 32px))}
-    .quick .filter-dropdown[data-filter="gender"] .filter-menu,
-    .quick .filter-dropdown[data-filter="course"] .filter-menu,
-    .quick .filter-dropdown[data-filter="year"] .filter-menu{width:min(260px,calc(100vw - 32px))}
-    .quick .lets{align-self:center;white-space:nowrap}
-    .btn:active,.lets:active,.live-ping:active,.match-connect:active{transform:translateY(1px) scale(.98)}
-    .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.35);transform:scale(0);animation:ripple .55s ease-out;pointer-events:none}
-    @keyframes ripple{to{transform:scale(4);opacity:0}}
-    .live-profile,.match-card,.dating-flow{transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-color .35s var(--ease)}
-    .live-profile:hover{transform:translateX(4px);box-shadow:0 8px 18px rgba(18,61,114,.08);border-color:#9bb9d8}
-    .dating-flow blockquote{position:relative}
-    .dating-flow blockquote:before{content:"“";position:absolute;left:-10px;top:-24px;color:var(--accent-3);font-size:54px;font-family:Georgia,serif;opacity:.35}
-    .is-visible{animation:sectionEnter .65s var(--ease) both}
-    @keyframes sectionEnter{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-    @media (max-width:880px){header{padding:10px 12px}.hero-left{padding:34px 26px}.nav-toggle{border-color:#d8e3f0;color:var(--blue-deep);box-shadow:none}nav{border-color:#d8e3f0;background:#fff}.nav-button{background:#f4f7fb}}
-    @media (max-width:900px) and (min-width:601px){.quick{grid-template-columns:repeat(2,minmax(0,1fr));height:auto}.quick .lets{width:100%;grid-column:1/-1}}
-    @media (max-width:600px){
-      body{padding:12px}.hero-left{border-radius:18px;padding:28px 20px}.headline{font-size:38px}
-      .quick{display:flex;padding:6px;gap:8px}.select{border-right:0;border-bottom:1px solid #e3eaf3}
-      .quick .filter-dropdown{flex:1 1 100%;width:100%;position:relative;z-index:1}
-      .quick .filter-dropdown.open{z-index:200}
-      .quick .filter-dropdown select{
-        display:block;position:absolute;inset:4px;width:calc(100% - 8px);height:calc(100% - 8px);
-        opacity:0;z-index:3;margin:0;cursor:pointer;
-      }
-      .quick .filter-dropdown .filter-menu{z-index:2}
-      .quick .filter-button{min-height:46px;padding:11px 12px;font-size:14px;touch-action:manipulation}
-      .quick .filter-menu,
-      .quick .filter-dropdown[data-filter="college"] .filter-menu{
-        display:grid;position:absolute;top:calc(100% + 6px);left:0;right:0;width:100%;min-width:0;
-        max-height:min(48vh,300px);overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;
-        transform:translateY(8px) scale(.98);opacity:0;pointer-events:none;
-      }
-      .quick .filter-dropdown.open .filter-menu{transform:translateY(0) scale(1);opacity:1;pointer-events:auto}
-      .quick .filter-menu button{min-height:44px;padding:11px 10px;font-size:14px;touch-action:manipulation}
-      .quick .lets{width:100%;min-height:48px}
-    }
-    @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}.hero-left:after{display:none}}
+    .m-why__art h3{color:#fff;margin-bottom:2px}
+    .m-why__art > p{color:rgba(255,255,255,.6);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+    .m-chip{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--r-md);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12)}
+    .m-chip__av{flex:0 0 38px;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--pink);color:#fff;font-size:12px;font-weight:800}
+    .m-chip:nth-child(odd) .m-chip__av{background:var(--cyan);color:var(--blue)}
+    .m-chip__txt{min-width:0;flex:1}
+    .m-chip__name{display:flex;align-items:center;gap:6px;min-width:0}
+    .m-chip__name strong{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px;font-weight:700}
+    .m-chip__txt .m-chip__meta{display:block;font-size:11.5px;color:rgba(255,255,255,.6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .m-chip__ping{flex:0 0 auto;padding:6px 13px;border-radius:var(--r-pill);background:rgba(255,255,255,.14);font-size:11px;font-weight:700;letter-spacing:.05em}
+    @media (max-width:1000px){.m-split{grid-template-columns:1fr}}
+    @media (max-width:880px){.m-why__art{padding:20px}}
   </style>
 </head>
-<body>
-  <div class="container" id="app">
-    <header>
-      <a class="brand brand-link" href="./index.html" aria-label="SVKM Connect home">
-        <div class="logo"><img src="https://www.nmcollege.in/images/SVKM%20Logo.png" alt="SVKM logo" /></div>
-        <div>
-          <h1>SVKM Connect</h1>
-          <div class="brand-tag">Campus connections</div>
-        </div>
+<body class="m-page">
+
+  <!-- ============ NAV ============ -->
+  <header class="m-nav" id="m-nav">
+    <div class="shell m-nav__inner">
+      <a class="brand" href="index.html" aria-label="SVKM Connect home">
+        <span class="brand__logo"><img src="https://www.nmcollege.in/images/SVKM%20Logo.png" alt="SVKM logo" /></span>
+        <span>
+          <span class="brand__name">SVKM Connect</span>
+          <span class="brand__tag">Campus matchmaking</span>
+        </span>
       </a>
-      <div class="actions">
-        <button class="btn" id="crush-pings-button" type="button">Crush Pings</button>
-        <button class="btn" id="help-button" type="button">Help</button>
-        <span class="session-chip" id="session-chip" hidden></span>
-        <a class="btn profile-button" id="profile-button" href="./profile.html" hidden><span class="profile-avatar" aria-hidden="true">SV</span>Profile</a>
-        <button class="btn login-button" id="auth-button" type="button">Login</button>
-        <a class="btn signup-button" href="./auth.html?mode=signup">Sign in</a>
+
+      <button class="m-nav__toggle" id="m-nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="m-nav-links"><span></span><span></span><span></span></button>
+
+      <nav class="m-nav__links" id="m-nav-links" aria-label="Main navigation">
+        <a href="#why">Why SVKM Connect</a>
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#safety">Safety</a>
+        <a href="#faq">FAQ</a>
+        <a href="about.html">About</a>
+      </nav>
+
+      <div class="m-nav__actions" id="m-nav-actions">
+        <a class="btn btn--ghost btn--sm" id="nav-login" href="auth.html">Log in</a>
+        <a class="btn btn--sm" id="nav-signup" href="auth.html?mode=signup">Sign up</a>
       </div>
-    </header>
-    <dialog class="connection-dialog" id="connection-dialog">
-      <div class="connection-dialog-inner">
-         <h2>Your connections</h2>
-         <p>Accept a crush ping to unlock a private chat.</p>
-         <div class="connection-list" id="connection-list"><p>Loading connections...</p></div>
-         <button class="btn" id="close-connections" type="button">Close</button>
-      </div>
-    </dialog>
+    </div>
+  </header>
 
-    <!-- HERO -->
-    <main>
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-left">
-          <div class="eyebrow">#1 Campus Matchmaking</div>
-          <h2 id="hero-title" class="headline">Find love on campus</h2>
-          <p class="sub">Verified students. Your campus, your match.</p>
+  <main>
 
-          <div class="quick" id="quick-search" role="region" aria-label="Quick search">
-            <div class="select filter-dropdown" data-filter="college">
-              <button class="filter-button" type="button" aria-haspopup="true" aria-expanded="false">College</button>
-              <div class="mega filter-menu" role="menu">
-                <button type="button" data-value="all">All colleges</button>
-                <button type="button" data-value="mithibai">Mithibai College of Arts, Chauhan Institute of Science and Amrutben Jivanlal College of Commerce and Economics</button>
-                <button type="button" data-value="nm-commerce">Narsee Monjee College of Commerce and Economics</button>
-                <button type="button" data-value="nmims">NMIMS (Deemed-to-be-University)</button>
-                <button type="button" data-value="upg">Usha Pravin Gandhi College of Arts, Science and Commerce (UPG)</button>
-                <button type="button" data-value="sbmp">Shri Bhagubhai Mafatlal Polytechnic (SBMP)</button>
-                <button type="button" data-value="djsce">Dwarkadas J. Sanghvi College of Engineering (DJSCE)</button>
-                <button type="button" data-value="jcl">Jitendra Chauhan College of Law (JCL)</button>
-              </div>
-              <label for="college" class="sr-only">College</label>
-              <select id="college" aria-label="College">
-                <option value="all">All colleges</option>
-                <option value="mithibai">Mithibai College of Arts, Chauhan Institute of Science</option>
-                <option value="mithibai">Mithibai College of Arts, Chauhan Institute of Science and Amrutben Jivanlal College of Commerce and Economics</option>
-                <option value="nm-commerce">Narsee Monjee College of Commerce and Economics</option>
-                <option value="nmims">NMIMS (Deemed-to-be-University)</option>
-                <option value="upg">Usha Pravin Gandhi College of Arts, Science and Commerce (UPG)</option>
-                <option value="sbmp">Shri Bhagubhai Mafatlal Polytechnic (SBMP)</option>
-                <option value="djsce">Dwarkadas J. Sanghvi College of Engineering (DJSCE)</option>
-                <option value="jcl">Jitendra Chauhan College of Law (JCL)</option>
-              </select>
-            </div>
-
-            <div class="select filter-dropdown" data-filter="gender">
-              <button class="filter-button" type="button" aria-haspopup="true" aria-expanded="false">Gender</button>
-              <div class="mega filter-menu" role="menu">
-                <button type="button" data-value="everyone">Everyone</button>
-                <button type="button" data-value="man">Man</button>
-                <button type="button" data-value="woman">Woman</button>
-                <button type="button" data-value="nonbinary">Non-binary</button>
-                <button type="button" data-value="any">Prefer not to say</button>
-              </div>
-              <label for="gender" class="sr-only">Gender</label>
-              <select id="gender" aria-label="Looking for">
-                <option value="everyone">Everyone</option>
-                <option value="man">Man</option>
-                <option value="woman">Woman</option>
-                <option value="nonbinary">Non-binary</option>
-                <option value="any">Prefer not to say</option>
-              </select>
-            </div>
-
-            <div class="select filter-dropdown" data-filter="course">
-              <button class="filter-button" type="button" aria-haspopup="true" aria-expanded="false">Course</button>
-              <div class="mega filter-menu" role="menu">
-                <button type="button" data-value="bcom">B.Com</button>
-                <button type="button" data-value="bba">BBA</button>
-                <button type="button" data-value="bms">BMS</button>
-                <button type="button" data-value="bsc">B.Sc</button>
-                <button type="button" data-value="baf">BAF</button>
-                <button type="button" data-value="bbi">BBI</button>
-                <button type="button" data-value="ba">B.A.</button>
-                <button type="button" data-value="bsc-it">B.Sc. IT</button>
-              </div>
-              <label for="course" class="sr-only">Course</label>
-              <select id="course" aria-label="Course">
-                <option value="bcom">B.Com</option>
-                <option value="bba">BBA</option>
-                <option value="bms">BMS</option>
-                <option value="bsc">B.Sc</option>
-                <option value="baf">BAF</option>
-                <option value="bbi">BBI</option>
-                <option value="ba">B.A.</option>
-                <option value="bsc-it">B.Sc. IT</option>
-              </select>
-            </div>
-
-            <div class="select filter-dropdown" data-filter="year">
-              <button class="filter-button" type="button" aria-haspopup="true" aria-expanded="false">Year</button>
-              <div class="mega filter-menu" role="menu">
-                <button type="button" data-value="fy">FY</button>
-                <button type="button" data-value="sy">SY</button>
-                <button type="button" data-value="ty">TY</button>
-                <button type="button" data-value="pg">Postgraduate</button>
-              </div>
-              <label for="year" class="sr-only">Year</label>
-              <select id="year" aria-label="Year">
-                <option value="fy">FY</option>
-                <option value="sy">SY</option>
-                <option value="ty">TY</option>
-                <option value="pg">Postgraduate</option>
-              </select>
-            </div>
-
-            <button class="lets" id="lets-btn" aria-label="Let's Begin">
-              Begin
-              <div class="pulse" aria-hidden="true"></div>
-            </button>
+    <!-- ============ HERO — CTAs sit at the bottom edge of the box ============ -->
+    <div class="shell">
+      <section class="m-hero" aria-labelledby="hero-title">
+        <div class="m-hero__body">
+          <span class="m-hero__eyebrow">Verified campus matchmaking</span>
+          <h1 class="m-hero__title" id="hero-title">It starts with <em>a hello.</em></h1>
+          <p class="m-hero__lead">
+            Someone in your lecture hall might be the reason you remember third year. SVKM Connect
+            is where verified students across every SVKM college find each other — same campus,
+            same course, same corridor.
+          </p>
+          <p class="m-hero__scroll">Someone on your campus might be your type.</p>
+          <div class="m-hero__proof">
+            <span>7 colleges</span>
+            <span>64 courses</span>
+            <span>Live campus matches</span>
+            <span>Private chat</span>
           </div>
-
         </div>
 
-        <aside class="hero-right" aria-labelledby="live-title">
-          <div class="live-card">
-            <div style="display:flex;gap:12px;align-items:center;">
-              <div style="font-weight:800;font-family:var(--font-script);font-size:22px">Live Matches</div>
-            </div>
-
-            <p class="live-intro">Possible matches from your campus</p>
-            <div class="live-matches" id="live-matches" aria-live="polite">
-              <p class="live-empty">Sign in to see people who match your preferences.</p>
-            </div>
-          </div>
-        </aside>
+        <div class="m-hero__actions">
+          <a class="btn btn--lg" id="hero-signup" href="auth.html?mode=signup">Create account</a>
+          <a class="btn btn--lg btn--ghost" id="hero-login" href="auth.html">Log in</a>
+          <span class="m-hero__note">Free · For verified students aged 18 and over</span>
+        </div>
       </section>
+    </div>
 
-      <section class="matches-section" id="matches-section" aria-live="polite" aria-labelledby="matches-title">
-        <div class="matches-head"><div><h2 id="matches-title">Your matches</h2><p id="matches-summary">Students who share your interests.</p></div><button class="btn" id="clear-matches" type="button">Clear</button></div>
-        <div class="match-grid" id="match-grid"></div>
-      </section>
+    <!-- ============ STATS ============ -->
+    <div class="shell">
+      <div class="m-stats reveal">
+        <div class="m-stat"><strong>7</strong><span>SVKM colleges</span></div>
+        <div class="m-stat"><strong>64</strong><span>Courses covered</span></div>
+        <div class="m-stat"><strong>1</strong><span>Campus community</span></div>
+        <div class="m-stat"><strong>18+</strong><span>Members only</span></div>
+      </div>
+    </div>
 
-      <section class="dating-flow" aria-label="Dating inspiration">
-        <p class="eyebrow">A better way to meet on campus</p>
-        <h2>Good conversations start with a little courage.</h2>
-        <p>SVKM Connect helps you find people who share your classes, campus routines, and interests — without turning dating into a popularity contest.</p>
-        <blockquote>“The best relationships begin when two people feel comfortable being themselves.”</blockquote>
-        <p>Browse thoughtfully, send a crush ping when someone catches your eye, and let mutual interest turn a familiar face into a real connection.</p>
-        <h3>Start with curiosity</h3>
-        <p>Ask about the playlist, the project, or the place they always study. Small questions make room for genuine chemistry.</p>
-        <h3>Choose connection over pressure</h3>
-        <p>Take your time. A meaningful match is built on shared energy, respect, and conversations that feel easy.</p>
-        <blockquote>“The right connection feels less like a performance and more like coming home to a good conversation.”</blockquote>
-        <h3>Your campus, your story</h3>
-        <p>From a canteen hello to a walk after class, the best memories are often waiting in the spaces you already share.</p>
-        <div id="ping-feedback" style="color:var(--muted);font-size:13px"></div>
-      </section>
+    <!-- ============ MISSION ============ -->
+    <section class="m-section">
+      <div class="shell m-mission">
+        <div class="reveal">
+          <p class="t-eyebrow">Our mission</p>
+          <h2 class="t-h1" style="margin-top:14px">The best things that ever happened to you started with <em>“let’s just grab a coffee.”</em></h2>
+        </div>
+        <div class="reveal">
+          <p class="t-body">More people to meet. More societies to wander into. More possibilities than you expected the day you walked onto campus — all of them already sitting in the same buildings as you.</p>
+          <p class="m-mission__sign">— Welcome to SVKM Connect</p>
+        </div>
+      </div>
+    </section>
 
-      <!-- FOOTER -->
-      <footer>
-        <div class="footer-grid">
+    <!-- ============ WHY ============ -->
+    <section class="m-section m-section--tint" id="why">
+      <div class="shell m-split">
+        <div class="m-why__art reveal" aria-label="Live matches preview">
+          <h3>Live Matches</h3>
+          <p>On your campus right now</p>
+          <div class="m-chip"><span class="m-chip__av">AS</span><span class="m-chip__txt"><span class="m-chip__name"><strong>Aanya S.</strong></span><span class="m-chip__meta">B.Sc. Computer Science · TY</span></span><span class="m-chip__ping">Ping</span></div>
+          <div class="m-chip"><span class="m-chip__av">RV</span><span class="m-chip__txt"><span class="m-chip__name"><strong>Rohan V.</strong></span><span class="m-chip__meta">B.Tech IT · Third Year</span></span><span class="m-chip__ping">Ping</span></div>
+          <div class="m-chip"><span class="m-chip__av">MK</span><span class="m-chip__txt"><span class="m-chip__name"><strong>Meera K.</strong><span class="badge badge--bot">Bot</span></span><span class="m-chip__meta">B.Com. Accounting · SY</span></span><span class="m-chip__ping">Ping</span></div>
+          <div class="m-chip"><span class="m-chip__av">AI</span><span class="m-chip__txt"><span class="m-chip__name"><strong>Arjun I.</strong></span><span class="m-chip__meta">B.A. Multimedia · TY</span></span><span class="m-chip__ping">Ping</span></div>
+        </div>
+
+        <div class="m-why__body reveal">
+          <p class="t-eyebrow">Ok but… why?</p>
+          <h2 class="t-h1" style="margin:14px 0 20px">Why SVKM Connect?</h2>
+          <p class="t-body">You already share a campus with roughly ten thousand other people. You pass them in the corridor, sit next to them in the same lecture, and never find out their name. SVKM Connect is where those people get a second look — the ones who share your college, your course and your canteen.</p>
+          <p class="t-body">Build a profile, set your preferences, and start browsing. Ping someone and they ping you back — that’s a match. From there it’s yours. Send a message, plan something, see what happens.</p>
+          <p class="t-body" style="margin-top:22px">Free, on any device, for verified students on campus. No swiping through strangers from six states away — everyone here is someone you could actually run into tomorrow.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FEATURES — 6 cards ============ -->
+    <section class="m-section" id="features">
+      <div class="shell">
+        <div class="m-section__head reveal">
+          <p class="t-eyebrow">SVKM Connect features</p>
+          <h2 class="t-h1" style="margin-top:14px">A lot has changed since your last <em>“hi, you’re in my section.”</em></h2>
+          <p class="t-lead">Everything is built around one idea: make it easy to go from noticing someone to actually talking to them.</p>
+        </div>
+
+        <div class="m-grid m-grid--3">
+          <article class="m-feature reveal">
+            <span class="m-feature__cat">Live Matches</span>
+            <h3 class="t-h2">On campus right now</h3>
+            <p>The live panel checks every profile you could match with and shows who’s available today — same college, same course, complementary or open gender.</p>
+          </article>
+          <article class="m-feature reveal">
+            <span class="m-feature__cat">Crush Pings</span>
+            <h3 class="t-h2">Send it. See who pings back.</h3>
+            <p>One tap tells someone you’re interested. No infinite scroll, no swiping past a hundred profiles to find the one in your tutorial.</p>
+          </article>
+          <article class="m-feature reveal">
+            <span class="m-feature__cat">Private Chat</span>
+            <h3 class="t-h2">The match is just the door</h3>
+            <p>What you say next is everything. Accept a connection and a private one-to-one chat unlocks, with a coach for when the hello doesn’t come easy.</p>
+          </article>
+          <article class="m-feature reveal">
+            <span class="m-feature__cat">Same Course</span>
+            <h3 class="t-h2">People who get your schedule</h3>
+            <p>Match with someone who knows exactly where Lab 3 is, when it ends, and which professor takes attendance on Fridays.</p>
+          </article>
+          <article class="m-feature reveal">
+            <span class="m-feature__cat">Real People</span>
+            <h3 class="t-h2">Everyone here is on campus</h3>
+            <p>Every profile belongs to a real signed-up student. Demo and test accounts carry a visible BOT badge, so you always know who you’re talking to.</p>
+          </article>
+          <article class="m-feature m-feature--accent reveal">
+            <span class="m-feature__cat">Free, always</span>
+            <h3 class="t-h2">Your campus, your rules</h3>
+            <p>Choose who sees what, block or unmatch in one tap, and take a connection at whatever pace actually feels right.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ HOW IT WORKS ============ -->
+    <section class="m-section m-section--tint" id="how-it-works">
+      <div class="shell">
+        <div class="m-section__head m-section--center reveal" style="max-width:60ch">
+          <p class="t-eyebrow">How it works</p>
+          <h2 class="t-h1" style="margin-top:14px">Three steps. About two minutes.</h2>
+          <p class="t-lead">The hardest part was typing your email. The rest is three taps.</p>
+        </div>
+        <div class="m-steps">
+          <article class="m-step reveal"><span class="m-step__num">01</span><h3 class="t-h2">Create your profile</h3><p>Sign up with your Gmail and add the college, course and year you actually attend, plus your favourite hangout and what you’re into.</p></article>
+          <article class="m-step reveal"><span class="m-step__num">02</span><h3 class="t-h2">Set your preferences</h3><p>Pick the college, course, year and gender you’re looking for. We check every single profile each time — nothing is hidden behind a short preview.</p></article>
+          <article class="m-step reveal"><span class="m-step__num">03</span><h3 class="t-h2">Ping, match, talk</h3><p>Send a crush ping. If they send one back, private chat unlocks. Then it’s just two people who already know where the good chai is.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SAFETY (dark band) ============ -->
+    <section class="m-section m-band" id="safety">
+      <div class="shell">
+        <div class="m-section__head reveal">
+          <p class="t-eyebrow" style="color:var(--cyan)">Our approach to safety</p>
+          <h2 class="t-h1" style="margin-top:14px">Your comfort comes first. <em>Match, chat, and meet with more confidence.</em></h2>
+          <p class="t-lead">A dating app is only useful if you feel safe using it. These are the guardrails.</p>
+        </div>
+        <div class="m-grid m-grid--4">
+          <article class="m-feature reveal" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12)">
+            <span class="m-feature__cat" style="color:var(--cyan)">Verification</span>
+            <h3 class="t-h2" style="color:#fff">Students only</h3>
+            <p style="color:rgba(255,255,255,.7)">SVKM Connect is for verified students aged 18 and over. Every profile is tied to a real account created with a college email address.</p>
+          </article>
+          <article class="m-feature reveal" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12)">
+            <span class="m-feature__cat" style="color:var(--cyan)">Control</span>
+            <h3 class="t-h2" style="color:#fff">Stay in control</h3>
+            <p style="color:rgba(255,255,255,.7)">Not feeling it? Unmatch, remove the ping or block in one tap. You decide what stays on your profile and who ever sees it.</p>
+          </article>
+          <article class="m-feature reveal" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12)">
+            <span class="m-feature__cat" style="color:var(--cyan)">Consent</span>
+            <h3 class="t-h2" style="color:#fff">A ping means interest</h3>
+            <p style="color:rgba(255,255,255,.7)">Nobody can message you until you accept. A crush ping is a clear yes, and everything after that is a conversation both people chose.</p>
+          </article>
+          <article class="m-feature reveal" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12)">
+            <span class="m-feature__cat" style="color:var(--cyan)">Honesty</span>
+            <h3 class="t-h2" style="color:#fff">Badges mean something</h3>
+            <p style="color:rgba(255,255,255,.7)">Demo and test profiles are labelled BOT wherever they appear. We’d rather you know exactly who you’re talking to than guess.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section class="m-section" id="faq">
+      <div class="shell">
+        <div class="m-section__head reveal">
+          <p class="t-eyebrow">FAQ</p>
+          <h2 class="t-h1" style="margin-top:14px">Any questions? Everyone has <em>at least</em> one.</h2>
+        </div>
+
+        <div class="m-faq reveal">
+          <details>
+            <summary>Who can join SVKM Connect?</summary>
+            <p>Verified students of the SVKM campus aged 18 and over, across Mithibai, NMIMS, NM Commerce, UPG, SBMP, DJSCE and JCL. You sign up with your own email and pick your college, course and year — which is what makes the matching specific instead of random.</p>
+          </details>
+          <details>
+            <summary>How are live matches decided?</summary>
+            <p>Every profile is checked each time you load the panel. The strict criteria are: same college, same course, any year, and a complementary, non-binary, open or unspecified gender. Students in your own year are listed first. If the panel is thin, clearly-labelled campus bots top it up so you can still see how the feature works.</p>
+          </details>
+          <details>
+            <summary>What happens after I send a crush ping?</summary>
+            <p>The ping is saved to your list straight away. If they send one back, you can accept the connection and a private chat unlocks for the two of you. Only accepted connections can message each other.</p>
+          </details>
+          <details>
+            <summary>Why are some profiles marked BOT?</summary>
+            <p>Those are demo and test accounts used to demonstrate the matching and chat flow before the community fills up. They are badged BOT everywhere they appear so they’re never mistaken for a real student, and they never appear in a chat conversation coach.</p>
+          </details>
+          <details>
+            <summary>Is it free?</summary>
+            <p>Yes. Creating an account, viewing live matches, sending pings and chatting with accepted connections are all free.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CLOSING CTA ============ -->
+    <section class="m-section m-section--tint">
+      <div class="shell">
+        <div class="m-cta reveal">
           <div>
-            <strong style="font-family:var(--font-cursive);font-size:26px;color:var(--blue-deep);font-weight:400">SVKM Connect</strong>
-            <div style="color:var(--muted);font-size:13px">Verified campus community.</div>
+            <h2 class="t-h1" style="color:#fff">You’ve read enough. Go meet them.</h2>
+            <p class="t-lead" style="color:rgba(255,255,255,.85);margin-top:14px">Everyone on this site is a person you could pass in a corridor tomorrow. Your account takes about two minutes to set up, and the live panel is waiting.</p>
           </div>
-
-          <nav class="sitemap" aria-label="Sitemap">
-            <a href="#">About Us</a>
-            <a href="privacy.html">Privacy Policy</a>
-            <a href="#">Report Misuse</a>
-            <a href="#">Safety Center</a>
-            <a href="terms.html">Terms</a>
-          </nav>
-
-          <div class="app-badges" aria-hidden="true">
-            <div style="display:flex;gap:8px;align-items:center">
-              <!-- simple SVG badges -->
-              <div style="display:flex;gap:8px;align-items:center">
-                <svg width="110" height="36" viewBox="0 0 110 36" style="border-radius:8px;background:#fff;padding:6px"><rect width="110" height="36" rx="6" fill="#5276a3"/><text x="18" y="22" fill="#fff" font-size="12" font-weight="700">Google Play</text></svg>
-                <svg width="110" height="36" viewBox="0 0 110 36" style="border-radius:8px;background:#fff;padding:6px"><rect width="110" height="36" rx="6" fill="#c66b92"/><text x="18" y="22" fill="#fff" font-size="12" font-weight="700">App Store</text></svg>
-              </div>
-            </div>
+          <div class="m-cta__actions">
+            <a class="btn btn--lg btn--light" id="cta-signup" href="auth.html?mode=signup">Create your free account</a>
+            <a class="btn btn--lg btn--light" id="cta-login" href="auth.html">I already have an account</a>
           </div>
         </div>
-      </footer>
-    </main>
-  </div>
+      </div>
+    </section>
 
-  <!-- Authentication now lives on the dedicated auth.html page. -->
-  <div class="love-stage" id="love-stage" aria-hidden="true"><span class="love-particle">♥</span><span class="love-particle">♥</span><span class="love-particle">♥</span><span class="love-particle">♥</span><div class="love-stage-content"><div class="love-burst">♥</div><h2>Finding your match...</h2></div></div>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="m-footer">
+    <div class="shell">
+      <div class="m-footer__top">
+        <div class="m-footer__about">
+          <a class="brand" href="index.html" aria-label="SVKM Connect home">
+            <span class="brand__logo" style="border-color:rgba(255,255,255,.16)"><img src="https://www.nmcollege.in/images/SVKM%20Logo.png" alt="SVKM logo" /></span>
+            <span>
+              <span class="brand__name" style="color:#fff">SVKM Connect</span>
+              <span class="brand__tag" style="color:rgba(255,255,255,.5)">Campus matchmaking</span>
+            </span>
+          </a>
+          <p>Where campus connections actually start. Verified students across seven SVKM colleges use SVKM Connect to find people in their own course, send a ping, and turn a familiar face into a real conversation.</p>
+        </div>
+
+        <div>
+          <h4>Campus</h4>
+          <ul>
+            <li><a href="#why">Why SVKM Connect</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how-it-works">How it works</a></li>
+            <li><a href="#safety">Safety</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Account</h4>
+          <ul>
+            <li><a href="auth.html?mode=signup">Create account</a></li>
+            <li><a href="auth.html">Log in</a></li>
+            <li><a href="discover.html">Live matches</a></li>
+            <li><a href="profile.html">Your profile</a></li>
+            <li><a href="chat.html">Chats</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Project</h4>
+          <ul>
+            <li><a href="about.html">About us</a></li>
+            <li><a href="privacy.html">Privacy policy</a></li>
+            <li><a href="terms.html">Terms &amp; conditions</a></li>
+            <li><a href="https://github.com/panchalrohan44/NMconnect" target="_blank" rel="noopener noreferrer">Source on GitHub</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="m-footer__bottom">
+        <span>© 2026 SVKM Connect. Built for the campus community.</span>
+        <span class="m-footer__legal">
+          <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
+          <a href="about.html">About</a>
+        </span>
+      </div>
+    </div>
+  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    /* Add your Supabase project values here. Supabase Auth stores password hashes; this page never reads passwords. */
-    const SUPABASE_URL = 'https://sjwoyiwrvtrcezmgzosg.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_s4dBdf87iuX7I0I0kNRQRg_5PI2rGN-';
-    const supabaseClient = window.supabase && !SUPABASE_URL.includes('YOUR-')
-      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
-      : null;
+    (function () {
+      'use strict';
 
-    // === Utilities ===
-    const $ = s => document.querySelector(s);
-    const $$ = s => [...document.querySelectorAll(s)];
-
-    const collegeCourses = {
-      all: [
-        ['bcom','B.Com'],['bms','BMS'],['baf','B.Com Accounting & Finance'],['bbi','B.Com Banking & Insurance'],
-        ['bba','BBA'],['ba','B.A.'],['bsc','B.Sc.'],['bsc-it','B.Sc. IT'],['bsc-aids','B.Sc. AI & Data Science'],
-        ['bammc','B.A. Multimedia & Mass Communication'],['btech-cse','B.Tech Computer Engineering'],['llb','LL.B.']
-      ],
-      mithibai: [
-        ['ba','B.A.'],['bsc','B.Sc.'],['bcom','B.Com.'],['bms','BMS'],['baf','B.Com. Accounting & Finance'],
-        ['bfm','B.Com. Financial Markets'],['bbi','B.Com. Banking & Insurance'],['bia','B.Com. Investment Analysis'],
-        ['bmf','B.Com. Management & Finance'],['bammc','B.A. Multimedia & Mass Communication'],['bsc-it','B.Sc. IT'],
-        ['bsc-cs','B.Sc. Computer Science'],['bsc-health','B.Sc. Health Sciences'],['bsc-asda','B.Sc. Applied Statistics & Data Analytics'],
-        ['bsc-psych','B.Sc. Psychology']
-      ],
-      'nm-commerce': [
-        ['bcom','B.Com.'],['baf','B.Com. Accounting & Finance'],['bbi','B.Com. Banking & Insurance'],
-        ['bfm','B.Com. Financial Markets'],['bms','BMS'],['bsc-it','B.Sc. IT'],['bsc-aids-nm','B.Sc. AI & Data Science (Honours)'],
-        ['bcom-cs','B.Com. Computer Systems'],['bcom-ms','B.Com. Management Studies']
-      ],
-      nmims: [['bba-fin','BBA (Finance)'],['bba','BBA'],['bsc-fin','B.Sc. Finance'],['bcom-hons','B.Com. (Hons.)']],
-      upg: [
-        ['bms','BMS'],['bammc','B.A. Multimedia & Mass Communication'],['bsc-it','B.Sc. IT'],
-        ['bsc-aids','B.Sc. AI & Data Science'],['bcom-ms','B.Com. (Management Studies)'],['ba-ftnmp','B.A. Film, Television & New Media Production'],
-        ['mcom','M.Com.'],['msc-it','M.Sc. IT'],['msc-aids','M.Sc. AI & Data Science'],['ma','M.A.']
-      ],
-      sbmp: [
-        ['dip-computer','Diploma in Computer Engineering'],['dip-it','Diploma in Information Technology'],['dip-civil','Diploma in Civil Engineering'],
-        ['dip-mechanical','Diploma in Mechanical Engineering'],['dip-electrical','Diploma in Electrical Engineering'],['dip-plastics','Diploma in Plastics Engineering'],
-        ['dip-chemical','Diploma in Chemical Engineering'],['dip-extc','Diploma in Electronics & Telecommunication'],['btech-computer','B.Tech Computer Engineering'],
-        ['btech-it','B.Tech Information Technology'],['btech-cse','B.Tech Computer Science & Engineering'],['btech-ai','B.Tech CSE (AI & Machine Learning)']
-      ],
-      djsce: [
-        ['btech-extc','B.Tech Electronics & Telecommunication'],['btech-it','B.Tech Information Technology'],['btech-computer','B.Tech Computer Engineering'],
-        ['btech-mechanical','B.Tech Mechanical Engineering'],['btech-ds','B.Tech CSE (Data Science)'],['btech-aiml','B.Tech AI & Machine Learning'],
-        ['btech-aids','B.Tech AI & Data Science'],['btech-iot','B.Tech CSE (IoT & Cyber Security)'],['mtech','M.Tech'],['phd','Ph.D.']
-      ],
-      jcl: [['ba-llb','B.A. LL.B.'],['bba-llb','B.B.A. LL.B.'],['llb','LL.B.'],['llm','LL.M.']]
-    };
-    const courseYears = {
-      bsc:['FY','SY','TY'], 'bsc-aids':['FY','SY','TY'], 'bsc-aids-nm':['FY','SY','TY','Honours Year (NEP)'],
-      ba:['FY','SY','TY'], bcom:['FY','SY','TY','Honours Year (NEP)'], 'bcom-hons':['FY','SY','TY','Honours Year'],
-      bms:['FY','SY','TY'], bba:['FY','SY','TY'], 'bba-fin':['FY','SY','TY'], baf:['FY','SY','TY'], bbi:['FY','SY','TY'],
-      bfm:['FY','SY','TY'], bia:['FY','SY','TY'], bmf:['FY','SY','TY'], 'bcom-cs':['FY','SY','TY'], 'bcom-ms':['FY','SY','TY'],
-      'bsc-it':['FY','SY','TY'], 'bsc-cs':['FY','SY','TY'], 'bsc-health':['FY','SY','TY'], 'bsc-asda':['FY','SY','TY'], 'bsc-psych':['FY','SY','TY'],
-      bammc:['FY','SY','TY'], 'ba-ftnmp':['FY','SY','TY'], 'bsc-fin':['Year 1','Year 2','Year 3'],
-      'btech-computer':['First Year','Second Year','Third Year','Final Year'], 'btech-it':['First Year','Second Year','Third Year','Final Year'],
-      'btech-cse':['First Year','Second Year','Third Year','Final Year'], 'btech-ai':['First Year','Second Year','Third Year','Final Year'],
-      'btech-extc':['First Year','Second Year','Third Year','Final Year'], 'btech-mechanical':['First Year','Second Year','Third Year','Final Year'],
-      'btech-ds':['First Year','Second Year','Third Year','Final Year'], 'btech-aiml':['First Year','Second Year','Third Year','Final Year'],
-      'btech-aids':['First Year','Second Year','Third Year','Final Year'], 'btech-iot':['First Year','Second Year','Third Year','Final Year'],
-      'dip-computer':['First Year','Second Year','Third Year'], 'dip-it':['First Year','Second Year','Third Year'], 'dip-civil':['First Year','Second Year','Third Year'],
-      'dip-mechanical':['First Year','Second Year','Third Year'], 'dip-electrical':['First Year','Second Year','Third Year'], 'dip-plastics':['First Year','Second Year','Third Year'],
-      'dip-chemical':['First Year','Second Year','Third Year'], 'dip-extc':['First Year','Second Year','Third Year'],
-      'llb':['First Year','Second Year','Third Year'], 'ba-llb':['First Year','Second Year','Third Year','Fourth Year','Final Year'],
-      'bba-llb':['First Year','Second Year','Third Year','Fourth Year','Final Year'], llm:['Year 1','Year 2'], mtech:['First Year','Final Year'],
-      phd:['Research Year 1','Research Year 2','Research Year 3'], mcom:['Year 1','Year 2'], 'msc-it':['Year 1','Year 2'], 'msc-aids':['Year 1','Year 2'], ma:['Year 1','Year 2']
-    };
-    const collegeLabels = Object.fromEntries($$('#college option').map(option=>[option.value, option.textContent]));
-    function setFilterOptions(filter, options){
-      const dropdown = document.querySelector(`[data-filter="${filter}"]`);
-      const menu = dropdown.querySelector('.filter-menu');
-      const select = dropdown.querySelector('select');
-      menu.innerHTML = options.map(([value,label])=>`<button type="button" data-value="${value}">${label}</button>`).join('');
-      select.innerHTML = options.map(([value,label])=>`<option value="${value}">${label}</option>`).join('');
-    }
-    function updateCourseOptions(college){
-      const options = collegeCourses[college] || collegeCourses.all;
-      setFilterOptions('course', options);
-      $('#course').value = '';
-      $('[data-filter="course"] .filter-button').textContent = 'Course';
-      setFilterOptions('year', []);
-      $('[data-filter="year"] .filter-button').textContent = 'Year';
-    }
-    function updateYearOptions(course){
-      setFilterOptions('year', (courseYears[course] || []).map(year=>[year.toLowerCase().replace(/[^a-z0-9]+/g,'-'),year]));
-      $('[data-filter="year"] .filter-button').textContent = 'Year';
-    }
-    function closeFilterMenus(){
-      $$('.filter-dropdown').forEach(item=>{
-        item.classList.remove('open');
-        item.querySelector('.filter-button')?.setAttribute('aria-expanded','false');
-      });
-    }
-    function updateBeginState(){
-      const ready = $$('.filter-dropdown').every(dropdown=>dropdown.dataset.selected === 'true');
-      const button = $('#lets-btn');
-      button.classList.toggle('ready', ready);
-      button.setAttribute('aria-disabled', String(!ready));
-    }
-    $('[data-filter="college"]').dataset.selected = 'false';
-    $('[data-filter="gender"]').dataset.selected = 'false';
-    $('[data-filter="course"]').dataset.selected = 'false';
-    $('[data-filter="year"]').dataset.selected = 'false';
-    updateCourseOptions('all');
-
-    // Supabase Auth UI
-    const authButton = $('#auth-button');
-    let activeUser = null;
-    function renderSession(session){
-      const user = session?.user;
-      activeUser = user || null;
-      $('#session-chip').hidden = !user;
-      $('#session-chip').textContent = user ? `Profile ID: ${user.id.slice(0,8).toUpperCase()}` : '';
-      $('#profile-button').hidden = !user;
-      authButton.textContent = user ? 'Sign out' : 'Login';
-      $('#auth-button').classList.toggle('login-button', !user);
-      $('#auth-button').classList.toggle('logout-button', !!user);
-      $('.signup-button').hidden = !!user;
-      if(user){ loadConnections(); loadLiveMatches(); }
-      else $('#live-matches').innerHTML = '<p class="live-empty">Sign in to see possible matches from your campus.</p>';
-    }
-    authButton.addEventListener('click', async ()=>{
-      if(!supabaseClient){ alert('Add your Supabase URL and anon key in the script before signing in.'); return; }
-      const {data:{session}} = await supabaseClient.auth.getSession();
-      if(session){ await supabaseClient.auth.signOut(); renderSession(null); }
-      else location.href = 'auth.html';
-    });
-    if(supabaseClient){
-      supabaseClient.auth.getSession().then(({data:{session}})=>renderSession(session));
-      supabaseClient.auth.onAuthStateChange((_event, session)=>renderSession(session));
-    }
-
-    // Mega menu a11y: toggle aria-expanded on click
-    const navToggle = $('#nav-toggle');
-    const mainNav = $('#main-nav');
-    function closeNavPanel(){
-      if(!mainNav || !navToggle) return;
-      mainNav.classList.remove('open');
-      navToggle.setAttribute('aria-expanded','false');
-    }
-    navToggle?.addEventListener('click', ()=>{
-      const open = mainNav.classList.toggle('open');
-      navToggle.setAttribute('aria-expanded', String(open));
-    });
-    $$('.nav-item').forEach(item=>{
-      const btn = item.querySelector('.nav-button');
-      btn.addEventListener('click', e=>{
-        const expanded = item.getAttribute('aria-expanded') === 'true';
-        $$('.nav-item').forEach(i=>{i.setAttribute('aria-expanded','false'); i.querySelector('.mega')?.setAttribute('aria-hidden','true');});
-        item.setAttribute('aria-expanded', String(!expanded));
-        item.querySelector('.mega')?.setAttribute('aria-hidden', String(expanded));
-      });
-    });
-    $$('.mega a').forEach(link=>link.addEventListener('click', e=>{
-      e.preventDefault();
-      const filter = link.dataset.filter || link.textContent.trim();
-      $('#ping-feedback').textContent = `Showing campus options for ${filter}.`;
-      link.closest('.nav-item').setAttribute('aria-expanded','false');
-      closeNavPanel();
-    }));
-    $$('.filter-dropdown').forEach(dropdown=>{
-      const toggle = dropdown.querySelector('.filter-button');
-      const select = dropdown.querySelector('select');
-      function applySelection(value, label) {
-        select.value = value;
-        toggle.textContent = label;
-        dropdown.dataset.selected = 'true';
-        dropdown.classList.remove('open');
-        toggle.setAttribute('aria-expanded','false');
-        if(dropdown.dataset.filter === 'college'){
-          updateCourseOptions(value);
-          $('[data-filter="course"]').dataset.selected = 'false';
-          $('[data-filter="year"]').dataset.selected = 'false';
-        }
-        if(dropdown.dataset.filter === 'course'){
-          updateYearOptions(value);
-          $('[data-filter="year"]').dataset.selected = 'false';
-        }
-        closeFilterMenus();
-        updateBeginState();
-      }
-      toggle.addEventListener('click', ()=>{
-        const open = dropdown.classList.contains('open');
-        $$('.filter-dropdown').forEach(item=>{
-          item.classList.remove('open');
-          item.querySelector('.filter-button')?.setAttribute('aria-expanded','false');
+      /* ---- mobile nav ---- */
+      var nav = document.getElementById('m-nav');
+      var toggle = document.getElementById('m-nav-toggle');
+      if (nav && toggle) {
+        toggle.addEventListener('click', function () {
+          var open = nav.classList.toggle('is-open');
+          toggle.setAttribute('aria-expanded', String(open));
+          toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
         });
-        dropdown.classList.toggle('open', !open);
-        toggle.setAttribute('aria-expanded', String(!open));
-      });
-      dropdown.querySelector('.filter-menu').addEventListener('click', e=>{
-        const option = e.target.closest('[data-value]');
-        if(!option) return;
-        applySelection(option.dataset.value, option.textContent.trim());
-      });
-      select.addEventListener('change', ()=>{
-        const option = select.options[select.selectedIndex];
-        if(option) applySelection(option.value, option.textContent.trim());
-      });
-    });
-    // close on outside click
-    document.addEventListener('click', e=>{
-      if(!e.target.closest('.nav-item')) $$('.nav-item').forEach(i=>{i.setAttribute('aria-expanded','false'); i.querySelector('.mega')?.setAttribute('aria-hidden','true');});
-      if(!e.target.closest('.filter-dropdown')) closeFilterMenus();
-      if(!e.target.closest('nav') && !e.target.closest('#nav-toggle')) closeNavPanel();
-    });
-
-    $('#crush-pings-button').addEventListener('click', async ()=>{
-      if(!activeUser){
-        $('#ping-feedback').textContent='Sign in to manage your crush pings.';
-        location.href='auth.html';
-        return;
+        nav.addEventListener('click', function (event) {
+          if (!event.target.closest('a')) return;
+          nav.classList.remove('is-open');
+          toggle.setAttribute('aria-expanded', 'false');
+          toggle.setAttribute('aria-label', 'Open menu');
+        });
       }
-      $('#connection-dialog').showModal();
-      await loadConnectionRequests();
-      $('#live-matches').scrollIntoView({behavior:'smooth',block:'center'});
-      await loadLiveMatches();
-    });
-    $('#close-connections').addEventListener('click',()=>$('#connection-dialog').close());
-    async function loadConnectionRequests(){
-      const list=$('#connection-list');
-      const result=await supabaseClient.from('connections').select('id,status,requester_id,recipient_id').or(`requester_id.eq.${activeUser.id},recipient_id.eq.${activeUser.id}`).order('created_at',{ascending:false});
-      if(result.error){list.innerHTML=`<p>Could not load connections: ${result.error.message}</p>`;return;}
-      const rows=result.data||[];
-      if(!rows.length){list.innerHTML='<p>No crush pings yet. Keep exploring your campus matches.</p>';return;}
-      const ids=[...new Set(rows.map(row=>row.requester_id===activeUser.id?row.recipient_id:row.requester_id))];
-      const profiles=await supabaseClient.from('profiles').select('id,display_name,college,course').in('id',ids);
-      const byId=new Map((profiles.data||[]).map(profile=>[profile.id,profile]));
-      list.innerHTML=rows.map(row=>{const partner=byId.get(row.requester_id===activeUser.id?row.recipient_id:row.requester_id)||{};const incoming=row.recipient_id===activeUser.id;return `<div class="connection-row"><div><strong>${partner.display_name||'Campus connection'}</strong><span>${partner.course||'Student'} · ${row.status==='accepted'?'Connected':incoming?'Wants to connect':'Waiting for response'}</span></div>${row.status==='accepted'?`<a class="btn" href="./chat.html?connection=${row.id}">Chat</a>`:incoming?`<button class="btn" data-accept-connection="${row.id}" type="button">Accept</button>`:'<span>Pending</span>'}</div>`;}).join('');
-      list.querySelectorAll('[data-accept-connection]').forEach(button=>button.addEventListener('click',async()=>{button.disabled=true;const update=await supabaseClient.from('connections').update({status:'accepted'}).eq('id',button.dataset.acceptConnection).eq('recipient_id',activeUser.id);if(update.error){button.disabled=false;button.textContent='Try again';return;}await loadConnectionRequests();}));
-    }
 
-    const normalizeProfile = profile => ({...profile, display_name:profile.display_name || profile.full_name || profile.login_id || 'SVKM student', hobbies:profile.hobbies || '', favourite_hangout:profile.favourite_hangout || 'Campus'});
-    const compact = value => String(value || '').toLowerCase().replace(/[^a-z0-9]/g,'');
-    const genderKey = gender => {
-      const value = compact(gender);
-      if(value.startsWith('man') || value === 'male' || value === 'males') return 'man';
-      if(value.startsWith('woman') || value === 'female' || value === 'females') return 'woman';
-      if(value.includes('nonbinary') || value === 'nb') return 'nonbinary';
-      return 'any';
-    };
-    function oppositeGender(gender){
-      const key = genderKey(gender);
-      return key === 'man' ? 'woman' : key === 'woman' ? 'man' : null;
-    }
-    function initialsFor(profile){
-      return profile.display_name.split(/\s+/).map(part=>part[0]).join('').slice(0,2).toUpperCase();
-    }
-    function profileMeta(profile){
-      return [profile.course || 'Student', profile.year, collegeLabels[profile.college] || profile.college].filter(Boolean).join(' · ');
-    }
-    function renderLiveMatches(profiles){
-      const container = $('#live-matches');
-      if(!profiles.length){
-        container.innerHTML = '<p class="live-empty">No possible matches yet. Check back as more students join.</p>';
-        return;
-      }
-      container.innerHTML = profiles.slice(0,4).map(profile=>{
-        const pinged = pings.has(profile.id);
-        return `<div class="live-profile">
-          <div class="live-profile-avatar">${initialsFor(profile)}</div>
-          <div class="live-profile-info"><strong>${profile.display_name}</strong><span>${profileMeta(profile)}</span></div>
-          <button class="live-ping${pinged ? ' pinged' : ''}" type="button" data-ping-id="${profile.id}" data-ping-name="${profile.display_name}">${pinged ? 'Saved' : 'Crush ping'}</button>
-        </div>`;
-      }).join('');
-      container.querySelectorAll('[data-ping-id]').forEach(button=>{
-        button.addEventListener('click', ()=>toggleCrushPing(button.dataset.pingId, button.dataset.pingName, button));
-      });
-    }
-    async function loadLiveMatches(){
-      const container = $('#live-matches');
-      if(!activeUser || !supabaseClient){
-        container.innerHTML = '<p class="live-empty">Sign in to see possible matches from your campus.</p>';
-        return;
-      }
-      const {data:account, error:accountError} = await supabaseClient.from('profiles').select('gender,college,course,year').eq('id',activeUser.id).maybeSingle();
-      if(accountError){ container.innerHTML = '<p class="live-empty">We could not load your match preferences.</p>'; return; }
-      const targetGender = oppositeGender(account?.gender);
-      const accountCollege = compact(account?.college);
-      const accountCourse = compact(account?.course);
-      const accountYear = compact(account?.year);
-      let query = supabaseClient.from('profiles').select('*').neq('id',activeUser.id).limit(40);
-      const result = await query;
-      if(result.error){ container.innerHTML = '<p class="live-empty">Possible matches are temporarily unavailable.</p>'; return; }
-      const profiles = (result.data || []).filter(profile => {
-        if(targetGender && genderKey(profile.gender) !== targetGender) return false;
-        const sameCollege = accountCollege && compact(profile.college) === accountCollege;
-        const sameCourse = accountCourse && compact(profile.course) === accountCourse;
-        const sameYear = accountYear && compact(profile.year) === accountYear;
-        return sameCollege && sameCourse && sameYear;
-      });
-      renderLiveMatches(profiles);
-    }
-    function renderMatches(profiles, criteria){
-      const grid = $('#match-grid');
-      const collegeName = label => collegeLabels[label] || label || '';
-      grid.innerHTML = profiles.length ? profiles.map((raw,index)=>{ const profile=normalizeProfile(raw); const initials=profile.display_name.split(/\s+/).map(part=>part[0]).join('').slice(0,2).toUpperCase(); const clubs=profile.clubs_fests?.split(',').map(s=>s.trim()).filter(Boolean).slice(0,3).join(' · '); const botBadge=profile.is_bot ? '<span class="bot-badge">BOT</span>' : ''; return `<article class="match-card"><div class="match-card-top"><div class="match-avatar">${initials}</div><div><h3>${profile.display_name}${botBadge}</h3><p>${[profile.course || 'Student', profile.year, collegeName(profile.college), profile.age ? profile.age+' yrs' : ''].filter(Boolean).join(' · ')}</p></div></div><div class="match-tags"><span class="match-tag">${profile.favourite_hangout}</span><span class="match-tag">${profile.gender || 'Open-minded'}</span>${clubs ? `<span class="match-tag">${clubs}</span>` : ''}</div><p>${profile.hobbies || profile.bio || 'Looking for good campus energy.'}</p><button class="match-connect" data-match-id="${profile.id}" data-match-name="${profile.display_name}" type="button">Connect</button></article>`; }).join('') : '<p>No profiles match these criteria yet.</p>';
-      $('#matches-summary').textContent = `${profiles.length} student${profiles.length === 1 ? '' : 's'} found for ${criteria.college === 'all' ? 'all colleges' : (collegeLabels[criteria.college] || criteria.college)} · ${criteria.course ? criteria.course.toUpperCase() : 'all courses'} · ${criteria.year ? criteria.year.toUpperCase() : 'all years'}.`;
-      $('#matches-section').classList.add('visible');
-      $('#matches-section').scrollIntoView({behavior:'smooth',block:'start'});
-      $$('.match-connect').forEach(button=>button.addEventListener('click',()=>createConnection(button.dataset.matchId,button.dataset.matchName,button)));
-    }
-    async function createConnection(recipientId, name, button){
-      if(!activeUser){ $('#ping-feedback').textContent='Sign in to connect with students.'; return; }
-      if(!recipientId || !supabaseClient){ $('#ping-feedback').textContent='This profile is missing a backend ID.'; return; }
-      button.disabled=true;
-      const {error}=await supabaseClient.from('connections').upsert({requester_id:activeUser.id,recipient_id:recipientId,status:'pending'},{onConflict:'requester_id,recipient_id'});
-      if(error){ button.disabled=false; $('#ping-feedback').textContent=`Could not connect: ${error.message}`; return; }
-      button.textContent='Requested'; button.classList.add('connected'); $('#ping-feedback').textContent=`Connection request sent to ${name}.`;
-    }
-    async function showMatches(criteria){
-      const stage=$('#love-stage'); stage.classList.add('open'); stage.setAttribute('aria-hidden','false');
-      await new Promise(resolve=>setTimeout(resolve,1800));
-      if(!supabaseClient || !activeUser){ stage.classList.remove('open'); stage.setAttribute('aria-hidden','true'); $('#matches-summary').textContent='Sign in to discover real student profiles.'; $('#matches-section').classList.add('visible'); return; }
-      const result=await supabaseClient.from('profiles').select('*').neq('id',activeUser.id).limit(100);
-      if(result.error){ stage.classList.remove('open'); stage.setAttribute('aria-hidden','true'); $('#matches-summary').textContent=`Backend error: ${result.error.message}`; $('#matches-section').classList.add('visible'); return; }
-      const profiles=result.data || [];
-      const yearKey = y => { const n = compact(y); return (n === 'postgraduate' || n.startsWith('postgrad')) ? 'pg' : n; };
-      const filtered=profiles.filter(profile=>{
-        const collegeMatch=criteria.college==='all' || !criteria.college || !profile.college || compact(profile.college)===compact(criteria.college) || compact(profile.college).includes(compact(criteria.college));
-        const courseMatch=!criteria.course || compact(profile.course)===compact(criteria.course) || compact(profile.course).includes(compact(criteria.course));
-        const yearMatch=!criteria.year || yearKey(profile.year)===yearKey(criteria.year);
-        const genderMatch=criteria.gender==='everyone' || !criteria.gender || (criteria.gender==='any' ? genderKey(profile.gender)==='any' : genderKey(profile.gender)===criteria.gender);
-        return collegeMatch && courseMatch && yearMatch && genderMatch;
-      });
-      stage.classList.remove('open'); stage.setAttribute('aria-hidden','true'); renderMatches(filtered,criteria);
-      history.replaceState(null,'','#matches');
-    }
-    $('#lets-btn').addEventListener('click', async e=>{
-      if(!e.currentTarget.classList.contains('ready')) return;
-      const btn=e.currentTarget; btn.disabled=true; const original=btn.textContent; btn.textContent='Finding your match...';
-      await showMatches({college:$('#college').value,gender:$('#gender').value,course:$('#course').value,year:$('#year').value});
-      btn.textContent=original; btn.disabled=false;
-    });
-    $('#clear-matches').addEventListener('click',()=>$('#matches-section').classList.remove('visible'));
-
-    // Persisted crush pings
-    let pings = new Set();
-    async function loadConnections(){
-      if(!supabaseClient || !activeUser) return;
-      const result=await supabaseClient.from('connections').select('recipient_id,status').eq('requester_id',activeUser.id);
-      if(!result.error) pings=new Set(result.data.map(row=>row.recipient_id));
-      await loadLiveMatches();
-    }
-    async function toggleCrushPing(recipientId, name, button){
-      if(!supabaseClient || !activeUser){ $('#ping-feedback').textContent='Sign in to save a crush ping.'; return; }
-      button.disabled=true;
-      if(pings.has(recipientId)){
-        const result=await supabaseClient.from('connections').delete().eq('requester_id',activeUser.id).eq('recipient_id',recipientId);
-        if(result.error){ $('#ping-feedback').textContent=`Could not remove ${name}: ${result.error.message}`; button.disabled=false; return; }
-        pings.delete(recipientId); button.textContent='Crush ping'; button.classList.remove('pinged');
-        $('#ping-feedback').textContent=`${name} was removed from your crush pings.`;
+      /* ---- sticky nav shadow + scroll reveal ---- */
+      var targets = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+      if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('is-in');
+            io.unobserve(entry.target);
+          });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px' });
+        targets.forEach(function (el) { io.observe(el); });
       } else {
-        const result=await supabaseClient.from('connections').upsert({requester_id:activeUser.id,recipient_id:recipientId,status:'pending'},{onConflict:'requester_id,recipient_id'});
-        if(result.error){ $('#ping-feedback').textContent=`Could not save ${name}: ${result.error.message}`; button.disabled=false; return; }
-        pings.add(recipientId); button.textContent='Saved'; button.classList.add('pinged');
-        $('#ping-feedback').textContent=`${name} was added to your crush pings.`;
+        targets.forEach(function (el) { el.classList.add('is-in'); });
       }
-      button.disabled=false;
-    }
 
-    // small accessibility helpers: keyboard close for mega menu
-    document.addEventListener('keydown', e=>{
-      if(e.key === 'Escape'){ $$('.nav-item').forEach(i=>{i.setAttribute('aria-expanded','false'); i.querySelector('.mega')?.setAttribute('aria-hidden','true');}); closeNavPanel(); }
-    });
+      var onScroll = function () {
+        if (nav) nav.classList.toggle('is-stuck', window.scrollY > 8);
+      };
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
 
-    // IntersectionObserver to reveal on scroll (cards)
-    const io = new IntersectionObserver(entries=>{
-      entries.forEach(entry=>{
-        if(entry.isIntersecting){
-          entry.target.style.transform = 'translateY(0)'; entry.target.style.opacity = 1;
-          io.unobserve(entry.target);
-        }
-      });
-    }, {threshold:0.12});
-    $$('.live-card').forEach(el=>{
-      el.classList.add('reveal-item');
-      io.observe(el);
-    });
-    $$('.btn, .lets, .live-ping, .match-connect').forEach(button=>{
-      button.addEventListener('click', event=>{
-        const rect=button.getBoundingClientRect();
-        const ripple=document.createElement('span');
-        const size=Math.max(rect.width,rect.height);
-        ripple.className='ripple';
-        ripple.style.width=`${size}px`;
-        ripple.style.height=`${size}px`;
-        ripple.style.left=`${event.clientX-rect.left-size/2}px`;
-        ripple.style.top=`${event.clientY-rect.top-size/2}px`;
-        button.style.position='relative';
-        button.style.overflow='hidden';
-        button.appendChild(ripple);
-        ripple.addEventListener('animationend',()=>ripple.remove(),{once:true});
-      });
-    });
-
+      /* ---- already signed in? send them straight to the app ----
+         Guarded so a blocked CDN can never break this page. */
+      var SUPABASE_URL = 'https://sjwoyiwrvtrcezmgzosg.supabase.co';
+      var SUPABASE_ANON_KEY = 'sb_publishable_s4dBdf87iuX7I0I0kNRQRg_5PI2rGN-';
+      if (!window.supabase) return;
+      var client;
+      try {
+        client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      } catch (err) {
+        return;
+      }
+      client.auth.getSession().then(function (result) {
+        if (!result || !result.data || !result.data.session) return;
+        [['nav-signup', 'Open your matches'], ['hero-signup', 'Open your matches'], ['cta-signup', 'Open your matches']]
+          .forEach(function (pair) {
+            var el = document.getElementById(pair[0]);
+            if (el) el.textContent = pair[1];
+          });
+        ['nav-login', 'hero-login', 'cta-login', 'nav-signup', 'hero-signup', 'cta-signup'].forEach(function (id) {
+          var el = document.getElementById(id);
+          if (el) el.href = 'discover.html';
+        });
+      }).catch(function () { /* stay on the marketing page */ });
+    })();
   </script>
 </body>
 </html>

@@ -1,130 +1,222 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Privacy Policy · SVKM Connect</title>
-  <meta name="description" content="Privacy policy for SVKM Connect, a verified campus community for SVKM students." />
-  <link rel="icon" type="image/svg+xml" href="logo.svg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.cdnfonts.com/css/nefelibata-script" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <meta name="description" content="Privacy policy for SVKM Connect, a verified campus community for SVKM students.">
+  <meta name="theme-color" content="#0b1f3a">
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="preconnect" href="https://fonts.cdnfonts.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/roobert">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap">
+  <link rel="stylesheet" href="styles.css">
   <style>
-    :root{
-      --bg:#fcf1f6; --card:#ffffff; --muted:#a58997; --accent-1:#e997ba;
-      --accent-2:#8cb2dd; --blue-light:#aecdf0; --pink-soft:#e79cb9;
-      --blue-deep:#5276a3; --pink-deep:#c66b92; --ink:#45363e;
-      --ease: cubic-bezier(.16,.84,.29,1);
-      --font-cursive:"Nefelibata Script","Dancing Script","Brush Script MT",cursive;
-      --font-script:"Dancing Script","Brush Script MT",cursive;
-      --font-body:"Poppins","Segoe UI",sans-serif;
-      --shadow:0 12px 28px rgba(212,140,171,.16);
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;font-family:var(--font-body);color:var(--ink);
-      background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.55;
-      padding:28px 16px;display:flex;justify-content:center;overflow-x:hidden;
-    }
-    body:before,body:after{content:"";position:fixed;z-index:-1;pointer-events:none;border-radius:50%}
-    body:before{width:40vw;height:40vw;right:-16vw;top:10vh;background:var(--pink-soft);opacity:.18}
-    body:after{width:32vw;height:32vw;left:-14vw;bottom:-6vh;background:var(--accent-2);opacity:.14}
-    .page-shell{width:100%;max-width:820px}
-    .home{
-      display:inline-flex;align-items:center;gap:8px;color:var(--blue-deep);
-      text-decoration:none;font-size:14px;font-weight:600;margin-bottom:16px;
-      padding:8px 14px;border-radius:999px;background:var(--card);
-      border:1px solid var(--pink-soft);box-shadow:var(--shadow);
-    }
-    .home:hover{color:var(--pink-deep)}
-    .doc-card{
-      background:var(--card);border:1px solid var(--pink-soft);border-radius:18px;
-      padding:34px 40px;box-shadow:var(--shadow);animation:cardRise .6s var(--ease) both;
-    }
-    @keyframes cardRise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-    .brand-row{display:flex;align-items:center;gap:12px;margin-bottom:6px}
-    .logo-ico{width:44px;height:44px;border-radius:50%;overflow:hidden;border:2px solid var(--pink-soft);box-shadow:var(--shadow);display:grid;place-items:center;background:#fff}
-    .logo-ico img{width:100%;height:100%;object-fit:cover}
-    h1{font-family:var(--font-cursive);font-size:40px;color:var(--pink-deep);font-weight:400;margin:0 0 2px}
-    .updated{color:var(--muted);font-size:13px;margin:0 0 6px}
-    .tagline{font-family:var(--font-script);color:var(--muted);font-size:17px;margin:0 0 22px}
-    h2{font-size:20px;color:var(--blue-deep);margin:28px 0 8px;font-weight:600}
-    .lead{color:var(--muted);font-size:14px;margin:0 0 6px}
-    ul{padding-left:20px;margin:6px 0 12px}
-    li{padding:2px 0;font-size:14px}
-    p{font-size:14px}
-    a{color:var(--blue-deep)}
-    @media (max-width:600px){.doc-card{padding:24px 20px}h1{font-size:32px}}
+    .brand img{width:100%;height:100%;object-fit:contain}
   </style>
 </head>
 <body>
-  <div class="page-shell">
-    <a class="home" href="./index.html">← Back to SVKM Connect</a>
-    <div class="doc-card">
-      <div class="brand-row">
-        <div class="logo-ico"><img src="logo.svg" alt="SVKM Connect logo" /></div>
-        <h1>Privacy Policy</h1>
-      </div>
-      <p class="tagline">How SVKM Connect handles your data</p>
-      <p class="updated">Last updated: 21 September 2026</p>
-
-      <p class="lead">This policy explains what information we collect when you use SVKM Connect, how we use it,
-      and the choices you have. By registering or using the service you agree to this policy.</p>
-
-      <h2>1. What we collect</h2>
-      <ul>
-        <li><strong>Account information</strong> — your email address and sign-in method (email + password or Google account). We never see or store your password; it is handled by our authentication provider.</li>
-        <li><strong>Profile information</strong> — your display name, age, gender, college, course, year, religion, mother tongue, favourite hangout, hobbies and interests, clubs/fests/events, and a short bio.</li>
-        <li><strong>Social handles</strong> — Instagram, Snapchat, or other handles you choose to share on your profile.</li>
-        <li><strong>Activity</strong> — connection requests you send or receive and their status.</li>
-        <li><strong>Technical data</strong> — basic device and browser information needed for the site to work.</li>
-      </ul>
-
-      <h2>2. How we collect it</h2>
-      <p>You provide most of this information yourself when you create an account and complete your profile. When you sign in with Google, Google shares your email address with us (their use is governed by Google's privacy policy). We do not buy profile data from anyone.</p>
-
-      <h2>3. How we use it</h2>
-      <ul>
-        <li>Show verified SVKM student profiles to other members of the community.</li>
-        <li>Match students based on the filters and preferences you choose (college, course, year, gender, hangout, interests).</li>
-        <li>Let you send and receive connection requests.</li>
-        <li>Keep the community safe by verifying members are real students aged 18+.</li>
-      </ul>
-
-      <h2>4. Storage and security</h2>
-      <p>Your data is stored with our cloud provider (Supabase) which encrypts data in transit and at rest. Passwords are stored only as secure hashes by our authentication provider and are never readable by us. Access to profiles is restricted through row-level security so that only signed-in community members can view them, and each user can only modify their own profile.</p>
-
-      <h2>5. Who we share it with</h2>
-      <ul>
-        <li>Your profile is visible to other <strong>verified, signed-in SVKM student members</strong>. It is never shown publicly or to search engines.</li>
-        <li>Google, when you choose the "Continue with Google" sign-in option (for authentication only).</li>
-        <li>Our hosting/authentication provider (Supabase) as the technical platform.</li>
-      </ul>
-      <p>We do not sell, rent, or trade your personal information to advertisers or any third party.</p>
-
-      <h2>6. Your choices and control</h2>
-      <ul>
-        <li>Edit or remove details from your profile at any time.</li>
-        <li>Sign out from any device.</li>
-        <li>Request that your profile and related data be deleted by contacting us (see section 10).</li>
-      </ul>
-
-      <h2>7. Cookies and local storage</h2>
-      <p>We use browser local storage to remember your sign-in session and preferences. Google may set its own cookies when you choose "Continue with Google" — please see Google's cookie and privacy policies for details. These technologies do not let us access other sites you visit.</p>
-
-      <h2>8. Age requirement</h2>
-      <p>SVKM Connect is only for people aged 18 and older. By signing up you confirm you are at least 18. If we learn a user is under 18, we will remove their account and data.</p>
-
-      <h2>9. Children's privacy</h2>
-      <p>The service is not directed at anyone under 18, and we do not knowingly collect personal information from minors. If you believe a minor has provided us information, please contact us so we can delete it.</p>
-
-      <h2>10. Contact us</h2>
-      <p>Questions about this policy or requests to delete your data can be sent to <a href="mailto:panchalrohan005@gmail.com">panchalrohan005@gmail.com</a>.</p>
-
-      <h2>11. Changes to this policy</h2>
-      <p>We may update this policy from time to time. The "Last updated" date at the top shows when it was last changed. Significant changes will be visible on this page.</p>
+  <header class="p-header">
+    <div class="shell p-header__inner">
+      <a class="brand" href="./index.html" aria-label="SVKM Connect home">
+        <span class="brand__logo"><img src="https://www.nmcollege.in/images/SVKM%20Logo.png" alt=""></span>
+        <span class="brand__name">SVKM Connect<span class="brand__tag">Campus connections</span></span>
+      </a>
+      <nav aria-label="Main navigation">
+        <a href="./index.html">Home</a>
+        <a href="./about.html">About</a>
+        <a class="is-current" href="./privacy.html" aria-current="page">Privacy</a>
+        <a href="./terms.html">Terms</a>
+        <a href="./auth.html">Log in</a>
+      </nav>
     </div>
-  </div>
+  </header>
+
+  <main>
+    <section class="shell p-hero">
+      <span class="t-eyebrow">Legal</span>
+      <h1>Privacy <em>Policy</em></h1>
+      <p>How SVKM Connect handles your data &mdash; in plain language.</p>
+    </section>
+
+    <div class="shell p-sheet">
+      <section class="p-section">
+        <div class="p-head">
+          <h2>Overview</h2>
+          <p class="p-lede">This policy explains what information we collect when you use SVKM Connect, how we use it, and the choices you have. By registering or using the service you agree to this policy.</p>
+        </div>
+        <div class="p-note">Last updated: <strong>26 September 2026</strong></div>
+      </section>
+
+      <section class="p-section p-section--tint">
+        <div class="p-head">
+          <h2>1. What we collect</h2>
+          <p>Only what the service genuinely needs to work.</p>
+        </div>
+        <div class="p-prose">
+          <ul>
+            <li><strong>Account information</strong> &mdash; your email address and sign-in method (email + password or Google account). We never see or store your password; it is handled by our authentication provider.</li>
+            <li><strong>Profile information</strong> &mdash; your display name, age, gender, college, course, year, religion, mother tongue, favourite hangout, hobbies and interests, clubs/fests/events, and a short bio.</li>
+            <li><strong>Social handles</strong> &mdash; Instagram, Snapchat, or other handles you choose to share on your profile.</li>
+            <li><strong>Activity</strong> &mdash; connection requests you send or receive, their status, and messages in chats you have both accepted.</li>
+            <li><strong>Technical data</strong> &mdash; basic device and browser information needed for the site to work.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="p-section">
+        <div class="p-head">
+          <h2>2. How we collect it</h2>
+          <p>Mostly directly from you.</p>
+        </div>
+        <div class="p-prose">
+          <p>You provide most of this information yourself when you create an account and complete your profile. When you sign in with Google, Google shares your email address with us (their use is governed by Google's privacy policy). We do not buy profile data from anyone.</p>
+        </div>
+      </section>
+
+      <section class="p-section p-section--tint">
+        <div class="p-head">
+          <h2>3. How we use it</h2>
+          <p>Four things, and nothing else.</p>
+        </div>
+        <div class="p-prose">
+          <ul>
+            <li>Show verified SVKM student profiles to other members of the community.</li>
+            <li>Match students based on the filters and preferences you choose (college, course, year, gender, hangout, interests).</li>
+            <li>Let you send and receive connection requests, and chat once a request is accepted.</li>
+            <li>Keep the community safe by verifying members are real students aged 18+.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="p-section">
+        <div class="p-head">
+          <h2>4. Demo and bot profiles</h2>
+          <p>The site ships with a set of clearly labelled demo profiles.</p>
+        </div>
+        <div class="p-prose">
+          <p>Some branches have fewer than four real students signed up at first, so SVKM Connect seeds a number of <strong>demo profiles</strong> to keep the live matches panel useful while the community grows.</p>
+          <ul>
+            <li>Every demo profile is flagged in the database and shown with a <strong>BOT</strong> badge wherever it appears.</li>
+            <li>Demo profiles never send messages, and the conversation coach is disabled for them.</li>
+            <li>They contain no real person's data &mdash; names, courses and interests are generated from fixed lists.</li>
+            <li>They are removed by the cleanup command at the bottom of <code>supabase-bot-fixtures.sql</code>.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="p-section p-section--tint">
+        <div class="p-head">
+          <h2>5. Storage and security</h2>
+          <p>Encrypted in transit and at rest.</p>
+        </div>
+        <div class="p-prose">
+          <p>Your data is stored with our cloud provider (Supabase) which encrypts data in transit and at rest. Passwords are stored only as secure hashes by our authentication provider and are never readable by us. Access to profiles is restricted through row-level security so that only signed-in community members can view them, and each user can only modify their own profile. Chat messages are only readable by the two people in that conversation.</p>
+        </div>
+      </section>
+
+      <section class="p-section">
+        <div class="p-head">
+          <h2>6. Who we share it with</h2>
+          <p>We do not sell, rent, or trade your information.</p>
+        </div>
+        <div class="p-prose">
+          <ul>
+            <li>Your profile is visible to other <strong>verified, signed-in SVKM student members</strong>. It is never shown publicly or to search engines.</li>
+            <li>Google, when you choose the &ldquo;Continue with Google&rdquo; sign-in option (for authentication only).</li>
+            <li>Our hosting/authentication provider (Supabase) as the technical platform.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="p-section p-section--tint">
+        <div class="p-head">
+          <h2>7. Your choices and control</h2>
+          <p>You are in charge.</p>
+        </div>
+        <div class="p-prose">
+          <ul>
+            <li>Edit or remove details from your profile at any time.</li>
+            <li>Sign out from any device.</li>
+            <li>Request that your profile and related data be deleted by contacting us (see section 11).</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="p-section">
+        <div class="p-head">
+          <h2>8. Cookies and local storage</h2>
+          <p>Used to keep you signed in.</p>
+        </div>
+        <div class="p-prose">
+          <p>We use browser local storage to remember your sign-in session and preferences. Google may set its own cookies when you choose &ldquo;Continue with Google&rdquo; &mdash; please see Google's cookie and privacy policies for details. These technologies do not let us access other sites you visit.</p>
+        </div>
+      </section>
+
+      <section class="p-section p-section--tint">
+        <div class="p-head">
+          <h2>9. Age requirement</h2>
+          <p>18 and over only.</p>
+        </div>
+        <div class="p-prose">
+          <p>SVKM Connect is only for people aged 18 and older. By signing up you confirm you are at least 18. If we learn a user is under 18, we will remove their account and data.</p>
+        </div>
+      </section>
+
+      <section class="p-section">
+        <div class="p-head">
+          <h2>10. Children's privacy</h2>
+          <p>We do not knowingly collect data from minors.</p>
+        </div>
+        <div class="p-prose">
+          <p>The service is not directed at anyone under 18. If you believe a minor has provided us information, please contact us so we can delete it.</p>
+        </div>
+      </section>
+
+      <section class="p-section p-section--tint">
+        <div class="p-head">
+          <h2>11. Contact us</h2>
+          <p>One inbox, real replies.</p>
+        </div>
+        <div class="p-prose">
+          <p>Questions about this policy or requests to delete your data can be sent to <a href="mailto:panchalrohan005@gmail.com">panchalrohan005@gmail.com</a>.</p>
+        </div>
+      </section>
+
+      <section class="p-section">
+        <div class="p-head">
+          <h2>12. Changes to this policy</h2>
+          <p>The date at the top tells you when.</p>
+        </div>
+        <div class="p-prose">
+          <p>We may update this policy from time to time. The &ldquo;Last updated&rdquo; date at the top shows when it was last changed. Significant changes will be visible on this page.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="p-foot">
+    <div class="shell p-foot__inner">
+      <p>&copy; 2026 SVKM Connect. Built for the campus community.</p>
+      <div class="p-foot__links">
+        <a href="./index.html">Home</a>
+        <a href="./about.html">About</a>
+        <a href="./terms.html">Terms</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      'use strict';
+      var header = document.querySelector('.p-header');
+      if (!header) return;
+      var onScroll = function () { header.classList.toggle('is-stuck', window.scrollY > 8); };
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+    })();
+  </script>
 </body>
 </html>

@@ -40,6 +40,10 @@ create index if not exists profiles_bot_batch_idx on public.profiles (bot_batch)
 
 alter table public.profiles enable row level security;
 
+drop policy if exists "Authenticated users can view profiles" on public.profiles;
+drop policy if exists "Users can create their own profile" on public.profiles;
+drop policy if exists "Users can update their own profile" on public.profiles;
+
 create policy "Authenticated users can view profiles"
   on public.profiles for select
   to authenticated
@@ -69,6 +73,11 @@ create table if not exists public.connections (
 
 alter table public.connections enable row level security;
 
+drop policy if exists "Users can view their own connections" on public.connections;
+drop policy if exists "Users can request connections" on public.connections;
+drop policy if exists "Users can update their own connection requests" on public.connections;
+drop policy if exists "Users can remove their own connection requests" on public.connections;
+
 create policy "Users can view their own connections"
   on public.connections for select
   to authenticated
@@ -85,6 +94,13 @@ create policy "Users can update their own connection requests"
   using (auth.uid() = requester_id or auth.uid() = recipient_id)
   with check (auth.uid() = requester_id or auth.uid() = recipient_id);
 
+-- Required by the "Crush ping" toggle in discover.html: without this policy the
+-- DELETE is rejected by RLS and the button can never be switched back off.
+create policy "Users can remove their own connection requests"
+  on public.connections for delete
+  to authenticated
+  using (auth.uid() = requester_id);
+
 create table if not exists public.chat_messages (
   id uuid primary key default gen_random_uuid(),
   connection_id uuid not null references public.connections(id) on delete cascade,
@@ -94,6 +110,9 @@ create table if not exists public.chat_messages (
 );
 
 alter table public.chat_messages enable row level security;
+
+drop policy if exists "Connected users can view chat messages" on public.chat_messages;
+drop policy if exists "Connected users can send chat messages" on public.chat_messages;
 
 create policy "Connected users can view chat messages"
   on public.chat_messages for select

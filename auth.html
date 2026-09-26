@@ -2,204 +2,99 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Login · SVKM Connect</title>
-  <meta name="description" content="Sign in or create your SVKM Connect account." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Log in or Sign up · SVKM Connect</title>
+  <meta name="description" content="Sign in or create your SVKM Connect account to see live matches from your campus." />
+  <meta name="theme-color" content="#0b1f3a" />
+  <meta name="robots" content="noindex" />
   <link rel="icon" type="image/svg+xml" href="logo.svg" />
+  <link rel="preconnect" href="https://fonts.cdnfonts.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/roobert" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.cdnfonts.com/css/nefelibata-script" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" />
+  <link rel="stylesheet" href="styles.css" />
   <script src="https://accounts.google.com/gsi/client" async id="gsi-client"></script>
   <style>
-    :root{
-      --bg:#fcf1f6;
-      --card:#ffffff;
-      --muted:#a58997;
-      --accent-1:#e997ba;
-      --accent-2:#8cb2dd;
-      --blue-light:#aecdf0;
-      --pink-soft:#e79cb9;
-      --blue-deep:#5276a3;
-      --pink-deep:#c66b92;
-      --ink:#45363e;
-      --radius:18px;
-      --ease: cubic-bezier(.16,.84,.29,1);
-      --font-cursive:"Nefelibata Script","Dancing Script","Brush Script MT",cursive;
-      --font-script:"Dancing Script","Brush Script MT",cursive;
-      --font-body:"Poppins","Segoe UI",sans-serif;
-      --shadow:0 12px 28px rgba(212,140,171,.16);
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:var(--font-body);
-      color:var(--ink);
-      background:var(--bg);
-      -webkit-font-smoothing:antialiased;
-      line-height:1.35;
-      min-height:100%;
-      padding:28px 16px;
-      display:flex;
-      justify-content:center;
-      align-items:flex-start;
-      overflow-x:hidden;
-    }
-    body:before,body:after{content:"";position:fixed;z-index:-1;pointer-events:none;border-radius:50%}
-    body:before{width:40vw;height:40vw;right:-16vw;top:10vh;background:var(--pink-soft);opacity:.18}
-    body:after{width:32vw;height:32vw;left:-14vw;bottom:-6vh;background:var(--accent-2);opacity:.14}
-    .auth-shell{width:100%;max-width:440px}
-    .home{
-      display:inline-flex;align-items:center;gap:6px;color:var(--blue-deep);
-      text-decoration:none;font-size:14px;font-weight:600;margin-bottom:14px;
-      padding:8px 12px;border-radius:999px;background:var(--card);border:1px solid var(--pink-soft);
-    }
-    .home:hover{color:var(--pink-deep)}
-    .auth-card{
-      background:var(--card);
-      border:1px solid var(--pink-soft);
-      border-radius:var(--radius);
-      padding:28px 24px;
-      box-shadow:var(--shadow);
-      animation:cardRise .6s var(--ease) both;
-    }
-    @keyframes cardRise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-    .title{
-      font-family:var(--font-cursive);
-      font-size:44px;
-      color:var(--pink-deep);
-      font-weight:400;
-      margin:0 0 2px;
-      line-height:1;
-      text-align:center;
-    }
-    .tagline{font-family:var(--font-script);color:var(--muted);font-size:18px;text-align:center;margin:0 0 8px}
-    .view h2{
-      font-family:var(--font-cursive);
-      color:var(--pink-deep);
-      font-size:32px;
-      font-weight:400;
-      margin:12px 0 14px;
-      text-align:center;
-    }
-    form{display:grid;gap:14px}
-    label{display:grid;gap:6px;font-size:13px;color:var(--muted);font-weight:500}
-    input,select,textarea{
-      width:100%;padding:12px 14px;
-      border:1px solid var(--pink-soft);
-      border-radius:10px;
-      background:var(--bg);
-      color:var(--ink);
-      font:inherit;
-    }
-    textarea{resize:vertical;min-height:74px}
-    input:focus,select:focus,textarea:focus{outline:2px solid var(--pink-soft);border-color:var(--accent-1);background:#fff}
-    .pw{position:relative}
-    .pw input{padding-right:78px}
-    .reveal{
-      position:absolute;right:8px;top:7px;
-      padding:6px 12px;border:0;border-radius:999px;
-      background:var(--pink-soft);color:#fff;
-      cursor:pointer;font-size:12px;font-weight:600;font-family:var(--font-body);
-    }
-    .reveal:hover{background:var(--pink-deep)}
-    .btn{
-      padding:12px 16px;border-radius:999px;
-      background:var(--card);border:1px solid var(--pink-soft);
-      cursor:pointer;color:var(--pink-deep);font-weight:600;font-family:var(--font-body);
-      box-shadow:var(--shadow);
-      transition:transform .22s var(--ease),background .22s var(--ease),color .22s var(--ease);
-    }
-    .btn:hover{transform:translateY(-2px)}
-    .btn.primary{background:var(--accent-1);color:#fff;border:0;box-shadow:0 8px 22px rgba(233,151,186,.35);font-weight:700}
-    .btn.primary:hover{background:var(--pink-deep)}
-    .btn:disabled{opacity:.6;cursor:wait;transform:none}
-    .btn.google{
-      display:flex;align-items:center;justify-content:center;gap:10px;
-      background:#fff;border:1px solid #e7c8d5;color:var(--ink);box-shadow:var(--shadow);
-    }
-    .btn.google svg{width:18px;height:18px}
-    .btn.google:hover{background:var(--bg);border-color:var(--pink-deep)}
-    .divider{
-      display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12px;margin:14px 0;
-    }
-    .divider:before,.divider:after{content:"";flex:1;height:1px;background:var(--pink-soft)}
-    .gsi-button{display:flex;justify-content:center;width:100%;margin-top:2px}
-    .gsi-button iframe{width:100%}
-    .switch{
-      width:100%;margin-top:14px;padding:4px;border:0;background:transparent;
-      color:var(--blue-deep);cursor:pointer;font:600 13px var(--font-body);text-decoration:underline;
-    }
-    .switch:hover{color:var(--pink-deep)}
-    .status{min-height:20px;font-size:13px;color:var(--muted);text-align:center}
-    .status.error{color:#c5487a}
-    .status.success{color:var(--blue-deep)}
-    .muted{color:var(--muted);font-size:13px;margin:0 0 14px;text-align:center}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .full{grid-column:1/-1}
-    .note{font-size:11px;color:var(--muted);margin:2px 0 0}
-    .legal-links{display:flex;justify-content:center;gap:8px;margin-top:16px;font-size:13px;color:var(--muted)}
-    .legal-links a{color:var(--blue-deep);text-decoration:none;font-weight:600}
-    .legal-links a:hover{color:var(--pink-deep)}
-    @media (max-width:600px){.grid{grid-template-columns:1fr}.title{font-size:38px}.auth-card{padding:22px 16px}}
-    @media (max-width:420px){.title{font-size:32px}.tagline{font-size:16px}.view h2{font-size:28px}.auth-shell{padding:4px}}
-  </style>
-  <style>
-    :root{
-      --bg:#f4f7fb;--card:#fff;--muted:#627089;--ink:#14233b;
-      --accent-1:#1d5da8;--accent-2:#77a9dd;--pink-soft:#e8c8d1;
-      --pink-deep:#a94360;--blue-deep:#123d72;--shadow:0 18px 42px rgba(18,61,114,.12);
-      --font-body:"Poppins","Segoe UI",sans-serif;--font-cursive:"Poppins","Segoe UI",sans-serif;--font-script:"Poppins","Segoe UI",sans-serif;
-    }
-    body{background:var(--bg);padding:32px 16px;color:var(--ink)}
-    body:before,body:after{display:none}
-    .auth-shell{max-width:460px}.home{color:var(--blue-deep);background:transparent;border:0;padding:8px 0;margin-bottom:16px;font-size:13px}.home:hover{color:var(--pink-deep)}
-    .auth-card{border:1px solid #e0e8f2;border-radius:22px;padding:34px 32px;box-shadow:var(--shadow)}
-    .title{font-family:var(--font-body);font-size:30px;font-weight:700;letter-spacing:-.04em;color:var(--blue-deep)}
-    .tagline{font-family:var(--font-body);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:26px}
-    .view h2{font-family:var(--font-body);font-size:23px;font-weight:700;color:var(--ink);text-align:left;margin:0 0 20px}
-    form{gap:16px}label{color:var(--muted);font-size:12px;font-weight:600;letter-spacing:.01em}
-    input,select,textarea{padding:13px 14px;border:1px solid #d8e3f0;border-radius:10px;background:#f8faff;color:var(--ink)}
-    input:focus,select:focus,textarea:focus{outline:3px solid rgba(29,93,168,.14);border-color:var(--accent-1);background:#fff}
-    .reveal{background:#eaf2fb;color:var(--blue-deep)}.reveal:hover{background:#dceafa;color:var(--blue-deep)}
-    .btn{border-color:#d8e3f0;color:var(--blue-deep);box-shadow:0 5px 14px rgba(18,61,114,.07)}.btn.primary{background:var(--accent-1);border-color:var(--accent-1);box-shadow:0 8px 18px rgba(29,93,168,.22)}.btn.primary:hover{background:var(--blue-deep)}
-    .btn.google{border-color:#d8e3f0;color:var(--ink)}.btn.google:hover{background:#f4f7fb;border-color:#9bb9d8}
-    .divider:before,.divider:after{background:#dce5ef}.switch{color:var(--blue-deep)}.switch:hover{color:var(--pink-deep)}
-    .status.error{color:var(--pink-deep)}.status.success{color:var(--blue-deep)}
-    .legal-links a{color:var(--blue-deep)}.legal-links a:hover{color:var(--pink-deep)}
-    ::selection{background:#cfe2f7;color:var(--blue-deep)}
-    :focus-visible{outline:3px solid rgba(182,83,110,.38);outline-offset:3px}
-    .auth-shell{animation:authEnter .7s var(--ease) both}
-    .auth-card{position:relative;overflow:hidden}
-    .auth-card:before{content:"";position:absolute;width:220px;height:220px;right:-120px;top:-120px;border:1px solid rgba(182,83,110,.15);border-radius:50%;box-shadow:0 0 0 22px rgba(182,83,110,.04),0 0 0 44px rgba(29,93,168,.03);pointer-events:none}
+    body{display:flex;justify-content:center;align-items:flex-start;min-height:100vh;padding:28px 16px 44px}
+    .auth-shell{width:100%;max-width:480px}
+
+    .auth-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+    .back{display:inline-flex;align-items:center;gap:7px;padding:9px 15px;border-radius:var(--r-pill);background:var(--card);border:1px solid var(--line);color:var(--muted);font-size:13px;font-weight:600;text-decoration:none;transition:background .2s var(--ease),color .2s var(--ease)}
+    .back:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+
+    .auth-card{position:relative;overflow:hidden;padding:clamp(26px,3.4vw,38px);border:1px solid var(--line);border-radius:var(--r-xl);background:var(--card);box-shadow:var(--sh-4);animation:cardRise .6s var(--ease) both}
+    .auth-card::before{content:"";position:absolute;width:240px;height:240px;right:-130px;top:-130px;border-radius:50%;background:radial-gradient(circle,rgba(18,216,224,.22),rgba(18,216,224,0) 70%);pointer-events:none}
     .auth-card>*{position:relative}
-    .view form>label,.view form>.grid>label{animation:formItem .5s var(--ease) both}
-    .view form>label:nth-child(2),.view form>.grid>label:nth-child(2){animation-delay:.04s}
-    .view form>label:nth-child(3),.view form>.grid>label:nth-child(3){animation-delay:.08s}
-    .view form>label:nth-child(4),.view form>.grid>label:nth-child(4){animation-delay:.12s}
-    .btn:active{transform:translateY(1px) scale(.98)}
-    .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.35);transform:scale(0);animation:ripple .55s ease-out;pointer-events:none}
+    @keyframes cardRise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+    .auth-card__head{text-align:center;margin-bottom:24px}
+    .auth-title{margin:0;font-family:var(--font-display);font-size:clamp(28px,4vw,38px);font-weight:600;letter-spacing:-.03em;color:var(--blue)}
+    .auth-title em{font-style:italic;color:var(--pink-deep)}
+    .auth-tagline{margin:9px 0 0;color:var(--muted);font-size:13px}
+    .view h2{margin:0 0 18px;font-size:20px;font-weight:800;letter-spacing:-.02em;color:var(--blue)}
+
+    form{display:grid;gap:15px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .full{grid-column:1/-1}
+    .note{margin:0;font-size:11px;color:var(--muted)}
+    .muted{margin:0 0 18px;color:var(--muted);font-size:13px;text-align:center}
+
+    .pw{position:relative}
+    .pw input{padding-right:76px}
+    .reveal{position:absolute;right:7px;top:6px;padding:7px 12px;border:0;border-radius:var(--r-pill);background:var(--blue-soft);color:var(--blue);cursor:pointer;font:700 12px var(--font-body);transition:background .2s var(--ease),color .2s var(--ease)}
+    .reveal:hover{background:var(--blue);color:#fff}
+
+    .btn.google{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:50px;background:#fff;color:var(--blue);border:2px solid var(--line);box-shadow:var(--sh-1)}
+    .btn.google:hover{border-color:var(--blue);background:var(--bg)}
+    .btn.google svg{width:18px;height:18px;flex:0 0 18px}
+
+    .divider{display:flex;align-items:center;gap:12px;margin:18px 0;color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+    .divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--line)}
+    .gsi-button{display:flex;justify-content:center;width:100%}
+    .gsi-button iframe{width:100%;max-width:100%!important}
+
+    .switch{width:100%;padding:11px;border:0;border-radius:var(--r-pill);background:var(--bg);color:var(--blue);cursor:pointer;font:700 13px var(--font-body);transition:background .2s var(--ease),color .2s var(--ease)}
+    .switch:hover{background:var(--cyan-soft);color:var(--cyan-deep)}
+
+    .disclaimer{margin:20px 0 0;padding:12px 14px;border-radius:var(--r-md);background:var(--bg);color:var(--muted);font-size:11.5px;line-height:1.5;text-align:center}
+    .legal-links{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px;margin-top:20px;font-size:12.5px;color:var(--muted)}
+    .legal-links a{color:var(--muted);text-decoration:none;font-weight:600}
+    .legal-links a:hover{color:var(--blue)}
+    .auth-foot{margin-top:26px;text-align:center;font-size:12.5px;color:var(--muted)}
+    .auth-foot a{color:var(--blue);font-weight:700;text-decoration:none}
+    .auth-foot a:hover{color:var(--pink-deep)}
+
+    .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.4);transform:scale(0);animation:ripple .55s ease-out;pointer-events:none}
     @keyframes ripple{to{transform:scale(4);opacity:0}}
-    @keyframes authEnter{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-    @keyframes formItem{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-    @media (max-width:600px){body{padding:18px 12px}.auth-card{padding:28px 20px}.title{font-size:27px}}
-    @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}.auth-card:before{display:none}}
+
+    @media (max-width:600px){
+      body{padding:18px 12px 34px}
+      .auth-card{padding:24px 18px;border-radius:var(--r-lg)}
+      .grid{grid-template-columns:1fr}
+      .full{grid-column:auto}
+    }
+    @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
   </style>
 </head>
 <body>
   <div class="auth-shell">
-    <a class="home" href="./index.html">← Back to SVKM Connect</a>
+    <div class="auth-top">
+      <a class="back" href="./index.html">&larr; Back to home</a>
+    </div>
+
     <div class="auth-card">
-      <h1 class="title">Find love at SVKM</h1>
-      <p class="tagline">Verified campus community</p>
+      <div class="auth-card__head">
+        <h1 class="auth-title">It starts with <em>a hello.</em></h1>
+        <p class="auth-tagline">Verified campus community · SVKM Connect</p>
+      </div>
 
       <!-- SIGN IN -->
       <div class="view" id="view-signin">
-        <h2>Sign in</h2>
-        <form id="signin-form">
+        <h2>Log in</h2>
+        <form id="signin-form" novalidate>
           <label>Gmail
-            <input id="signin-email" type="email" placeholder="you@gmail.com" autocomplete="email" required />
+            <input id="signin-email" type="email" inputmode="email" placeholder="you@gmail.com" autocomplete="email" required />
           </label>
           <label>Password
             <div class="pw">
@@ -207,20 +102,20 @@
               <button class="reveal" type="button" data-for="signin-password" aria-label="Show password">Show</button>
             </div>
           </label>
-          <button class="btn primary" id="signin-submit" type="submit">Sign in</button>
+          <button class="btn btn--lg btn--block" id="signin-submit" type="submit">Log in</button>
           <div class="status" id="signin-status" role="status" aria-live="polite"></div>
         </form>
         <div class="divider">or</div>
         <div class="gsi-button" id="gsi-signin"></div>
-        <button class="switch" id="to-signup" type="button">New here? Create account</button>
+        <button class="switch" id="to-signup" type="button" style="margin-top:14px">New here? Create an account</button>
       </div>
 
       <!-- CREATE ACCOUNT -->
       <div class="view" id="view-signup" hidden>
         <h2>Create account</h2>
-        <form id="signup-form">
+        <form id="signup-form" novalidate>
           <label>Gmail
-            <input id="signup-email" type="email" placeholder="you@gmail.com" autocomplete="email" required />
+            <input id="signup-email" type="email" inputmode="email" placeholder="you@gmail.com" autocomplete="email" required />
           </label>
           <label>Password
             <div class="pw">
@@ -235,25 +130,25 @@
               <button class="reveal" type="button" data-for="signup-confirm" aria-label="Show password">Show</button>
             </div>
           </label>
-          <button class="btn primary" id="signup-submit" type="submit">Create account</button>
+          <button class="btn btn--lg btn--block" id="signup-submit" type="submit">Create account</button>
           <div class="status" id="signup-status" role="status" aria-live="polite"></div>
         </form>
         <div class="divider">or</div>
         <div class="gsi-button" id="gsi-signup"></div>
-        <button class="switch" id="to-signin" type="button">Already have an account? Sign in</button>
+        <button class="switch" id="to-signin" type="button" style="margin-top:14px">Already have an account? Log in</button>
       </div>
 
       <!-- BUILD YOUR PROFILE (mandatory after account creation) -->
       <div class="view" id="view-profile" hidden>
         <h2>Build your profile</h2>
-        <p class="muted">This powers your matches — what you fill here shows up on your profile.</p>
-        <form id="profile-form">
+        <p class="muted">This is what powers your matches — everything you fill in shows on your profile.</p>
+        <form id="profile-form" novalidate>
           <div class="grid">
             <label class="full">Full name (shown on your profile)
               <input id="pf-name" type="text" placeholder="e.g. Ananya Sharma" autocomplete="name" required />
             </label>
             <label>Age
-              <input id="pf-age" type="number" min="18" max="99" required />
+              <input id="pf-age" type="number" min="18" max="99" inputmode="numeric" placeholder="18" required />
             </label>
             <label>Gender
               <select id="pf-gender" required>
@@ -264,35 +159,28 @@
                 <option value="prefer-not-to-say">Prefer not to say</option>
               </select>
             </label>
-            <label>College
+            <label class="full">College
               <select id="pf-college" required>
                 <option value="">Choose your college</option>
-                <option value="mithibai">Mithibai College of Arts, Chauhan Institute of Science & Amrutben Jivanlal College</option>
-                <option value="nm-commerce">Narsee Monjee College of Commerce and Economics (NM)</option>
-                <option value="nmims">NMIMS (Deemed-to-be-University)</option>
-                <option value="upg">Usha Pravin Gandhi College (UPG)</option>
-                <option value="sbmp">Shri Bhagubhai Mafatlal Polytechnic (SBMP)</option>
-                <option value="djsce">Dwarkadas J. Sanghvi College of Engineering (DJSCE)</option>
-                <option value="jcl">Jitendra Chauhan College of Law (JCL)</option>
               </select>
             </label>
-            <label>Course
+            <label class="full">Course
               <select id="pf-course" required>
                 <option value="">Choose course</option>
               </select>
             </label>
-            <label>Year
+            <label class="full">Year
               <select id="pf-year" required>
                 <option value="">Choose year</option>
               </select>
             </label>
-            <label>Most-loved hangout
+            <label class="full">Most-loved hangout
               <input id="pf-hangout" type="text" list="hangout-suggestions" placeholder="e.g. Canteen" required />
             </label>
-            <label>Hobbies & interests
+            <label class="full">Hobbies &amp; interests
               <input id="pf-hobbies" type="text" placeholder="e.g. Music, books, football" required />
             </label>
-            <label class="full">Clubs, fests & events you're part of
+            <label class="full">Clubs, fests &amp; events you&rsquo;re part of
               <input id="pf-clubs" type="text" placeholder="e.g. Rotaract, Dance Society, Umang, Kshitij, Enactus (optional)" />
             </label>
             <label class="full">About you / bio
@@ -323,55 +211,64 @@
             <option value="Student Plaza"></option>
             <option value="Auditorium"></option>
           </datalist>
-          <button class="btn primary" id="profile-save" type="submit">Save profile</button>
+          <button class="btn btn--lg btn--block" id="profile-save" type="submit">Save profile</button>
           <div class="status" id="profile-status" role="status" aria-live="polite"></div>
         </form>
       </div>
+
+      <p class="disclaimer">SVKM Connect is for verified students aged 18 and over. Every profile is tied to a real student account; demo and test accounts are labelled <strong>BOT</strong> wherever they appear.</p>
     </div>
+
     <div class="legal-links">
       <a href="privacy.html">Privacy Policy</a>
-      <span>·</span>
       <a href="terms.html">Terms &amp; Conditions</a>
+      <a href="about.html">About</a>
     </div>
+    <p class="auth-foot">Just browsing? <a href="./index.html">See what campus matchmaking looks like</a></p>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/catalog.js"></script>
   <script>
-    /* Add your Supabase project values here. Supabase Auth stores password hashes; this page never reads passwords. */
+    /* Supabase project values. Passwords are hashed by Supabase Auth; this page never reads them. */
     const SUPABASE_URL = 'https://sjwoyiwrvtrcezmgzosg.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_s4dBdf87iuX7I0I0kNRQRg_5PI2rGN-';
 
     /* Google OAuth "Web application" client ID. Must also be enabled in
-       Supabase Dashboard → Authentication → Providers → Google with its client secret;
-       and this site's origin must be in the client's Authorized JavaScript origins. */
+       Supabase Dashboard -> Authentication -> Providers -> Google, and this
+       site's origin must be listed in the client's Authorized JavaScript origins. */
     const GOOGLE_CLIENT_ID = '650627100892-686a2c1hf735djqj6i6l0fkl5eulvu6c.apps.googleusercontent.com';
 
-    /* IMPORTANT: do NOT name this variable `supabase`. The @supabase/supabase-js CDN already declares
-       a global `var supabase`, so re-declaring it as `const supabase` here throws
-       "Identifier 'supabase' has already been declared" and disables the whole script. */
+    /* IMPORTANT: do NOT name this variable `supabase` - the @supabase/supabase-js
+       CDN already declares a global `var supabase`, so re-declaring it throws
+       "Identifier 'supabase' has already been declared" and kills the script. */
     const supabaseClient = window.supabase && !SUPABASE_URL.includes('YOUR-')
       ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
       : null;
 
     const $ = s => document.querySelector(s);
     const $$ = s => [...document.querySelectorAll(s)];
+    const APP_PAGE = './discover.html';
     let currentUser = null;
-    $$('.btn, .reveal, .switch').forEach(button=>{
-      button.addEventListener('click', event=>{
-        const rect=button.getBoundingClientRect();
-        const ripple=document.createElement('span');
-        const size=Math.max(rect.width,rect.height);
-        ripple.className='ripple';
-        ripple.style.width=`${size}px`;
-        ripple.style.height=`${size}px`;
-        ripple.style.left=`${event.clientX-rect.left-size/2}px`;
-        ripple.style.top=`${event.clientY-rect.top-size/2}px`;
-        button.style.position='relative';
-        button.style.overflow='hidden';
-        button.appendChild(ripple);
-        ripple.addEventListener('animationend',()=>ripple.remove(),{once:true});
+
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      $$('.btn, .reveal, .switch').forEach(button=>{
+        button.addEventListener('click', event=>{
+          const rect=button.getBoundingClientRect();
+          const ripple=document.createElement('span');
+          const size=Math.max(rect.width,rect.height);
+          ripple.className='ripple';
+          ripple.style.width=`${size}px`;
+          ripple.style.height=`${size}px`;
+          ripple.style.left=`${event.clientX-rect.left-size/2}px`;
+          ripple.style.top=`${event.clientY-rect.top-size/2}px`;
+          button.style.position='relative';
+          button.style.overflow='hidden';
+          button.appendChild(ripple);
+          ripple.addEventListener('animationend',()=>ripple.remove(),{once:true});
+        });
       });
-    });
+    }
 
     function setStatus(id, message, type = '') {
       const el = $('#' + id);
@@ -381,6 +278,18 @@
     }
     function showView(name) {
       $$('.view').forEach(v => { v.hidden = v.id !== 'view-' + name; });
+      const heading = $('#view-' + name + ' h2');
+      if (heading) { heading.setAttribute('tabindex','-1'); heading.focus({preventScroll:true}); }
+    }
+    function friendlyError(error, fallback){
+      const raw = (error && error.message) || error || '';
+      if(/invalid login credentials/i.test(raw)) return 'That email and password combination did not match. Check both and try again.';
+      if(/email not confirmed|not confirmed/i.test(raw)) return 'Confirm your email address first, then log in.';
+      if(/user already registered|already exists/i.test(raw)) return 'That email is already registered. Try logging in instead.';
+      if(/password should be at least/i.test(raw)) return 'Password must be at least 8 characters.';
+      if(/rate limit|too many/i.test(raw)) return 'Too many attempts. Wait a moment and try again.';
+      if(/fetch|network|failed to fetch/i.test(raw)) return 'Network problem. Check your connection and try again.';
+      return raw || fallback;
     }
     if (new URLSearchParams(location.search).get('mode') === 'signup') showView('signup');
 
@@ -388,33 +297,36 @@
     $$('.reveal').forEach(btn => {
       btn.addEventListener('click', () => {
         const input = $('#' + btn.dataset.for);
+        if (!input) return;
         const visible = input.type === 'text';
         input.type = visible ? 'password' : 'text';
         btn.textContent = visible ? 'Show' : 'Hide';
+        btn.setAttribute('aria-label', visible ? 'Show password' : 'Hide password');
       });
     });
 
-    /* Switch between sign in / sign up */
-    $('#to-signup').addEventListener('click', () => { showView('signup'); setStatus('signup-status', ''); });
-    $('#to-signin').addEventListener('click', () => { showView('signin'); setStatus('signin-status', ''); });
+    /* Switch between log in / sign up */
+    $('#to-signup').addEventListener('click', () => { showView('signup'); setStatus('signup-status', ''); setStatus('signin-status', ''); });
+    $('#to-signin').addEventListener('click', () => { showView('signin'); setStatus('signin-status', ''); setStatus('signup-status', ''); });
 
     async function hasProfile(userId) {
       if (!supabaseClient) return false;
       const { data, error } = await supabaseClient.from('profiles').select('id').eq('id', userId).maybeSingle();
-      if (error) throw new Error(`Could not check your profile: ${error.message}`);
+      if (error) throw new Error(`Could not load your profile: ${error.message}`);
       return !!data;
     }
-    function goHome() { location.href = './index.html'; }
+    function goToApp() { location.replace(APP_PAGE); }
 
     /* A signed-in user must finish their profile before continuing (mandatory step). */
     let activeCheckPromise = null;
     async function handleActive(user) {
+      if (!user) return;
       if (activeCheckPromise) return activeCheckPromise;
       currentUser = user;
       activeCheckPromise = (async () => {
         try {
           const exists = await hasProfile(user.id);
-          if (exists) { goHome(); return; }
+          if (exists) { goToApp(); return; }
           showView('profile');
         } catch (err) {
           setStatus('signin-status', err.message || 'Could not load your profile.', 'error');
@@ -426,69 +338,74 @@
       return activeCheckPromise;
     }
 
-    /* Sign in with email + password */
+    /* Log in with email + password */
     $('#signin-form').addEventListener('submit', async e => {
       e.preventDefault();
-      if (!supabaseClient) { setStatus('signin-status', 'Supabase is not configured yet.', 'error'); return; }
+      if (!supabaseClient) { setStatus('signin-status', 'Sign-in is unavailable right now. Please try again shortly.', 'error'); return; }
       const email = $('#signin-email').value.trim().toLowerCase();
       const password = $('#signin-password').value;
+      if (!email || !password) { setStatus('signin-status', 'Enter your Gmail and password to continue.', 'error'); return; }
       const btn = $('#signin-submit');
-      btn.disabled = true; setStatus('signin-status', 'Signing in...');
+      const label = btn.textContent;
+      btn.disabled = true; btn.textContent = 'Logging in...'; setStatus('signin-status', '');
       try {
         const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-        if (error) { setStatus('signin-status', error.message, 'error'); return; }
+        if (error) { setStatus('signin-status', friendlyError(error, 'Could not log you in.'), 'error'); return; }
         await handleActive(data.user);
       } catch (err) {
-        setStatus('signin-status', err.message || 'Sign-in failed. Check your internet connection.', 'error');
+        setStatus('signin-status', friendlyError(err, 'Could not log you in. Check your connection.'), 'error');
       } finally {
-        btn.disabled = false;
+        btn.disabled = false; btn.textContent = label;
       }
     });
 
     /* Create account with Gmail + password + confirm password */
     $('#signup-form').addEventListener('submit', async e => {
       e.preventDefault();
-      if (!supabaseClient) { setStatus('signup-status', 'Supabase is not configured yet.', 'error'); return; }
+      if (!supabaseClient) { setStatus('signup-status', 'Sign-up is unavailable right now. Please try again shortly.', 'error'); return; }
       const email = $('#signup-email').value.trim().toLowerCase();
       const password = $('#signup-password').value;
       const confirm = $('#signup-confirm').value;
-      const btn = $('#signup-submit');
+      if (!email) { setStatus('signup-status', 'Enter your Gmail to create an account.', 'error'); return; }
       if (password.length < 8) { setStatus('signup-status', 'Password must be at least 8 characters.', 'error'); return; }
       if (password !== confirm) { setStatus('signup-status', 'Passwords do not match.', 'error'); return; }
-      btn.disabled = true; setStatus('signup-status', 'Creating account...');
+      const btn = $('#signup-submit');
+      const label = btn.textContent;
+      btn.disabled = true; btn.textContent = 'Creating account...'; setStatus('signup-status', '');
       try {
-        /* Supabase records the email and password. The email is also kept as the profile login id. */
         const { data, error } = await supabaseClient.auth.signUp({
           email,
           password,
           options: { data: { login_id: email } }
         });
-        if (error) { setStatus('signup-status', error.message, 'error'); return; }
+        if (error) { setStatus('signup-status', friendlyError(error, 'Could not create your account.'), 'error'); return; }
         if (!data.session) {
-          setStatus('signup-status', 'Account created. Check your gmail to confirm, then sign in.', 'success');
+          setStatus('signup-status', 'Account created. Check your Gmail to confirm, then log in.', 'success');
+          showView('signin');
+          $('#signin-email').value = email;
           return;
         }
         await handleActive(data.user);
       } catch (err) {
-        setStatus('signup-status', err.message || 'Sign-up failed. Check your internet connection.', 'error');
+        setStatus('signup-status', friendlyError(err, 'Could not create your account. Check your connection.'), 'error');
       } finally {
-        btn.disabled = false;
+        btn.disabled = false; btn.textContent = label;
       }
     });
 
-    /* Google sign in — Google Identity Services sends the ID token straight to Supabase (no redirect). */
+    /* Google sign in - Google Identity Services sends the ID token straight to Supabase (no redirect). */
     function handleGoogleCredential(credential, statusId) {
-      if (!supabaseClient) { setStatus(statusId, 'Supabase is not configured yet.', 'error'); return; }
-      setStatus(statusId, 'Signing in with Google...');
+      if (!supabaseClient) { setStatus(statusId, 'Sign-in is unavailable right now. Please try again shortly.', 'error'); return; }
+      setStatus(statusId, '');
       supabaseClient.auth.signInWithIdToken({ provider: 'google', token: credential })
         .then(async ({ data, error }) => {
           if (error) {
-            setStatus(statusId, error.message + ' Also enable Google in Supabase → Authentication → Providers → Google and register this client ID.', 'error');
+            setStatus(statusId, friendlyError(error, 'Google sign-in could not be completed. Check your connection and try again.'), 'error');
             return;
           }
           await handleActive(data.user);
         })
-        .catch(err => setStatus(statusId, err.message || 'Google sign-in failed.', 'error'));
+        .catch(err => setStatus(statusId, friendlyError(err, 'Google sign-in could not be completed.'), 'error'));
     }
 
     function renderGoogleButton(containerId, statusId) {
@@ -499,11 +416,11 @@
         el.querySelector('button').addEventListener('click', () => setStatus(statusId, msg, 'error'));
       };
       if (!GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID.startsWith('PASTE_')) {
-        fallback('Google sign-in is not configured yet. Add your Google Web client ID.');
+        fallback('Google sign-in is not configured on this deployment. Use your Gmail and password instead.');
         return;
       }
       if (!window.google || !window.google.accounts) {
-        fallback('Google sign-in script could not load. Check your internet connection and try again.');
+        fallback('Google sign-in could not load. Check your internet connection, or use your Gmail and password.');
         return;
       }
       try {
@@ -514,7 +431,7 @@
         });
         window.google.accounts.id.renderButton(el, {
           type: 'standard', theme: 'outline', text: 'continue_with', shape: 'pill',
-          size: 'large', width: Math.min(380, Math.max(260, window.innerWidth - 88))
+          size: 'large', width: Math.min(400, Math.max(240, window.innerWidth - 120))
         });
       } catch (err) {
         fallback('Google sign-in could not start: ' + (err.message || 'invalid client ID.'));
@@ -541,88 +458,24 @@
       setTimeout(waitGoogle, 250);
     }
 
-    const collegeCourses = {
-      mithibai: [
-        ['ba','B.A.'], ['bsc','B.Sc.'], ['bcom','B.Com.'], ['bms','BMS'], ['baf','B.Com. Accounting & Finance'],
-        ['bfm','B.Com. Financial Markets'], ['bbi','B.Com. Banking & Insurance'], ['bia','B.Com. Investment Analysis'],
-        ['bmf','B.Com. Management & Finance'], ['bammc','B.A. Multimedia & Mass Communication'], ['bsc-it','B.Sc. IT'],
-        ['bsc-cs','B.Sc. Computer Science'], ['bsc-health','B.Sc. Health Sciences'], ['bsc-asda','B.Sc. Applied Statistics & Data Analytics'],
-        ['bsc-psych','B.Sc. Psychology']
-      ],
-      'nm-commerce': [
-        ['bcom','B.Com.'], ['baf','B.Com. Accounting & Finance'], ['bbi','B.Com. Banking & Insurance'],
-        ['bfm','B.Com. Financial Markets'], ['bms','BMS'], ['bsc-it','B.Sc. IT'], ['bsc-aids-nm','B.Sc. AI & Data Science (Honours)'],
-        ['bcom-cs','B.Com. Computer Systems'], ['bcom-ms','B.Com. Management Studies']
-      ],
-      nmims: [['bba-fin','BBA (Finance)'], ['bba','BBA'], ['bsc-fin','B.Sc. Finance'], ['bcom-hons','B.Com. (Hons.)']],
-      upg: [
-        ['bms','BMS'], ['bammc','B.A. Multimedia & Mass Communication'], ['bsc-it','B.Sc. IT'],
-        ['bsc-aids','B.Sc. AI & Data Science'], ['bcom-ms','B.Com. (Management Studies)'], ['ba-ftnmp','B.A. Film, Television & New Media Production'],
-        ['mcom','M.Com.'], ['msc-it','M.Sc. IT'], ['msc-aids','M.Sc. AI & Data Science'], ['ma','M.A.']
-      ],
-      sbmp: [
-        ['dip-computer','Diploma in Computer Engineering'], ['dip-it','Diploma in Information Technology'], ['dip-civil','Diploma in Civil Engineering'],
-        ['dip-mechanical','Diploma in Mechanical Engineering'], ['dip-electrical','Diploma in Electrical Engineering'], ['dip-plastics','Diploma in Plastics Engineering'],
-        ['dip-chemical','Diploma in Chemical Engineering'], ['dip-extc','Diploma in Electronics & Telecommunication'], ['btech-computer','B.Tech Computer Engineering'],
-        ['btech-it','B.Tech Information Technology'], ['btech-cse','B.Tech Computer Science & Engineering'], ['btech-ai','B.Tech CSE (AI & Machine Learning)']
-      ],
-      djsce: [
-        ['btech-extc','B.Tech Electronics & Telecommunication'], ['btech-it','B.Tech Information Technology'], ['btech-computer','B.Tech Computer Engineering'],
-        ['btech-mechanical','B.Tech Mechanical Engineering'], ['btech-ds','B.Tech CSE (Data Science)'], ['btech-aiml','B.Tech AI & Machine Learning'],
-        ['btech-aids','B.Tech AI & Data Science'], ['btech-iot','B.Tech CSE (IoT & Cyber Security)'], ['mtech','M.Tech'], ['phd','Ph.D.']
-      ],
-      jcl: [['ba-llb','B.A. LL.B.'], ['bba-llb','B.B.A. LL.B.'], ['llb','LL.B.'], ['llm','LL.M.']]
-    };
+    /* Catalogue lives in js/catalog.js so discover.html, profile.html and
+       supabase-bot-fixtures.sql can never drift from this form. */
+    const CATALOG = window.SVKM_CATALOG;
 
-    const courseYears = {
-      bsc: ['FY', 'SY', 'TY'],
-      'bsc-aids': ['FY', 'SY', 'TY'],
-      'bsc-aids-nm': ['FY', 'SY', 'TY', 'Honours Year (NM)'],
-      'bsc-it': ['FY', 'SY', 'TY'],
-      'bsc-cs': ['FY', 'SY', 'TY'],
-      'bsc-health': ['FY', 'SY', 'TY'],
-      'bsc-asda': ['FY', 'SY', 'TY'],
-      'bsc-psych': ['FY', 'SY', 'TY'],
-      bcom: ['FY', 'SY', 'TY'],
-      baf: ['FY', 'SY', 'TY'],
-      bbi: ['FY', 'SY', 'TY'],
-      bfm: ['FY', 'SY', 'TY'],
-      bms: ['FY', 'SY', 'TY'],
-      ba: ['FY', 'SY', 'TY'],
-      bammc: ['FY', 'SY', 'TY'],
-      'bba-fin': ['FY', 'SY', 'TY'],
-      bba: ['FY', 'SY', 'TY'],
-      'bcom-hons': ['FY', 'SY', 'TY'],
-      'bcom-ms': ['FY', 'SY', 'TY'],
-      'bcom-cs': ['FY', 'SY', 'TY'],
-      'bsc-fin': ['FY', 'SY', 'TY'],
-      'ba-ftnmp': ['FY', 'SY', 'TY'],
-      'btech-computer': ['FY', 'SY', 'TY', 'Final Year'],
-      'btech-it': ['FY', 'SY', 'TY', 'Final Year'],
-      'btech-cse': ['FY', 'SY', 'TY', 'Final Year'],
-      'btech-ai': ['FY', 'SY', 'TY', 'Final Year'],
-      'btech-extc': ['FY', 'SY', 'TY', 'Final Year'],
-      'btech-mechanical': ['FY', 'SY', 'TY', 'Final Year'],
-      'btech-ds': ['FY', 'SY', 'TY', 'Final Year'],
-      'btech-aiml': ['FY', 'SY', 'TY', 'Final Year'],
-      'btech-aids': ['FY', 'SY', 'TY', 'Final Year'],
-      'btech-iot': ['FY', 'SY', 'TY', 'Final Year'],
-      llb: ['FY', 'SY', 'TY'],
-      'ba-llb': ['FY', 'SY', 'TY', 'Final Year'],
-      'bba-llb': ['FY', 'SY', 'TY', 'Final Year'],
-      llm: ['Year 1', 'Year 2'],
-      mcom: ['FY', 'SY'],
-      'msc-it': ['FY', 'SY'],
-      'msc-aids': ['FY', 'SY'],
-      ma: ['FY', 'SY'],
-      mtech: ['Year 1', 'Year 2'],
-      phd: ['Year 1', 'Year 2', 'Year 3']
-    };
+    function fillCollegeOptions() {
+      const select = $('#pf-college');
+      if (!CATALOG) {
+        select.innerHTML = '<option value="">Catalogue unavailable</option>';
+        return;
+      }
+      select.innerHTML = '<option value="">Choose your college</option>' + CATALOG.collegeOrder
+        .map(key => `<option value="${key}">${CATALOG.collegeLabels[key]}</option>`).join('');
+    }
 
     function fillCourseOptions(collegeValue) {
       const courseSelect = $('#pf-course');
       const yearSelect = $('#pf-year');
-      const options = collegeCourses[collegeValue] || [];
+      const options = CATALOG ? CATALOG.coursesFor(collegeValue) : [];
       courseSelect.innerHTML = '<option value="">Choose course</option>' + options.map(([value, label]) => `<option value="${value}">${label}</option>`).join('');
       yearSelect.innerHTML = '<option value="">Choose year</option>';
       courseSelect.value = '';
@@ -631,10 +484,12 @@
 
     function fillYearOptions(courseValue) {
       const yearSelect = $('#pf-year');
-      const years = courseYears[courseValue] || [];
+      const years = CATALOG ? (CATALOG.courseYears[courseValue] || []) : [];
       yearSelect.innerHTML = '<option value="">Choose year</option>' + years.map(year => `<option value="${year}">${year}</option>`).join('');
       yearSelect.value = '';
     }
+
+    fillCollegeOptions();
 
     $('#pf-college').addEventListener('change', function() {
       fillCourseOptions(this.value);
@@ -644,10 +499,13 @@
       fillYearOptions(this.value);
     });
 
-    /* Save the mandatory profile, then return to the main page */
+    /* Save the mandatory profile, then continue into the app */
     $('#profile-form').addEventListener('submit', async e => {
       e.preventDefault();
-      if (!currentUser) { setStatus('profile-status', 'Session expired. Please sign in again.', 'error'); return; }
+      if (!currentUser) { setStatus('profile-status', 'Your session expired. Please log in again.', 'error'); return; }
+      const age = Number($('#pf-age').value);
+      if (!$('#pf-name').value.trim()) { setStatus('profile-status', 'Please enter your name.', 'error'); return; }
+      if (!Number.isFinite(age) || age < 18 || age > 99) { setStatus('profile-status', 'Age must be between 18 and 99.', 'error'); return; }
       if (!$('#pf-college').value || !$('#pf-course').value || !$('#pf-year').value) {
         setStatus('profile-status', 'Please complete college, course, and year.', 'error');
         return;
@@ -657,7 +515,7 @@
         login_id: currentUser.email || currentUser.id,
         email: currentUser.email || null,
         display_name: $('#pf-name').value.trim(),
-        age: Number($('#pf-age').value),
+        age: age,
         gender: $('#pf-gender').value,
         college: $('#pf-college').value,
         course: $('#pf-course').value,
@@ -677,13 +535,15 @@
         updated_at: new Date().toISOString()
       };
       const btn = $('#profile-save');
-      btn.disabled = true; setStatus('profile-status', 'Saving...');
+      const label = btn.textContent;
+      btn.disabled = true; btn.textContent = 'Saving...'; setStatus('profile-status', '');
       try {
+        if (!supabaseClient) { setStatus('profile-status', 'Sign-up is unavailable right now. Please try again shortly.', 'error'); return; }
         let { error } = await supabaseClient.from('profiles').upsert(profile);
         if (error && /column .* does not exist|couldn['’]t find the .* column/i.test(error.message)) {
           const profileWithoutOptionalColumns = { ...profile };
           const missingColumns = [];
-          ['bio', 'clubs_fests'].forEach(column => {
+          ['bio', 'clubs_fests', 'religion', 'mother_tongue', 'interests'].forEach(column => {
             if (new RegExp(`(?:column .*${column}.* does not exist|couldn['’]t find the ['"]?${column}['"]? column)`, 'i').test(error.message)) {
               delete profileWithoutOptionalColumns[column];
               missingColumns.push(column);
@@ -695,8 +555,8 @@
               ? new Error(`${retry.error.message} Run supabase-profile-migration.sql in the Supabase SQL Editor.`)
               : null;
             if (!error) {
-              setStatus('profile-status', `Profile saved. Run supabase-profile-migration.sql to enable ${missingColumns.join(' and ')}.`, 'success');
-              setTimeout(goHome, 1200);
+              setStatus('profile-status', `Profile saved. Run supabase-profile-migration.sql to enable ${missingColumns.join(', ')}.`, 'success');
+              setTimeout(goToApp, 1200);
               return;
             }
           }
@@ -705,25 +565,25 @@
           setStatus('profile-status',
             /relation .*profiles.* does not exist/i.test(error.message)
               ? 'Create the profiles table using the supplied supabase-schema.sql file, then save again.'
-              : error.message, 'error');
+              : friendlyError(error, 'Could not save your profile.'), 'error');
           return;
         }
         setStatus('profile-status', 'Profile saved. Welcome!', 'success');
-        setTimeout(goHome, 700);
+        setTimeout(goToApp, 700);
       } catch (err) {
-        setStatus('profile-status', err.message || 'Could not save your profile.', 'error');
+        setStatus('profile-status', friendlyError(err, 'Could not save your profile.'), 'error');
       } finally {
-        btn.disabled = false;
+        btn.disabled = false; btn.textContent = label;
       }
     });
 
     /* Restore the session (handles the return from Google) */
     if (supabaseClient) {
-      supabaseClient.auth.getSession().then(({ data: { session } }) => {
-        if (session?.user) handleActive(session.user);
-      });
+      supabaseClient.auth.getSession()
+        .then(({ data }) => { if (data && data.session) handleActive(data.session.user); })
+        .catch(() => { /* stay on the auth form */ });
       supabaseClient.auth.onAuthStateChange((_event, session) => {
-        if (_event === 'SIGNED_IN' && session?.user) handleActive(session.user);
+        if (_event === 'SIGNED_IN' && session && session.user) handleActive(session.user);
       });
     }
   </script>
