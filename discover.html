@@ -110,6 +110,7 @@
       display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;
       border-radius:var(--r-lg);background:#fff;border:1px solid var(--line);box-shadow:var(--sh-3);
     }
+    .quick{width:min(100%,760px);margin:0;text-align:left}
     .preference-panel-head{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:2px 4px 6px;color:var(--blue);font-size:13px;font-weight:700}
     .preference-progress{color:var(--muted);font-size:12px;font-weight:600}
     .filter-dropdown{position:relative;display:block;min-width:0;width:100%;padding:0}
@@ -183,6 +184,18 @@
     .connection-row strong{display:block;font-size:14px}
     .connection-row span{display:block;color:var(--muted);font-size:12px}
     #close-connections{margin-top:18px}
+    dialog.profile-dialog{width:min(620px,calc(100% - 28px));border:0;border-radius:var(--r-lg);padding:0;color:var(--ink);box-shadow:var(--sh-4)}
+    dialog.profile-dialog::backdrop{background:rgba(11,31,58,.5);backdrop-filter:blur(2px)}
+    .profile-dialog-inner{padding:26px}
+    .profile-dialog-head{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+    .profile-dialog-avatar{width:58px;height:58px;flex:0 0 58px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(150deg,var(--cyan),var(--pink));color:#fff;font-weight:800;font-size:20px}
+    .profile-dialog h2{margin:0;color:var(--blue);font-size:24px}
+    .profile-dialog-meta{margin:4px 0 0;color:var(--muted);font-size:13px}
+    .profile-details{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .profile-detail{padding:12px;border-radius:var(--r-sm);background:var(--bg)}
+    .profile-detail strong{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+    .profile-detail span{display:block;margin-top:3px;color:var(--ink);font-size:13px;white-space:pre-wrap;word-break:break-word}
+    .profile-dialog-actions{display:flex;justify-content:flex-end;margin-top:18px}
 
     /* ================= full-screen match overlay ================= */
     .love-stage{position:fixed;inset:0;z-index:70;display:grid;place-items:center;background:rgba(11,31,58,.82);opacity:0;pointer-events:none;transition:opacity .3s var(--ease)}
@@ -221,6 +234,7 @@
       .lets{width:100%;max-width:none}
       .live-ping{padding:8px 12px}
       .live-matches{max-height:none;overflow:visible}
+      .profile-details{grid-template-columns:1fr}
     }
     @media (prefers-reduced-motion:reduce){
       *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
@@ -250,10 +264,20 @@
     </header>
     <dialog class="connection-dialog" id="connection-dialog">
       <div class="connection-dialog-inner">
-         <h2>Your connections</h2>
-         <p>Accept a crush ping to unlock a private chat.</p>
+         <h2>Requests & connections</h2>
+         <p>Incoming requests appear here. Accept a request to unlock a private chat; your sent requests stay visible until they respond.</p>
          <div class="connection-list" id="connection-list"><p>Loading connections...</p></div>
          <button class="btn" id="close-connections" type="button">Close</button>
+      </div>
+    </dialog>
+    <dialog class="profile-dialog" id="profile-dialog">
+      <div class="profile-dialog-inner">
+        <div class="profile-dialog-head">
+          <div class="profile-dialog-avatar" id="detail-avatar">SV</div>
+          <div><h2 id="detail-name">Profile</h2><p class="profile-dialog-meta" id="detail-meta"></p></div>
+        </div>
+        <div class="profile-details" id="profile-details"></div>
+        <div class="profile-dialog-actions"><button class="btn btn--light" id="close-profile" type="button">Close</button></div>
       </div>
     </dialog>
 
@@ -535,7 +559,7 @@
       updateMatchButton();
       if(open && focusNext){
         const next = $$('.filter-dropdown').find(dropdown=>dropdown.dataset.selected !== 'true') || $('#lets-btn');
-        if(next.matches('.filter-dropdown')) openFilterMenu(next);
+        if(next.matches('.filter-dropdown')) next.querySelector('.filter-button').focus();
         else next.focus();
       }
     }
@@ -640,7 +664,7 @@
         }
         updateMatchButton();
         const next = $$('.filter-dropdown').find(item=>item.dataset.selected !== 'true');
-        if(next) openFilterMenu(next);
+        if(next) next.querySelector('.filter-button').focus();
         else {
           closeFilterMenus();
           $('#lets-btn').focus();
@@ -716,6 +740,33 @@
       await loadLiveMatches();
     });
     $('#close-connections').addEventListener('click',()=>$('#connection-dialog').close());
+    $('#close-profile').addEventListener('click',()=>$('#profile-dialog').close());
+    const profileDirectory = new Map();
+    function openProfileDetails(profileId){
+      const profile = profileDirectory.get(profileId);
+      if(!profile) return;
+      const normalized = normalizeProfile(profile);
+      $('#detail-name').textContent = normalized.display_name;
+      $('#detail-avatar').textContent = initialsFor(normalized);
+      $('#detail-meta').textContent = profileMeta(normalized);
+      const details = [
+        ['About', normalized.bio],
+        ['Hobbies & interests', normalized.hobbies || normalized.interests],
+        ['Hangout', normalized.favourite_hangout],
+        ['Clubs, fests & events', normalized.clubs_fests],
+        ['Age', normalized.age ? `${normalized.age} years` : ''],
+        ['Gender', normalized.gender],
+        ['Mother tongue', normalized.mother_tongue],
+        ['Religion', normalized.religion],
+        ['Instagram', normalized.social_handles?.instagram],
+        ['Snapchat', normalized.social_handles?.snapchat],
+        ['Other social', normalized.social_handles?.other]
+      ].filter(([, value]) => value);
+      $('#profile-details').innerHTML = details.map(([label, value]) =>
+        `<div class="profile-detail"><strong>${escapeHtml(label)}</strong><span>${escapeHtml(value)}</span></div>`
+      ).join('');
+      $('#profile-dialog').showModal();
+    }
     async function loadConnectionRequests(){
       const list=$('#connection-list');
       const result=await supabaseClient.from('connections').select('id,status,requester_id,recipient_id').or(`requester_id.eq.${activeUser.id},recipient_id.eq.${activeUser.id}`).order('created_at',{ascending:false});
@@ -723,7 +774,7 @@
       const rows=result.data||[];
       if(!rows.length){list.innerHTML='<p>No crush pings yet. Keep exploring your campus matches.</p>';return;}
       const ids=[...new Set(rows.map(row=>row.requester_id===activeUser.id?row.recipient_id:row.requester_id))];
-      const profiles=await supabaseClient.from('profiles').select('id,display_name,college,course').in('id',ids);
+      const profiles=await supabaseClient.from('profiles').select('id,display_name,college,course,year,gender,age,hobbies,interests,bio,favourite_hangout,clubs_fests,mother_tongue,religion,social_handles,is_bot').in('id',ids);
       const byId=new Map((profiles.data||[]).map(profile=>[profile.id,profile]));
       list.innerHTML=rows.map(row=>{const partner=byId.get(row.requester_id===activeUser.id?row.recipient_id:row.requester_id)||{};const incoming=row.recipient_id===activeUser.id;return `<div class="connection-row"><div><strong>${escapeHtml(partner.display_name||'Campus connection')}</strong><span>${escapeHtml([partner.course||'Student',row.status==='accepted'?'Connected':incoming?'Wants to connect':'Waiting for response'].join(' · '))}</span></div>${row.status==='accepted'?`<a class="btn btn--sm btn--light" href="./chat.html?connection=${encodeURIComponent(row.id)}">Chat</a>`:incoming?`<button class="btn btn--sm" data-accept-connection="${escapeHtml(row.id)}" type="button">Accept</button>`:'<span>Pending</span>'}</div>`;}).join('');
       list.querySelectorAll('[data-accept-connection]').forEach(button=>button.addEventListener('click',async()=>{button.disabled=true;const update=await supabaseClient.from('connections').update({status:'accepted'}).eq('id',button.dataset.acceptConnection).eq('recipient_id',activeUser.id);if(update.error){button.disabled=false;button.textContent='Try again';return;}await loadConnectionRequests();}));
@@ -754,10 +805,11 @@
       let offset = 0;
       const profiles = [];
       while(true){
-        const result = await supabaseClient.from('profiles').select('id,display_name,college,course,year,gender,age,hobbies,bio,favourite_hangout,clubs_fests,is_bot').neq('id',excludeUserId).order('id',{ascending:true}).range(offset,offset + pageSize - 1);
+        const result = await supabaseClient.from('profiles').select('id,display_name,college,course,year,gender,age,hobbies,interests,bio,favourite_hangout,clubs_fests,mother_tongue,religion,social_handles,is_bot').neq('id',excludeUserId).order('id',{ascending:true}).range(offset,offset + pageSize - 1);
         if(result.error) throw result.error;
         const page = result.data || [];
         profiles.push(...page);
+        page.forEach(profile => profileDirectory.set(profile.id, profile));
         if(page.length < pageSize) return profiles;
         offset += pageSize;
       }
@@ -776,7 +828,7 @@
         const name = escapeHtml(profile.display_name);
         const pinged = pings.has(profile.id);
         const botBadge = profile.is_bot ? '<span class="bot-badge">BOT</span>' : '';
-        return `<div class="live-profile">
+        return `<div class="live-profile" data-profile-id="${escapeHtml(profile.id)}" tabindex="0" role="button" aria-label="View ${name}'s profile">
           <div class="live-profile-avatar">${escapeHtml(initialsFor(profile))}</div>
           <div class="live-profile-info">
             <div class="live-profile-name"><strong>${name}</strong>${botBadge}</div>
@@ -785,6 +837,10 @@
           <button class="live-ping${pinged ? ' pinged' : ''}" type="button" data-ping-id="${escapeHtml(profile.id)}" data-ping-name="${name}">${pinged ? 'Saved' : 'Crush ping'}</button>
         </div>`;
       }).join('');
+      container.querySelectorAll('[data-profile-id]').forEach(card=>{
+        card.addEventListener('click', event=>{ if(!event.target.closest('[data-ping-id]')) openProfileDetails(card.dataset.profileId); });
+        card.addEventListener('keydown', event=>{ if((event.key === 'Enter' || event.key === ' ') && !event.target.closest('[data-ping-id]')) { event.preventDefault(); openProfileDetails(card.dataset.profileId); } });
+      });
       container.querySelectorAll('[data-ping-id]').forEach(button=>{
         button.addEventListener('click', ()=>toggleCrushPing(button.dataset.pingId, button.dataset.pingName, button));
       });
@@ -871,7 +927,8 @@
     function renderMatches(profiles, criteria){
       const grid = $('#match-grid');
       const collegeName = label => collegeLabels[label] || label || '';
-      grid.innerHTML = profiles.length ? profiles.map((raw,index)=>{ const profile=normalizeProfile(raw); const initials=profile.display_name.split(/\s+/).map(part=>part[0]).join('').slice(0,2).toUpperCase(); const clubs=profile.clubs_fests?.split(',').map(s=>s.trim()).filter(Boolean).slice(0,3).join(' · '); const botBadge=profile.is_bot ? '<span class="bot-badge">BOT</span>' : ''; return `<article class="match-card"><div class="match-card-top"><div class="match-avatar">${escapeHtml(initials)}</div><div><h3>${escapeHtml(profile.display_name)}${botBadge}</h3><p>${escapeHtml([profile.course || 'Student', profile.year, collegeName(profile.college), profile.age ? profile.age+' yrs' : ''].filter(Boolean).join(' · '))}</p></div></div><div class="match-tags"><span class="match-tag">${escapeHtml(profile.favourite_hangout)}</span><span class="match-tag">${escapeHtml(profile.gender || 'Open-minded')}</span>${clubs ? `<span class="match-tag">${escapeHtml(clubs)}</span>` : ''}</div><p>${escapeHtml(profile.hobbies || profile.bio || 'Looking for good campus energy.')}</p><button class="match-connect" data-match-id="${escapeHtml(profile.id)}" data-match-name="${escapeHtml(profile.display_name)}" type="button">Connect</button></article>`; }).join('') : '<p class="live-empty">No profiles match these criteria yet.</p>';
+      profiles.forEach(profile => profileDirectory.set(profile.id, profile));
+      grid.innerHTML = profiles.length ? profiles.map((raw,index)=>{ const profile=normalizeProfile(raw); const initials=profile.display_name.split(/\s+/).map(part=>part[0]).join('').slice(0,2).toUpperCase(); const clubs=profile.clubs_fests?.split(',').map(s=>s.trim()).filter(Boolean).slice(0,3).join(' · '); const botBadge=profile.is_bot ? '<span class="bot-badge">BOT</span>' : ''; return `<article class="match-card" data-profile-id="${escapeHtml(profile.id)}" tabindex="0" role="button"><div class="match-card-top"><div class="match-avatar">${escapeHtml(initials)}</div><div><h3>${escapeHtml(profile.display_name)}${botBadge}</h3><p>${escapeHtml([profile.course || 'Student', profile.year, collegeName(profile.college), profile.age ? profile.age+' yrs' : ''].filter(Boolean).join(' · '))}</p></div></div><div class="match-tags"><span class="match-tag">${escapeHtml(profile.favourite_hangout)}</span><span class="match-tag">${escapeHtml(profile.gender || 'Open-minded')}</span>${clubs ? `<span class="match-tag">${escapeHtml(clubs)}</span>` : ''}</div><p>${escapeHtml(profile.hobbies || profile.bio || 'Looking for good campus energy.')}</p><button class="match-connect" data-match-id="${escapeHtml(profile.id)}" data-match-name="${escapeHtml(profile.display_name)}" type="button">Connect</button></article>`; }).join('') : '<p class="live-empty">No profiles match these criteria yet.</p>';
       const collegeSummary = criteria.college === 'all' ? 'all colleges' : (collegeLabels[criteria.college] || criteria.college);
       const genderSummary = $('#gender').selectedOptions[0]?.textContent || criteria.gender;
       const courseSummary = $('#course').selectedOptions[0]?.textContent || criteria.course;
@@ -880,6 +937,10 @@
       $('#matches-section').classList.add('visible');
       $('#matches-section').scrollIntoView({behavior:'smooth',block:'start'});
       $$('.match-connect').forEach(button=>button.addEventListener('click',()=>createConnection(button.dataset.matchId,button.dataset.matchName,button)));
+      $$('.match-card[data-profile-id]').forEach(card=>{
+        card.addEventListener('click', event=>{ if(!event.target.closest('[data-match-id]')) openProfileDetails(card.dataset.profileId); });
+        card.addEventListener('keydown', event=>{ if((event.key === 'Enter' || event.key === ' ') && !event.target.closest('[data-match-id]')) { event.preventDefault(); openProfileDetails(card.dataset.profileId); } });
+      });
     }
     async function createConnection(recipientId, name, button){
       if(!activeUser){ $('#ping-feedback').textContent='Sign in to connect with students.'; return; }
