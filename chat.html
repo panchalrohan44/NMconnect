@@ -202,15 +202,37 @@
     async function loadConnections() {
       const result = await client
         .from('connections')
-        .select('id,requester_id,recipient_id')
+        .select('id,requester_id,recipient_id,status')
         .or(`requester_id.eq.${session.user.id},recipient_id.eq.${session.user.id}`)
-        .eq('status', 'accepted')
         .order('updated_at', { ascending: false });
       if (result.error) {
         $('#chat-list').innerHTML = `<p class="chat-panel__sub">${escapeHtml(friendlyError(result.error, 'Chat is unavailable right now.'))}</p>`;
         return;
       }
-      const rows = result.data || [];
+      let rows = result.data || [];
+      const connectedIds = [...new Set(rows.map(row => row.requester_id === session.user.id ? row.recipient_id : row.requester_id))];
+      const connectedProfiles = connectedIds.length
+        ? await client.from('profiles').select('id,display_name,college,course,is_bot').in('id', connectedIds)
+        : { data: [], error: null };
+      if (connectedProfiles.error) {
+        $('#chat-list').innerHTML = `<p class="chat-panel__sub">${escapeHtml(friendlyError(connectedProfiles.error, 'Chat profiles are unavailable right now.'))}</p>`;
+        return;
+      }
+      const profileMap = new Map((connectedProfiles.data || []).map(profile => [profile.id, profile]));
+      const pendingBotRows = rows.filter(row => {
+        const partnerId = row.requester_id === session.user.id ? row.recipient_id : row.requester_id;
+        return row.status !== 'accepted' && profileMap.get(partnerId)?.is_bot;
+      });
+      if (pendingBotRows.length) {
+        const upgrades = await Promise.all(pendingBotRows.map(row =>
+          client.from('connections').update({ status: 'accepted' }).eq('id', row.id).eq('requester_id', session.user.id)
+        ));
+        const upgradedIds = new Set(pendingBotRows
+          .filter((row, index) => !upgrades[index].error)
+          .map(row => row.id));
+        rows = rows.map(row => upgradedIds.has(row.id) ? { ...row, status: 'accepted' } : row);
+      }
+      rows = rows.filter(row => row.status === 'accepted');
       const aiLink = `<button class="chat-link chat-link--ai${aiMode ? ' active' : ''}" type="button" data-assistant="1"><strong>SVKM AI</strong><small>Your personal campus assistant</small></button>`;
       if (!rows.length) {
         $('#chat-list').innerHTML = aiLink + '<p class="chat-panel__sub">No accepted connections yet. Connect with someone from live matches to add a human chat.</p>';
@@ -218,8 +240,7 @@
         return;
       }
       const partnerIds = rows.map(row => row.requester_id === session.user.id ? row.recipient_id : row.requester_id);
-      const profiles = await client.from('profiles').select('id,display_name,college,course').in('id', partnerIds);
-      const map = new Map((profiles.data || []).map(profile => [profile.id, profile]));
+      const map = new Map(partnerIds.map(id => [id, profileMap.get(id)]));
       $('#chat-list').innerHTML = aiLink + rows.map(row => {
         const id = row.requester_id === session.user.id ? row.recipient_id : row.requester_id;
         const partner = map.get(id) || {};
