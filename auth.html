@@ -14,7 +14,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" />
   <link rel="stylesheet" href="styles.css" />
-  <script src="https://accounts.google.com/gsi/client" async id="gsi-client"></script>
   <style>
     body{display:flex;justify-content:center;align-items:flex-start;min-height:100vh;padding:28px 16px 44px}
     .auth-shell{width:100%;max-width:480px}
@@ -44,15 +43,6 @@
     .pw input{padding-right:76px}
     .reveal{position:absolute;right:7px;top:6px;padding:7px 12px;border:0;border-radius:var(--r-pill);background:var(--blue-soft);color:var(--blue);cursor:pointer;font:700 12px var(--font-body);transition:background .2s var(--ease),color .2s var(--ease)}
     .reveal:hover{background:var(--blue);color:#fff}
-
-    .btn.google{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:50px;background:#fff;color:var(--blue);border:2px solid var(--line);box-shadow:var(--sh-1)}
-    .btn.google:hover{border-color:var(--blue);background:var(--bg)}
-    .btn.google svg{width:18px;height:18px;flex:0 0 18px}
-
-    .divider{display:flex;align-items:center;gap:12px;margin:18px 0;color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
-    .divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--line)}
-    .gsi-button{display:flex;justify-content:center;width:100%}
-    .gsi-button iframe{width:100%;max-width:100%!important}
 
     .switch{width:100%;padding:11px;border:0;border-radius:var(--r-pill);background:var(--bg);color:var(--blue);cursor:pointer;font:700 13px var(--font-body);transition:background .2s var(--ease),color .2s var(--ease)}
     .switch:hover{background:var(--cyan-soft);color:var(--cyan-deep)}
@@ -105,8 +95,6 @@
           <button class="btn btn--lg btn--block" id="signin-submit" type="submit">Log in</button>
           <div class="status" id="signin-status" role="status" aria-live="polite"></div>
         </form>
-        <div class="divider">or</div>
-        <div class="gsi-button" id="gsi-signin"></div>
         <button class="switch" id="to-signup" type="button" style="margin-top:14px">New here? Create an account</button>
       </div>
 
@@ -133,8 +121,6 @@
           <button class="btn btn--lg btn--block" id="signup-submit" type="submit">Create account</button>
           <div class="status" id="signup-status" role="status" aria-live="polite"></div>
         </form>
-        <div class="divider">or</div>
-        <div class="gsi-button" id="gsi-signup"></div>
         <button class="switch" id="to-signin" type="button" style="margin-top:14px">Already have an account? Log in</button>
       </div>
 
@@ -233,11 +219,6 @@
     /* Supabase project values. Passwords are hashed by Supabase Auth; this page never reads them. */
     const SUPABASE_URL = 'https://sjwoyiwrvtrcezmgzosg.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_s4dBdf87iuX7I0I0kNRQRg_5PI2rGN-';
-
-    /* Google OAuth "Web application" client ID. Must also be enabled in
-       Supabase Dashboard -> Authentication -> Providers -> Google, and this
-       site's origin must be listed in the client's Authorized JavaScript origins. */
-    const GOOGLE_CLIENT_ID = '650627100892-686a2c1hf735djqj6i6l0fkl5eulvu6c.apps.googleusercontent.com';
 
     /* IMPORTANT: do NOT name this variable `supabase` - the @supabase/supabase-js
        CDN already declares a global `var supabase`, so re-declaring it throws
@@ -392,71 +373,6 @@
         btn.disabled = false; btn.textContent = label;
       }
     });
-
-    /* Google sign in - Google Identity Services sends the ID token straight to Supabase (no redirect). */
-    function handleGoogleCredential(credential, statusId) {
-      if (!supabaseClient) { setStatus(statusId, 'Sign-in is unavailable right now. Please try again shortly.', 'error'); return; }
-      setStatus(statusId, '');
-      supabaseClient.auth.signInWithIdToken({ provider: 'google', token: credential })
-        .then(async ({ data, error }) => {
-          if (error) {
-            setStatus(statusId, friendlyError(error, 'Google sign-in could not be completed. Check your connection and try again.'), 'error');
-            return;
-          }
-          await handleActive(data.user);
-        })
-        .catch(err => setStatus(statusId, friendlyError(err, 'Google sign-in could not be completed.'), 'error'));
-    }
-
-    function renderGoogleButton(containerId, statusId) {
-      const el = document.getElementById(containerId);
-      if (!el || el.childElementCount) return;
-      const fallback = msg => {
-        el.innerHTML = '<button class="btn google" type="button">Continue with Google</button>';
-        el.querySelector('button').addEventListener('click', () => setStatus(statusId, msg, 'error'));
-      };
-      if (!GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID.startsWith('PASTE_')) {
-        fallback('Google sign-in is not configured on this deployment. Use your Gmail and password instead.');
-        return;
-      }
-      if (!window.google || !window.google.accounts) {
-        fallback('Google sign-in could not load. Check your internet connection, or use your Gmail and password.');
-        return;
-      }
-      try {
-        window.google.accounts.id.initialize({
-          client_id: GOOGLE_CLIENT_ID,
-          callback: resp => handleGoogleCredential(resp.credential, statusId),
-          auto_select: false
-        });
-        window.google.accounts.id.renderButton(el, {
-          type: 'standard', theme: 'outline', text: 'continue_with', shape: 'pill',
-          size: 'large', width: Math.min(400, Math.max(240, window.innerWidth - 120))
-        });
-      } catch (err) {
-        fallback('Google sign-in could not start: ' + (err.message || 'invalid client ID.'));
-      }
-    }
-
-    function initGoogleButtons() {
-      renderGoogleButton('gsi-signin', 'signin-status');
-      renderGoogleButton('gsi-signup', 'signup-status');
-    }
-    const gsiScript = document.querySelector('#gsi-client');
-    if (window.google && window.google.accounts) { initGoogleButtons(); }
-    else {
-      let ggTries = 0;
-      const waitGoogle = () => {
-        if (window.google && window.google.accounts) { initGoogleButtons(); return; }
-        if (++ggTries < 15) { setTimeout(waitGoogle, 250); }
-        else { initGoogleButtons(); } // GSI unavailable: still show a helpful button
-      };
-      if (gsiScript) {
-        gsiScript.addEventListener('load', waitGoogle);
-        gsiScript.addEventListener('error', waitGoogle);
-      }
-      setTimeout(waitGoogle, 250);
-    }
 
     /* Catalogue lives in js/catalog.js so discover.html, profile.html and
        supabase-bot-fixtures.sql can never drift from this form. */
