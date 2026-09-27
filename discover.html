@@ -470,13 +470,16 @@
       const options = collegeCourses[college] || collegeCourses.all;
       setFilterOptions('course', options);
       $('#course').value = '';
+      $('[data-filter="course"]').dataset.selected = 'false';
       $('[data-filter="course"] .filter-button').textContent = 'Course';
       setFilterOptions('year', []);
+      $('[data-filter="year"]').dataset.selected = 'false';
       $('[data-filter="year"] .filter-button').textContent = 'Year';
     }
     function updateYearOptions(course){
       const options = CATALOG ? CATALOG.yearsFor(course) : (courseYears[course] || []).map(y=>[y.toLowerCase().replace(/[^a-z0-9]+/g,'-'),y]);
       setFilterOptions('year', options);
+      $('[data-filter="year"]').dataset.selected = 'false';
       $('[data-filter="year"] .filter-button').textContent = 'Year';
     }
     function closeFilterMenus(){
@@ -882,9 +885,16 @@
       if(!activeUser){ $('#ping-feedback').textContent='Sign in to connect with students.'; return; }
       if(!recipientId || !supabaseClient){ $('#ping-feedback').textContent='This profile is missing a backend ID.'; return; }
       button.disabled=true;
-      const {error}=await supabaseClient.from('connections').upsert({requester_id:activeUser.id,recipient_id:recipientId,status:'pending'},{onConflict:'requester_id,recipient_id'});
+      const recipient = await supabaseClient.from('profiles').select('is_bot').eq('id',recipientId).maybeSingle();
+      if(recipient.error){ button.disabled=false; $('#ping-feedback').textContent=`Could not connect: ${recipient.error.message}`; return; }
+      const status = recipient.data?.is_bot ? 'accepted' : 'pending';
+      const {error}=await supabaseClient.from('connections').upsert({requester_id:activeUser.id,recipient_id:recipientId,status},{onConflict:'requester_id,recipient_id'});
       if(error){ button.disabled=false; $('#ping-feedback').textContent=`Could not connect: ${error.message}`; return; }
-      button.textContent='Requested'; button.classList.add('connected'); $('#ping-feedback').textContent=`Connection request sent to ${name}.`;
+      button.textContent=status === 'accepted' ? 'Chat unlocked' : 'Requested';
+      button.classList.add('connected');
+      $('#ping-feedback').textContent=status === 'accepted'
+        ? `${name} is ready to chat with you. Open Chats to start.`
+        : `Connection request sent to ${name}.`;
     }
     async function showMatches(criteria){
       const stage=$('#love-stage'); stage.classList.add('open'); stage.setAttribute('aria-hidden','false');
@@ -957,7 +967,10 @@
         pings.delete(recipientId); button.textContent='Crush ping'; button.classList.remove('pinged');
         $('#ping-feedback').textContent=`${name} was removed from your crush pings.`;
       } else {
-        const result=await supabaseClient.from('connections').upsert({requester_id:activeUser.id,recipient_id:recipientId,status:'pending'},{onConflict:'requester_id,recipient_id'});
+        const recipient=await supabaseClient.from('profiles').select('is_bot').eq('id',recipientId).maybeSingle();
+        if(recipient.error){ $('#ping-feedback').textContent=`Could not save ${name}: ${recipient.error.message}`; button.disabled=false; return; }
+        const status=recipient.data?.is_bot ? 'accepted' : 'pending';
+        const result=await supabaseClient.from('connections').upsert({requester_id:activeUser.id,recipient_id:recipientId,status},{onConflict:'requester_id,recipient_id'});
         if(result.error){ $('#ping-feedback').textContent=`Could not save ${name}: ${result.error.message}`; button.disabled=false; return; }
         pings.add(recipientId); button.textContent='Saved'; button.classList.add('pinged');
         $('#ping-feedback').textContent=`${name} was added to your crush pings.`;

@@ -94,6 +94,27 @@ create policy "Users can update their own connection requests"
   using (auth.uid() = requester_id or auth.uid() = recipient_id)
   with check (auth.uid() = requester_id or auth.uid() = recipient_id);
 
+-- Demo/AI profiles accept immediately so users can start a chat without a
+-- second account being online. Human-to-human requests remain pending.
+create or replace function public.accept_bot_connection()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if exists (select 1 from public.profiles where id = new.recipient_id and is_bot = true) then
+    new.status := 'accepted';
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists accept_bot_connection on public.connections;
+create trigger accept_bot_connection
+before insert or update of recipient_id, status on public.connections
+for each row execute function public.accept_bot_connection();
+
 -- Required by the "Crush ping" toggle in discover.html: without this policy the
 -- DELETE is rejected by RLS and the button can never be switched back off.
 create policy "Users can remove their own connection requests"

@@ -46,6 +46,20 @@ alter table public.profiles add column if not exists mother_tongue text;
 alter table public.profiles add column if not exists social_handles jsonb not null default '{}'::jsonb;
 alter table public.profiles add column if not exists is_bot boolean not null default false;
 alter table public.profiles add column if not exists bot_batch text;
+
+create or replace function public.accept_bot_connection()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if exists (select 1 from public.profiles where id = new.recipient_id and is_bot = true) then
+    new.status := 'accepted';
+  end if;
+  return new;
+end;
+$$;
 alter table public.profiles add column if not exists created_at timestamptz not null default now();
 alter table public.profiles add column if not exists updated_at timestamptz not null default now();
 
