@@ -405,18 +405,22 @@
       } catch (err) {
         return;
       }
-      client.auth.getSession().then(function (result) {
-        if (!result || !result.data || !result.data.session) return;
-        [['nav-signup', 'Open your matches'], ['hero-signup', 'Open your matches'], ['cta-signup', 'Open your matches']]
-          .forEach(function (pair) {
-            var el = document.getElementById(pair[0]);
-            if (el) el.textContent = pair[1];
-          });
-        ['nav-login', 'hero-login', 'cta-login', 'nav-signup', 'hero-signup', 'cta-signup'].forEach(function (id) {
-          var el = document.getElementById(id);
-          if (el) el.href = 'discover.html';
+      var accountLinks = Array.from(document.querySelectorAll('a[href*="auth.html"]'));
+      var originalLinks = accountLinks.map(function (el) {
+        return { el: el, text: el.textContent, href: el.getAttribute('href') };
+      });
+      function renderAccount(session) {
+        originalLinks.forEach(function (link) {
+          var signedIn = !!session;
+          var profileLink = /login/.test(link.el.id);
+          link.el.textContent = signedIn ? (profileLink ? 'Your profile' : 'Open your matches') : link.text;
+          link.el.href = signedIn ? (profileLink ? 'profile.html' : 'discover.html') : link.href;
         });
-      }).catch(function () { /* stay on the marketing page */ });
+      }
+      client.auth.getSession().then(function (result) {
+        renderAccount(result.data && result.data.session);
+      }).catch(function () { renderAccount(null); });
+      client.auth.onAuthStateChange(function (_event, session) { renderAccount(session); });
     })();
   </script>
 </body>

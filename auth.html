@@ -583,7 +583,8 @@
         .then(({ data }) => { if (data && data.session) handleActive(data.session.user); })
         .catch(() => { /* stay on the auth form */ });
       supabaseClient.auth.onAuthStateChange((_event, session) => {
-        if (_event === 'SIGNED_IN' && session && session.user) handleActive(session.user);
+        // Defer database work until the auth callback releases its session lock.
+        if (_event === 'SIGNED_IN' && session && session.user) setTimeout(() => handleActive(session.user), 0);
       });
     }
   </script>

@@ -281,7 +281,7 @@
       if (error) { status(friendlyError(error, 'Could not load your profile.'), 'error'); return; }
       if (!data) { goToAuth(); return; }
 
-      $('#profile-id').textContent = `Profile ID: ${String(session.user.id).slice(0, 8).toUpperCase()}`;
+      $('#profile-id').textContent = 'Manage your campus profile';
       paintAvatar(data.display_name);
 
       fillColleges();
@@ -394,7 +394,7 @@
           return;
         }
         paintAvatar(name);
-        $('#profile-id').textContent = `Profile ID: ${String(session.user.id).slice(0, 8).toUpperCase()}`;
+        $('#profile-id').textContent = 'Manage your campus profile';
         status('Profile updated. Your live matches will refresh with the new details.', 'success');
       } catch (error) {
         status(friendlyError(error, 'Could not save your profile.'), 'error');

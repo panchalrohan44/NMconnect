@@ -546,8 +546,8 @@
     function renderSession(session){
       const user = session?.user;
       activeUser = user || null;
-      $('#session-chip').hidden = !user;
-      $('#session-chip').textContent = user ? `Profile ID: ${user.id.slice(0,8).toUpperCase()}` : '';
+      $('#session-chip').hidden = true;
+      $('#session-chip').textContent = '';
       $('#profile-button').hidden = !user;
       authButton.textContent = user ? 'Sign out' : 'Log in';
       $('.signup-button').hidden = !!user;
@@ -578,7 +578,7 @@
         .then(({data:{session}})=>renderSession(session))
         .catch(()=>renderSession(null));
       supabaseClient.auth.onAuthStateChange((_event, session)=>{
-        try { renderSession(session); } catch { /* never let a render break auth */ }
+        setTimeout(() => renderSession(session), 0);
       });
     }
 
@@ -726,7 +726,7 @@
       list.querySelectorAll('[data-accept-connection]').forEach(button=>button.addEventListener('click',async()=>{button.disabled=true;const update=await supabaseClient.from('connections').update({status:'accepted'}).eq('id',button.dataset.acceptConnection).eq('recipient_id',activeUser.id);if(update.error){button.disabled=false;button.textContent='Try again';return;}await loadConnectionRequests();}));
     }
 
-    const normalizeProfile = profile => ({...profile, display_name:profile.display_name || profile.full_name || profile.login_id || 'SVKM student', hobbies:profile.hobbies || '', favourite_hangout:profile.favourite_hangout || 'Campus'});
+    const normalizeProfile = profile => ({...profile, display_name:profile.display_name || profile.full_name || 'SVKM student', hobbies:profile.hobbies || '', favourite_hangout:profile.favourite_hangout || 'Campus'});
     const compact = value => String(value || '').toLowerCase().replace(/[^a-z0-9]/g,'');
     const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, character => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[character]));
     const genderKey = gender => {
@@ -751,7 +751,7 @@
       let offset = 0;
       const profiles = [];
       while(true){
-        const result = await supabaseClient.from('profiles').select('*').neq('id',excludeUserId).order('id',{ascending:true}).range(offset,offset + pageSize - 1);
+        const result = await supabaseClient.from('profiles').select('id,display_name,college,course,year,gender,age,hobbies,bio,favourite_hangout,clubs_fests,is_bot').neq('id',excludeUserId).order('id',{ascending:true}).range(offset,offset + pageSize - 1);
         if(result.error) throw result.error;
         const page = result.data || [];
         profiles.push(...page);
